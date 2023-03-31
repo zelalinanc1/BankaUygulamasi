@@ -1,21 +1,19 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput} from 'react-native'
-import React, {useContext,useState,Context} from 'react'
+import React, {useContext,useState,Context,useEffect} from 'react'
 import FormButton from '../components/FormButton'
 import { AuthContext } from '../navigation/AuthProvider'
-// import ImagePicker, { openPicker } from 'react-native-image-crop-picker'
-// import Entypo from 'react-native-vector-icons/Entypo'
-// import imgPlaceHolder from '../images/avatar.jpg'
-
+import { getFirestore,collection } from "@react-native-firebase/firestore";
 
 const HomeScreen = () => {
   const {user, logout} = useContext(AuthContext);
 
-  
-  
+ 
   return (
     <View style={styles.container}>
       <Text>Welcome {user.uid}</Text>
-        
+      <Text>Welcome {user.name}</Text>
+       {/* <Image style={styles.image} source={{uri: user.url }} /> 
+         */}
        <FormButton buttonTitle='Logout' onPress={() => logout()}/>
     
     </View>

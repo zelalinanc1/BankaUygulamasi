@@ -1,12 +1,13 @@
 import React, {createContext, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-
-
-
+import storage from '@react-native-firebase/storage';
+import{uploadImage} from '../screens/SignupScreen';
 
 
 export const AuthContext = createContext();
+
+
 
 export const AuthProvider = ({children}) => {
   const [user, setUser] = useState(null);
@@ -24,18 +25,22 @@ export const AuthProvider = ({children}) => {
           }
         },
       
-        register: async (email, password,name,profile) => {
+        register: async (email, password,name,url) => {
+        
+          
           try {
             const response =await auth().createUserWithEmailAndPassword(email, password);
-
+          
             const useData ={
               id: response.user.uid,
-              name : name,
-              email :email
+              name : response.user.name,
+              email :email,
+              userImg: url
             }
+
+           await firestore().collection("users").doc(auth().currentUser.uid).set(useData);
            
-           await firestore().collection("users").doc(response.user.uid).set(useData);
-           
+        
             
           } catch (e) {
             console.log(e);
@@ -48,6 +53,7 @@ export const AuthProvider = ({children}) => {
             console.log(e);
           }
         },
+     
       }}>
       {children}
     </AuthContext.Provider>

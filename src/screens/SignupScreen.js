@@ -1,63 +1,40 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput} from 'react-native'
-import React, {useContext,useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
+import React, {useContext, useState} from 'react';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 import {AuthContext} from '../navigation/AuthProvider';
-import ImagePicker, { openPicker } from 'react-native-image-crop-picker'
-import Entypo from 'react-native-vector-icons/Entypo'
-import imgPlaceHolder from '../images/avatar.jpg'
+import ImagePicker, {openPicker} from 'react-native-image-crop-picker';
+import Entypo from 'react-native-vector-icons/Entypo';
+import imgPlaceHolder from '../images/avatar.jpg';
 import storage from '@react-native-firebase/storage';
+import uuid4 from 'uuid4';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+import { useRoute } from '@react-navigation/native';
 
-
-const SignupScreen = ({navigation}) => {
+const SignupScreen = ({route,navigation}) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [name, setName] = useState();
 
-  const [profile, setProfile] = useState(null)
-
-  const imagePick = () => {
-      ImagePicker.openPicker({
-          width: 400,
-          height: 400,
-          cropping: true
-      }).then(image => {
-          console.log(image);
-          setProfile(image.path)
-         
-      });
-  };
-
-  const uploadImage = async() => {
-    const reference = storage().ref(profile);
-    const pathToFile = profile;
-    // uploads file
-    await reference.putFile(pathToFile);
-    
-  };
-  
-
-
+  const { url } = route.params;
 
   const {register} = useContext(AuthContext);
 
   return (
     <View style={styles.container}>
       <Text>Register Sayfasi</Text>
-      <View style={styles.imgContainer}>
-                    <Image style={styles.image} source={profile ? { uri: profile } : imgPlaceHolder} />
-                    <TouchableOpacity onPress={imagePick}
-                        style={{ alignItems: 'flex-end', top: -10 }}>
-                        <Entypo name="pencil" size={20} />
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.textContainer}>
-                    <Text>Kullanici</Text>
-                </View>
-                <TouchableOpacity onPress={uploadImage}>
-                  <Text>Yükle</Text>
-                </TouchableOpacity>
-            
+      <Text>URL:{url}</Text>
+    
+     
+
       <FormInput
         labelValue={email}
         onChangeText={userEmail => setEmail(userEmail)}
@@ -82,7 +59,8 @@ const SignupScreen = ({navigation}) => {
 
       <FormButton
         buttonTitle="Kayıt Ol"
-        onPress={() => register(email + '@gmail.com', password, name,profile)}
+        onPress={() =>register(email + '@gmail.com', password, name,url)}
+        
       />
     </View>
   );
@@ -123,24 +101,24 @@ const styles = StyleSheet.create({
   profileContainer: {
     flex: 0.8,
     justifyContent: 'center',
-    alignItems: 'center'
-},
-imgContainer: {},
-textContainer: {
     alignItems: 'center',
-},
-image: {
+  },
+  imgContainer: {},
+  textContainer: {
+    alignItems: 'center',
+  },
+  image: {
     width: 110,
     height: 110,
     borderRadius: 55,
     borderWidth: 3,
-},
-userInfo: {
+  },
+  userInfo: {
     flex: 1,
-},
-bio: {
+  },
+  bio: {
     borderRadius: 10,
     padding: 16,
-    margin: 16
-}
+    margin: 16,
+  },
 });
