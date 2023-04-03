@@ -17,24 +17,26 @@ export const AuthProvider = ({children}) => {
       value={{
         user,
         setUser,
-        login: async (email, password) => {
+        login: async (tcNo, password) => {
           try {
-            await auth().signInWithEmailAndPassword(email, password);
+            await auth().signInWithEmailAndPassword(tcNo, password);
           } catch (e) {
             console.log(e);
           }
         },
       
-        register: async (email, password,name,url) => {
+        register: async (tcNo,password,name,lastName,birthday,url) => {
         
           
           try {
-            const response =await auth().createUserWithEmailAndPassword(email, password);
+            const response =await auth().createUserWithEmailAndPassword(tcNo, password);
           
             const useData ={
               id: response.user.uid,
-              name : response.user.name,
-              email :email,
+              name : name,
+              lastName : lastName,
+              tcNo :tcNo,
+              birthday: birthday,
               userImg: url
             }
 

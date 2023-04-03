@@ -4,25 +4,22 @@ import {
     StyleSheet,
     Image,
     TouchableOpacity,
-    TextInput,
+    
   } from 'react-native';
   import React, {useContext, useState} from 'react';
-  import FormInput from '../components/FormInput';
-  import FormButton from '../components/FormButton';
-  import {AuthContext} from '../navigation/AuthProvider';
   import ImagePicker, {openPicker} from 'react-native-image-crop-picker';
   import Entypo from 'react-native-vector-icons/Entypo';
   import imgPlaceHolder from '../images/avatar.jpg';
   import storage from '@react-native-firebase/storage';
-  import uuid4 from 'uuid4';
-  import auth from '@react-native-firebase/auth';
-  import firestore from '@react-native-firebase/firestore';
+  import BottomSheet from 'reanimated-bottom-sheet';
 
-const SignUpWithImageScreen = ({navigation}) => {
+
+const SignUpWithImageScreen = ({route,navigation}) => {
 
     const [profile, setProfile] = useState(null);
-    const [url, setUrl] = useState('');
     const [transferred, setTransferred] = useState(0);
+
+    const { name,lastName,birthday,tcNo } = route.params;
 
     const imagePick = async() => {
         ImagePicker.openPicker({
@@ -34,9 +31,22 @@ const SignUpWithImageScreen = ({navigation}) => {
           console.log('************************');
           setProfile(image.path);
         });
-
-
       };
+
+      //takePhotoFromCamera 
+
+      const takePhotoFromCamera = async() => {
+        ImagePicker.openCamera({
+          width: 400,
+          height: 400,
+          cropping: true,
+        }).then(image => {
+          console.log(image);
+          console.log('************************');
+          setProfile(image.path);
+        });
+      };
+
     
       const uploadImage = async () => {
     
@@ -47,8 +57,8 @@ const SignUpWithImageScreen = ({navigation}) => {
         console.log(filename);
     
         const extension = filename.split('.').pop(); 
-        const name = filename.split('.').slice(0, -1).join('.');
-        filename = name + Date.now() + '.' + extension;
+        const names = filename.split('.').slice(0, -1).join('.');
+        filename = names + Date.now() + '.' + extension;
     
         setTransferred(0);
     
@@ -76,37 +86,37 @@ const SignUpWithImageScreen = ({navigation}) => {
 
               console.log("----------------");
               console.log(url);
-           
-            
-             
-              navigation.navigate('Signup',{url:url});
+       
+              navigation.navigate('Signup',{url:url,name:name,lastName:lastName,birthday:birthday,tcNo:tcNo});
         
             } catch (e) {
               console.log(e);
               return null;
             }
 
-           
-           
     
       };
 
-      
-    
-   
   return (
     <View>
-      <Text>SignUpWithImageScreen</Text>
+      <Text>Resimle Kayıt Sayfası</Text>
       <View style={styles.imgContainer}>
         <Image
           style={styles.image}
           source={profile ? {uri: profile} : imgPlaceHolder}
         />
+        <View style={{ flexDirection:"row" }}>
         <TouchableOpacity
           onPress={imagePick}
           style={{alignItems: 'flex-end', top: -10}}>
           <Entypo name="pencil" size={20} />
         </TouchableOpacity>
+        <TouchableOpacity
+          onPress={takePhotoFromCamera}
+          style={{alignItems: 'flex-end', top: -10}}>
+          <Entypo name="pencil" size={20} />
+        </TouchableOpacity>
+        </View>
       </View>
       <View style={styles.textContainer}>
         <Text>Kullanici</Text>
@@ -118,17 +128,6 @@ const SignUpWithImageScreen = ({navigation}) => {
           Register
         </Text>
       </TouchableOpacity> 
-      {/* <TouchableOpacity
-        style={styles.forgotButton}
-        onPress= {() => {
-            navigation.navigate('Signup',{
-                url:'hiiii',
-            });
-          }}>
-        <Text style={styles.navButtonText}>
-          Git
-        </Text>
-      </TouchableOpacity>  */}
     </View>
 
    
@@ -160,6 +159,7 @@ const styles = StyleSheet.create({
       marginTop: 15,
     },
     forgotButton: {
+      alignItems: 'flex-end',
       marginVertical: 35,
     },
     navButtonText: {
@@ -173,7 +173,12 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
     },
-    imgContainer: {},
+    imgContainer: {
+      alignItems: 'center',
+    },
+    imgButtonContainer: {
+      marginVertical: 35,
+    },
     textContainer: {
       alignItems: 'center',
     },

@@ -39,16 +39,9 @@ const LoginScreen = ({navigation}) => {
         buttonTitle="Sign In"
         onPress={() => login(email+"@gmail.com",password)}
       />
-      {/* <TouchableOpacity
-        style={styles.forgotButton}
-        onPress={() => navigation.navigate('Signup')}>
-        <Text style={styles.navButtonText}>
-          Register
-        </Text>
-      </TouchableOpacity> */}
       <TouchableOpacity
         style={styles.forgotButton}
-        onPress={() => navigation.navigate('SignUpWithImageScreen')}>
+        onPress={() => navigation.navigate('SignUpWithNameScreen')}>
         <Text style={styles.navButtonText}>
           Register
         </Text>
