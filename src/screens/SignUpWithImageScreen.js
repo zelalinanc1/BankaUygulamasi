@@ -11,7 +11,7 @@ import {
   import Entypo from 'react-native-vector-icons/Entypo';
   import imgPlaceHolder from '../images/avatar.jpg';
   import storage from '@react-native-firebase/storage';
-  import BottomSheet from 'reanimated-bottom-sheet';
+
 
 
 const SignUpWithImageScreen = ({route,navigation}) => {
@@ -19,7 +19,8 @@ const SignUpWithImageScreen = ({route,navigation}) => {
     const [profile, setProfile] = useState(null);
     const [transferred, setTransferred] = useState(0);
 
-    const { name,lastName,birthday,tcNo } = route.params;
+   const { name,lastName,birthday,tcNo} = route.params;
+ 
 
     const imagePick = async() => {
         ImagePicker.openPicker({
@@ -99,7 +100,11 @@ const SignUpWithImageScreen = ({route,navigation}) => {
 
   return (
     <View>
-      <Text>Resimle Kayıt Sayfası</Text>
+      <Text>Resimle Kayıt Sayfası </Text>
+      <Text>{name}</Text>
+      <Text>{lastName}</Text>
+      <Text>{birthday}</Text>
+      <Text>{tcNo}</Text>
       <View style={styles.imgContainer}>
         <Image
           style={styles.image}

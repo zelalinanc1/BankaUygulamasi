@@ -47,7 +47,7 @@ const HomeScreen = () => {
       <Text> Kullanici Resim: {userImage}</Text>
       <Text> Kullanici Tc: {userIdentity}</Text>
       <Text> Kullanici Doğum Tarihi: {userBirthday}</Text>
-        {/* <Image style={styles.image} source={{uri: {userImage} }} />  */}
+       {/* <Image style={styles.image} source={{uri: {userImage} }} />  */}
          
        <FormButton buttonTitle='Logout' onPress={() => logout()}/>
     

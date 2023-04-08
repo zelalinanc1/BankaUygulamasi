@@ -3,7 +3,8 @@ import {View, TextInput, StyleSheet} from 'react-native';
 import {windowHeight, windowWidth} from '../utils/Dimentions';
 
 
-const FormInput = ({labelValue, placeholderText, ...rest}) => {
+const FormInput = ({labelValue,placeholderText, ...rest}) => {
+   
   return (
     <View style={styles.inputContainer}>
       <TextInput
@@ -12,6 +13,7 @@ const FormInput = ({labelValue, placeholderText, ...rest}) => {
         numberOfLines={1}
         placeholder={placeholderText}
         placeholderTextColor="#666"
+        placeholderColor="#666"
         {...rest}
       />
     </View>

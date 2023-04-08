@@ -42,7 +42,7 @@ export const AuthProvider = ({children}) => {
 
            await firestore().collection("users").doc(auth().currentUser.uid).set(useData);
            
-        
+          
             
           } catch (e) {
             console.log(e);
