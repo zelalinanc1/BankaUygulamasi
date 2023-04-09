@@ -4,8 +4,7 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  TextInput,
-  Alert,
+  Button,
 } from 'react-native';
 import React, {useContext, useState} from 'react';
 import FormInput from '../components/FormInput';
@@ -14,84 +13,65 @@ import {AuthContext} from '../navigation/AuthProvider';
 import DatePicker from 'react-native-date-picker';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {windowHeight, windowWidth} from '../utils/Dimentions';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const SignUpWithNameScreen = ({navigation}) => {
-  // const [name, setName] = useState('');
-  // const [lastName, setLastName] = useState('');
-   const [birthday, setBirthday] = useState(new Date());
-  // const [tcNo, setTcNo] = useState('');
-   const [open, setOpen] = useState(false);
-
-  const [error, setError] = useState('');
-  
   const [userInfo, setUserInfo] = useState({
     name: '',
     lastName: '',
-    tcNo: ''
+    tcNo: '',
   });
 
-   const {name, lastName,tcNo} = userInfo
+  const {name, lastName, tcNo} = userInfo;
 
-  const isValidObjField = (obj)=>{
-    return Object.values(obj).every(value => value.trim())
+  const [birthday, setBirthday] = useState(new Date());
+
+  const [open, setOpen] = useState(false);
+
+  const [error, setError] = useState('');
+
+  const isValidObjField = obj => {
+    return Object.values(obj).every(value => value.trim());
   };
 
-  
-
-  const updateError = (error,stateUpdater) =>{
-
+  const updateError = (error, stateUpdater) => {
     stateUpdater(error);
 
     setTimeout(() => {
-      stateUpdater('')
+      stateUpdater('');
     }, 2500);
   };
 
-  
-  const isValidForm = () =>{
+  const isValidForm = () => {
+    if (!isValidObjField(userInfo))
+      return updateError('Tüm alanlar doldurulmalıdır!', setError);
 
-  
+    if (!name.trim() || name.length < 3)
+      return updateError('İsim en az üç karakterli olmalıdır', setError);
 
-    if(!isValidObjField(userInfo)) 
-            return updateError('Tüm alanlar doldurulmalıdır!', setError);
+    if (!lastName.trim() || lastName.length < 2)
+      return updateError('Soyisim en az iki karakterli olmalıdır', setError);
 
-    if(!name.trim() || name.length<3) 
-            return updateError('İsim en az üç karakterli olmalıdır', setError);
-    
-    if(!lastName.trim() || lastName.length<2) 
-        return updateError('Soyisim en az iki karakterli olmalıdır', setError);
-
-    if(!tcNo.trim() || tcNo.length != 4) 
-        return updateError('TcNo 4 karaktere sahip olmalıdır', setError);    
+    if (!tcNo.trim() || tcNo.length != 4)
+      return updateError('TcNo 4 karaktere sahip olmalıdır', setError);
 
     return true;
-
   };
 
-  const submitForm = () =>{
-
-    if(isValidForm()){
-
-        navigation.navigate('SignUpWithImageScreen', {
-               name: userInfo.name,
-               lastName: userInfo.lastName,
-               tcNo: userInfo.tcNo,
-               birthday: birthday?.toLocaleDateString(),
-             })
-
-
+  const submitForm = () => {
+    if (isValidForm()) {
+      navigation.navigate('SignUpWithImageScreen', {
+        name: userInfo.name,
+        lastName: userInfo.lastName,
+        tcNo: userInfo.tcNo,
+        birthday: birthday?.toLocaleDateString(),
+      });
     }
-
-    
-
-
   };
 
-  const handleOnChangeText = (value,fieldName) => {
+  const handleOnChangeText = (value, fieldName) => {
     setUserInfo({...userInfo, [fieldName]: value});
- 
- 
-   };
+  };
 
   const {register} = useContext(AuthContext);
 
@@ -101,15 +81,14 @@ const SignUpWithNameScreen = ({navigation}) => {
       {error ? <Text>{error}</Text> : null}
       <FormInput
         labelValue={name}
-        onChangeText={(value) => handleOnChangeText(value,'name')}
+        onChangeText={value => handleOnChangeText(value, 'name')}
         placeholderText="İsim"
         autoCorrect={false}
       />
-      
 
       <FormInput
         labelValue={lastName}
-        onChangeText={(value) => handleOnChangeText(value,'lastName')}
+        onChangeText={value => handleOnChangeText(value, 'lastName')}
         placeholderText="Soyisim"
         autoCorrect={false}
       />
@@ -136,19 +115,18 @@ const SignUpWithNameScreen = ({navigation}) => {
 
       <FormInput
         labelValue={tcNo}
-        onChangeText={(value) => handleOnChangeText(value,'tcNo')}
+        onChangeText={value => handleOnChangeText(value, 'tcNo')}
         placeholderText="TCKN:"
         keyboardType="email-address"
         autoCapitalize="none"
         autoCorrect={false}
       />
 
-      <TouchableOpacity
-        style={styles.forgotButton}
-      
-        onPress={submitForm}>
-        <Text style={styles.navButtonText}>Resim Kayıt Sayfası</Text>
+      <TouchableOpacity style={styles.forgotButton} onPress={submitForm}>
+      <Icon name="arrow-right" size={15} color="black" />
       </TouchableOpacity>
+
+     
     </View>
   );
 };
@@ -189,7 +167,11 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   forgotButton: {
-    marginVertical: 35,
+   borderRadius: 50,
+   paddingVertical: 30,
+   paddingHorizontal: 12,
+   marginLeft: 300
+    
   },
   navButtonText: {
     fontSize: 18,
