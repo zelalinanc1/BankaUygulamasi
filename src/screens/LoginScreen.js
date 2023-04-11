@@ -28,6 +28,7 @@ const LoginScreen = ({navigation}) => {
 
   const isValidForm = () => {
 
+  
     if (!tcNo || !password)
     return updateError('Lütfen alanları doldurunuz!', setError);
    
@@ -36,6 +37,8 @@ const LoginScreen = ({navigation}) => {
 
     if (password.length < 8)
       return updateError('Şifreniz az 8 karaktere sahip olmalıdır!', setError);
+
+    
   
     return true;
   };

@@ -1,12 +1,16 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput} from 'react-native'
-import React, {useContext,useState,Context,useEffect} from 'react'
+import { View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native'
+import React, {useContext,useState,useEffect} from 'react'
 import FormButton from '../components/FormButton'
 import { AuthContext } from '../navigation/AuthProvider'
 import firestore from '@react-native-firebase/firestore';
 import imgPlaceHolder from '../images/avatar.jpg';
 
-const HomeScreen = () => {
-  const {user, logout} = useContext(AuthContext);
+
+
+const HomeScreen = ({navigation}) => {
+
+  const {user} = useContext(AuthContext);
+
   const[userName,setUserName] =useState('');
   const[userLastName,setUserLastName] =useState('');
   const[userBirthday,setUserBirthday] =useState('');
@@ -25,6 +29,7 @@ const HomeScreen = () => {
         console.log('User Data', documentSnapshot.data());
         setUserData(documentSnapshot.data());
         console.log("*********--------");
+       // console.log(user.uid);
        setUserName(documentSnapshot.data().name);
        setUserLastName(documentSnapshot.data().lastName);
        setUserBirthday(documentSnapshot.data().birthday);
@@ -42,14 +47,24 @@ const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <Text>Welcome {userName} {userLastName}!</Text>
+      <Text>{user.uid}</Text>
       <Image style={styles.image}  source={userImage ? {uri: userImage} : imgPlaceHolder}/>
       <Text> Kullanici Tc: {userIdentity}</Text>
       <Text> Kullanici Doğum Tarihi: {userBirthday}</Text>
-       <FormButton buttonTitle='Çıkış Yap' onPress={() => logout()}/>
-   
+
+       <TouchableOpacity
+        style={styles.forgotButton}
+        onPress={() => navigation.navigate('AccountRegisterScreen')}>
+          
+        <Text style={styles.navButtonText}>
+          Hesap Oluştur
+        </Text>
+      </TouchableOpacity>
+    
     </View>
   )
 }
+//, {uid: user.uid}
 
 export default HomeScreen;
 
@@ -65,5 +80,14 @@ const styles = StyleSheet.create({
     height: 110,
     borderRadius: 55,
     borderWidth: 3,
+  },
+  forgotButton: {
+    marginVertical: 35,
+  },
+  navButtonText: {
+    fontSize: 18,
+    fontWeight: '500',
+    color: '#2e64e5',
+    fontFamily: 'Lato-Regular',
   },
 });

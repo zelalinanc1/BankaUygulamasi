@@ -3,6 +3,7 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import{uploadImage} from '../screens/SignupScreen';
+import { Alert } from 'react-native';
 
 
 export const AuthContext = createContext();
@@ -21,7 +22,11 @@ export const AuthProvider = ({children}) => {
           try {
             await auth().signInWithEmailAndPassword(tcNo, password);
           } catch (e) {
-            console.log(e);
+            //console.log(e);
+            
+            const error="Tc No ve şifre uyuşmuyor";
+           
+            Alert.alert(error);
           }
         },
       
@@ -37,7 +42,10 @@ export const AuthProvider = ({children}) => {
               lastName : lastName,
               tcNo :tcNo,
               birthday: birthday,
-              userImg: url
+              userImg: url,
+              accountType:'',
+              currencyType:'',
+              branchName:''
             }
 
            await firestore().collection("users").doc(auth().currentUser.uid).set(useData);
@@ -55,6 +63,7 @@ export const AuthProvider = ({children}) => {
             console.log(e);
           }
         },
+
      
       }}>
       {children}
