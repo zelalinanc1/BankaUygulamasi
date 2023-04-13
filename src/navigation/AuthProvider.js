@@ -45,7 +45,9 @@ export const AuthProvider = ({children}) => {
               userImg: url,
               accountType:'',
               currencyType:'',
-              branchName:''
+              branchName:'',
+              accountNumber:null,
+              accountIban:null
             }
 
            await firestore().collection("users").doc(auth().currentUser.uid).set(useData);

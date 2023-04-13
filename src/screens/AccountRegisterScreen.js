@@ -3,7 +3,7 @@ import React, {useContext,useState,Context,useEffect} from 'react'
 import {Dropdown} from 'react-native-element-dropdown';
 import { AuthContext } from '../navigation/AuthProvider';
 import firestore from '@react-native-firebase/firestore';
-import FormButton from '../components/FormButton'
+
 
 
 
@@ -33,6 +33,10 @@ const branchNameData = [
 const AccountRegisterScreen = ({navigation, route}) => {
   const [accountType, setAccountType] = useState(null);
 
+  const [accountNumber, setAccountNumber] = useState(null);
+
+  const [accountIban, setAccountIban] = useState(null);
+
   const {user,logout} = useContext(AuthContext);
 
   const [currencyType, setCurrencyType] = useState(null);
@@ -46,6 +50,7 @@ const AccountRegisterScreen = ({navigation, route}) => {
 
 
   const getUser = async() => {
+
     const currentUser = await firestore()
     .collection('users')
     .doc(user.uid)
@@ -60,11 +65,11 @@ const AccountRegisterScreen = ({navigation, route}) => {
 
   useEffect(() => {
     getUser();
+    randomAccount();
   }, []);
 
   const uploadAccount = async() => {
-
-
+  
     firestore()
     .collection('users')
     .doc(user.uid)
@@ -76,17 +81,28 @@ const AccountRegisterScreen = ({navigation, route}) => {
       userImg: userData.userImg,
       accountType:accountType,
       currencyType:currencyType,
-      branchName:branchName
+      branchName:branchName,
+      accountNumber:accountNumber,
+      accountIban:accountIban
   
     })
     .then(() => {
-      console.log('Hesap bilgileriniz kaydedildi!');
+      
       Alert.alert(
-        'Hesap bilgileriniz zaten kaydedildi!'
+        'Hesap bilgileriniz kaydedildi!'
+        
       );
     })
+  };
+
+  const randomAccount = () => {
+
+    setAccountNumber(Math.floor(100000 + Math.random() * 900000));
+    var Tr="TR";
+    var Iban= (Math.floor(100000 + Math.random() * 900000)).toString();
+    var deger = Tr.concat("" , Iban);
+    setAccountIban(deger);
   }
-   
   
 
   return (
@@ -157,6 +173,7 @@ const AccountRegisterScreen = ({navigation, route}) => {
           setIsFocus(false);
         }}
       />
+  
       
        <TouchableOpacity
         style={styles.forgotButton}

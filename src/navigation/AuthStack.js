@@ -5,7 +5,7 @@ import SignUpScreen from '../screens/SignupScreen';
 import LoginScreen from '../screens/LoginScreen';
 import SignUpWithImageScreen from '../screens/SignUpWithImageScreen';
 import SignUpWithNameScreen from '../screens/SignUpWithNameScreen';
-import AccountRegisterScreen from '../screens/AccountRegisterScreen';
+
 
 
 const Stack = createNativeStackNavigator();
@@ -29,6 +29,10 @@ const AuthStack = () => {
         name="SignUpWithNameScreen"
         component={SignUpWithNameScreen}
       />
+      {/* <Stack.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+      /> */}
 
    
   
