@@ -16,6 +16,7 @@ import {windowHeight, windowWidth} from '../utils/Dimentions';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const SignUpWithNameScreen = ({navigation}) => {
+  
   const [userInfo, setUserInfo] = useState({
     name: '',
     lastName: '',

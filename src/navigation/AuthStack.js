@@ -6,10 +6,7 @@ import LoginScreen from '../screens/LoginScreen';
 import SignUpWithImageScreen from '../screens/SignUpWithImageScreen';
 import SignUpWithNameScreen from '../screens/SignUpWithNameScreen';
 
-
-
 const Stack = createNativeStackNavigator();
-
 
 const AuthStack = () => {
   return (
@@ -19,7 +16,6 @@ const AuthStack = () => {
         component={LoginScreen}
         options={{header: () => null}}
       />
-      <Stack.Screen name="Signup" component={SignUpScreen} />
 
       <Stack.Screen
         name="SignUpWithImageScreen"
@@ -29,14 +25,7 @@ const AuthStack = () => {
         name="SignUpWithNameScreen"
         component={SignUpWithNameScreen}
       />
-      {/* <Stack.Screen
-        name="HomeScreen"
-        component={HomeScreen}
-      /> */}
-
-   
-  
-
+      <Stack.Screen name="Signup" component={SignUpScreen} />
     </Stack.Navigator>
   );
 };

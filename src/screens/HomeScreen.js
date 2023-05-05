@@ -71,6 +71,12 @@ const HomeScreen = ({navigation}) => {
       <TouchableOpacity style={styles.forgotButton} onPress={() => logout()}>
         <Text style={styles.navButtonText}>Çıkış Yap</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+          style={styles.forgotButton}
+          onPress={() => navigation.navigate('SocketPage')}>
+          <Text style={styles.navButtonText}>Sockete git </Text>
+        </TouchableOpacity>
     </View>
   );
 };

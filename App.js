@@ -6,15 +6,6 @@
  */
 
 import React, {useState} from 'react';
-import {
-  Button,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-  StyleSheet,
-  StatusBar,
-} from 'react-native';
 import Providers from './src/navigation';
 
 

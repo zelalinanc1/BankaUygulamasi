@@ -1,7 +1,6 @@
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import React, {useContext, useState} from 'react';
 import ImagePicker, {openPicker} from 'react-native-image-crop-picker';
-import Entypo from 'react-native-vector-icons/Entypo';
 import imgPlaceHolder from '../images/avatar.jpg';
 import storage from '@react-native-firebase/storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -13,6 +12,8 @@ const SignUpWithImageScreen = ({route, navigation}) => {
   const [transferred, setTransferred] = useState(0);
 
   const {name, lastName, birthday, tcNo} = route.params;
+
+  //Galeriden Seçme
 
   const imagePick = async () => {
     ImagePicker.openPicker({
@@ -93,11 +94,11 @@ const SignUpWithImageScreen = ({route, navigation}) => {
 
   return (
     <View>
-      <Text>Resimle Kayıt Sayfası </Text>
-      <Text>{name}</Text>
+      {/* <Text>Resimle Kayıt Sayfası </Text> */}
+      {/* <Text>{name}</Text>
       <Text>{lastName}</Text>
       <Text>{birthday}</Text>
-      <Text>{tcNo}</Text>
+      <Text>{tcNo}</Text> */}
       <View style={styles.imgContainer}>
         <Image
           style={styles.image}

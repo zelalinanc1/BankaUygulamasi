@@ -4,7 +4,6 @@ import {windowHeight, windowWidth} from '../utils/Dimentions';
 
 
 const FormInput = ({labelValue,placeholderText, ...rest}) => {
-   
   return (
     <View style={styles.inputContainer}>
       <TextInput
