@@ -1,6 +1,7 @@
 import {View,StyleSheet,Image,Text,TouchableOpacity} from 'react-native'
 import React from 'react'
 import  CustomCard  from "./CustomCard";
+import  CoinCard  from "./CoinCard";
 import  expandchevron  from "../images/expandchevron.png";
 import {GREEN,LIGHTGREY,LIGHTBLACK}  from '../constants/Colors';
 import { useRoute,useNavigation } from '@react-navigation/native';
@@ -8,11 +9,11 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 const WalletCoinCard = (props) => {
 
-    const route = useRoute();
+  const route = useRoute();
 
-    const params = route.params;
-    
-    const {name,cryptobalance,imgsrc} = props.item;
+  const params = route.params;
+  
+  let {name,cryptobalance,imgsrc} = typeof props.item=="undefined"? params :props.item;
 
     return (
           <CustomCard style={styles.container}>
@@ -34,7 +35,6 @@ const WalletCoinCard = (props) => {
             </View>
             <Text style={{marginTop:5,color:LIGHTGREY,fontSize:20}}>7.2131231 BTC</Text>
             <View style={{flexDirection:"row",justifyContent:"center",marginBottom:20,height:20}}>
-            <Image style={{marginTop:30}} source={expandchevron}></Image>
             </View>
           </CustomCard>
           );

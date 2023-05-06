@@ -7,13 +7,30 @@ import  bitcoin  from "../images/bitcoin.png";
 import  ripple  from "../images/ripple.png";
 import  etherium  from "../images/etherium.png";
 import  wallet  from "../images/wallet.png";
+import { useNavigation } from '@react-navigation/native';
 
 import {LIGHTGREY,LIGHTBLACK}  from '../constants/Colors';
 
 
-const SocketPage = (props) => {
+const UserWalletPage = (route) => {
 
- 
+  const nav = useNavigation();
+
+  // const [socketData, setSocketData] = useState(null);
+
+  // var ws =new WebSocket('wss://stream.binance.com:9443/ws/ethusdt@trade');
+
+        //  ws.onmessage= (event) => {
+        //     // console.log(event.data);
+        //     // console.log('Socket Data', event.data());
+        //     let stockObject = JSON.parse(event.data);
+        //        //stockPriceElement.innerText = stockObject.p;
+        //        let price=parseFloat(stockObject.p).toFixed(2);
+               
+        //     console.log(price);
+        // }
+
+
 
   const CRYPTOCURRENCIES = [
     {
@@ -45,9 +62,18 @@ const SocketPage = (props) => {
       decreased:true,
       difference:"$ 7.44",
       imgsrc:ripple
+    },
+    {
+      id:4,
+      name:"Rippleeeeee",
+      cryptobalance:"3.5290123123 XRP",
+      actualbalance:"$19.53",
+      percentage:"- 4.32%",
+      decreased:true,
+      difference:"$ 7.44",
+      imgsrc:ripple
     }
   ];
- 
 
     
   return (
@@ -59,7 +85,7 @@ const SocketPage = (props) => {
           </View>
           <View style={{marginHorizontal:20}}>
               <View>
-              {/* <WalletCoinCard item={{name:"Total Wallet Balance",cryptobalance:"$39.584",imgsrc:wallet}}/> */}
+              <WalletCoinCard item={{name:"Total Wallet Balance",cryptobalance:"$39.584",imgsrc:wallet}}/>
               <View style={styles.filters}>
                 <Text style={{color:LIGHTGREY}}>Sorted by higher %</Text>
                 <View style={{flexDirection:"row",alignItems:"center"}}>
@@ -71,11 +97,14 @@ const SocketPage = (props) => {
               <View style={{marginTop:10,backgroundColor:"#F5F8FF",overflow:"hidden",marginBottom:100}}>
                <FlatList
                   data={CRYPTOCURRENCIES}
-                  style={{height:(Dimensions.get('window').height/2)-60}}
+                  style={{height:(Dimensions.get('window').height/2)}}
                   ItemSeparatorComponent = {()=><View style={{marginVertical:8}}></View>}
-                  renderItem={({item})=><CoinCard item={item}/>}
+                  renderItem={({item})=><CoinCard item={item} onPress={()=> nav.navigate
+                    ("WalletDetails",item)}/>}
                   keyExtractor={(item) => item.id}
                 />
+               
+                
               </View>
           </View>
           <View style={styles.footer}>
@@ -90,11 +119,11 @@ const SocketPage = (props) => {
 }
 
 
-export default SocketPage;
+export default UserWalletPage;
 
 const styles = StyleSheet.create({
   headerbar:{
-      paddingTop:30,
+      paddingTop:10,
       paddingBottom:20,
       paddingHorizontal:20,
       flexDirection:"row",

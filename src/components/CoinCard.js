@@ -2,8 +2,10 @@ import {View,StyleSheet,Image,Text,Pressable} from 'react-native'
 import React from 'react'
 import {LIGHTGREY,GREEN,RED,LIGHTBLACK}  from '../constants/Colors';
 import CustomCard from './CustomCard';
+import { useRoute,useNavigation } from '@react-navigation/native';
 
 const CoinCard = (props) => {
+
   let {name,cryptobalance,actualbalance,decreased,percentage,difference,imgsrc} = props.item;
   
   return (

@@ -74,8 +74,8 @@ const HomeScreen = ({navigation}) => {
 
       <TouchableOpacity
           style={styles.forgotButton}
-          onPress={() => navigation.navigate('SocketPage')}>
-          <Text style={styles.navButtonText}>Sockete git </Text>
+          onPress={() => navigation.navigate('UserWalletPage')}>
+          <Text style={styles.navButtonText}>Wallet Page git </Text>
         </TouchableOpacity>
     </View>
   );
