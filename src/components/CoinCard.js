@@ -1,5 +1,5 @@
 import {View,StyleSheet,Image,Text,Pressable} from 'react-native'
-import React from 'react'
+import React, {useState} from 'react';
 import {LIGHTGREY,GREEN,RED,LIGHTBLACK}  from '../constants/Colors';
 import CustomCard from './CustomCard';
 import { useRoute,useNavigation } from '@react-navigation/native';
@@ -7,10 +7,13 @@ import { useRoute,useNavigation } from '@react-navigation/native';
 const CoinCard = (props) => {
 
   let {name,cryptobalance,actualbalance,decreased,percentage,difference,imgsrc} = props.item;
+
+
   
+
   return (
-          <Pressable onPress={props.onPress}>
-          <CustomCard style={{flexDirection:"row",alignItems:"center",backgroundColor:"#fff",borderRadius:15,paddingHorizontal:10,paddingVertical:20}}>
+          <CustomCard  style={{flexDirection:"row",alignItems:"center",backgroundColor:"#fff",borderRadius:15,paddingHorizontal:10,paddingVertical:20}}>
+             <Pressable onPress={props.onPress}>
             <View>
              <Image style={{height:60,width:60}} source={imgsrc}></Image>
             </View>
@@ -24,8 +27,9 @@ const CoinCard = (props) => {
                 <Text style={{color:decreased?RED:GREEN,fontWeight:"600"}}>{percentage}</Text>
               </View>
             </View>
+            </Pressable>
           </CustomCard>
-          </Pressable>);
+        );
 }
 export default CoinCard;
 const styles = StyleSheet.create({
