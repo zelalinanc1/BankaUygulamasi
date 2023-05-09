@@ -1,12 +1,10 @@
-import {StyleSheet, Text, View,TouchableOpacity,Alert} from 'react-native';
-import React, {useContext,useState,Context,useEffect} from 'react'
+import {StyleSheet, Text, View, TouchableOpacity, Alert} from 'react-native';
+import React, {useContext, useState, Context, useEffect} from 'react';
 import {Dropdown} from 'react-native-element-dropdown';
-import { AuthContext } from '../navigation/AuthProvider';
+import {AuthContext} from '../navigation/AuthProvider';
 import firestore from '@react-native-firebase/firestore';
-
-
-
-
+import FormInput from '../components/FormInput';
+import FormButton from '../components/FormButton';
 
 const accountTypeData = [
   {label: 'vadeli', value: 'vadeli'},
@@ -27,17 +25,18 @@ const branchNameData = [
   {label: '1257 SERDİVAN/SAK', value: '1257 SERDİVAN/SAK'},
 ];
 
-
-
+let userAccounts = [];
 
 const AccountRegisterScreen = ({navigation, route}) => {
+  
+
   const [accountType, setAccountType] = useState(null);
 
   const [accountNumber, setAccountNumber] = useState(null);
 
   const [accountIban, setAccountIban] = useState(null);
 
-  const {user,logout} = useContext(AuthContext);
+  const {user, logout} = useContext(AuthContext);
 
   const [currencyType, setCurrencyType] = useState(null);
 
@@ -45,69 +44,61 @@ const AccountRegisterScreen = ({navigation, route}) => {
 
   const [isFocus, setIsFocus] = useState(false);
 
-
   const [userData, setUserData] = useState(null);
 
-
-  const getUser = async() => {
-
+  const getUser = async () => {
     const currentUser = await firestore()
-    .collection('users')
-    .doc(user.uid)
-    .get()
-    .then((documentSnapshot) => {
-      if( documentSnapshot.exists ) {
-        console.log('User Data', documentSnapshot.data());
-        setUserData(documentSnapshot.data());
-      }
-    })
-  }
+      .collection('users')
+      .doc(user.uid)
+      .get()
+      .then(documentSnapshot => {
+        if (documentSnapshot.exists) {
+          console.log('User Data', documentSnapshot.data());
+          setUserData(documentSnapshot.data());
+        }
+      });
+  };
 
   useEffect(() => {
     getUser();
     randomAccount();
   }, []);
 
-  const uploadAccount = async() => {
-  
+ 
+  const addCollectionAccounts = async () => {
+    let tempUserAccounts = userAccounts;
+    tempUserAccounts.push({
+      accountType: accountType,
+      currencyType: currencyType,
+      branchName: branchName,
+      accountNumber: accountNumber,
+      accountIban: accountIban,
+    });
+
     firestore()
-    .collection('users')
-    .doc(user.uid)
-    .update({
-      name: userData.name,
-      lastName: userData.lastName,
-      birthday: userData.birthday,
-      tcNo: userData.tcNo,
-      userImg: userData.userImg,
-      accountType:accountType,
-      currencyType:currencyType,
-      branchName:branchName,
-      accountNumber:accountNumber,
-      accountIban:accountIban
-  
-    })
-    .then(() => {
-      
-      Alert.alert(
-        'Hesap bilgileriniz kaydedildi!'
-        
-      );
-    })
+      .collection('users')
+      .doc(user.uid)
+      .update({
+        userAccounts: tempUserAccounts,
+      })
+      .then(ref => {
+        console.log(ref);
+      })
+      .catch(error => {});
   };
 
   const randomAccount = () => {
-
     setAccountNumber(Math.floor(100000 + Math.random() * 900000));
-    var Tr="TR";
-    var Iban= (Math.floor(100000 + Math.random() * 900000)).toString();
-    var deger = Tr.concat("" , Iban);
+    var Tr = 'TR';
+    var Iban = Math.floor(100000 + Math.random() * 900000).toString();
+    var deger = Tr.concat('', Iban);
     setAccountIban(deger);
-  }
-  
+  };
 
   return (
     <View style={styles.container}>
       <Text>{accountType}</Text>
+
       <Dropdown
         style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
         placeholderStyle={styles.placeholderStyle}
@@ -173,29 +164,16 @@ const AccountRegisterScreen = ({navigation, route}) => {
           setIsFocus(false);
         }}
       />
-  
-      
-       <TouchableOpacity
-        style={styles.forgotButton}
-        onPress={()=> uploadAccount()}>
-        <Text style={styles.navButtonText}>
-         Kaydet
-        </Text>
-      </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.forgotButton}
-        onPress={()=> logout()}>
-        <Text style={styles.navButtonText}>
-         Çıkış Yap
-        </Text>
+        onPress={() => addCollectionAccounts()}>
+        <Text style={styles.navButtonText}>Kaydet</Text>
       </TouchableOpacity>
-      
-      
-    
-    
-  
 
+      <TouchableOpacity style={styles.forgotButton} onPress={() => logout()}>
+        <Text style={styles.navButtonText}>Çıkış Yap</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -245,7 +223,7 @@ const styles = StyleSheet.create({
   },
   forgotButton: {
     marginVertical: 35,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   navButtonText: {
     fontSize: 18,

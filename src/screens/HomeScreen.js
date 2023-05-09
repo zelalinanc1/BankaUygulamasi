@@ -5,9 +5,11 @@ import {AuthContext} from '../navigation/AuthProvider';
 import firestore from '@react-native-firebase/firestore';
 import imgPlaceHolder from '../images/avatar.jpg';
 
-const HomeScreen = ({navigation}) => {
-  const {user,logout} = useContext(AuthContext);
+const HomeScreen = ({route,navigation}) => {
+  const {user, logout} = useContext(AuthContext);
 
+  const [userId, setUserId] = useState('');
+  const [userAccounts,setUserAccounts] =useState('');
   const [userName, setUserName] = useState('');
   const [userLastName, setUserLastName] = useState('');
   const [userBirthday, setUserBirthday] = useState('');
@@ -25,8 +27,10 @@ const HomeScreen = ({navigation}) => {
         if (documentSnapshot.exists) {
           console.log('User Data', documentSnapshot.data());
           setUserData(documentSnapshot.data());
+          setUserId(documentSnapshot.data().id);
           console.log('*********--------');
-          // console.log(user.uid);
+          setUserAccounts(documentSnapshot.data().userAccounts)
+          //console.log(user.uid);
           setUserName(documentSnapshot.data().name);
           setUserLastName(documentSnapshot.data().lastName);
           setUserBirthday(documentSnapshot.data().birthday);
@@ -41,6 +45,7 @@ const HomeScreen = ({navigation}) => {
     getUser();
   }, []);
 
+
   return (
     <View style={styles.container}>
       <Text>
@@ -54,7 +59,7 @@ const HomeScreen = ({navigation}) => {
       <Text> Kullanici Tc: {userIdentity}</Text>
       <Text> Kullanici Doğum Tarihi: {userBirthday}</Text>
       <Text> Kullanici Iban: {userAccountIban}</Text>
-      {!userAccountIban ? (
+      {/* {!userAccountIban ? (
         <TouchableOpacity
           style={styles.forgotButton}
           onPress={() => navigation.navigate('AccountRegisterScreen')}>
@@ -66,21 +71,25 @@ const HomeScreen = ({navigation}) => {
           onPress={() => navigation.navigate('AccountDetailsScreen')}>
           <Text style={styles.navButtonText}>Hesap Bilgilerini Gör</Text>
         </TouchableOpacity>
-      )}
+      )} */}
 
+      <TouchableOpacity
+        style={styles.forgotButton}
+        onPress={() => navigation.navigate('AccountRegisterScreen')}>
+        <Text style={styles.navButtonText}>Hesap Oluştur</Text>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.forgotButton} onPress={() => logout()}>
         <Text style={styles.navButtonText}>Çıkış Yap</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-          style={styles.forgotButton}
-          onPress={() => navigation.navigate('UserWalletPage')}>
-          <Text style={styles.navButtonText}>Wallet Page git </Text>
-        </TouchableOpacity>
+        style={styles.forgotButton}
+        onPress={() => navigation.navigate('AllCurrencyPage',{userId:userId})}>
+        <Text style={styles.navButtonText}>Tüm Döviz Türlerini Gör </Text>
+      </TouchableOpacity>
     </View>
   );
 };
-
 
 export default HomeScreen;
 

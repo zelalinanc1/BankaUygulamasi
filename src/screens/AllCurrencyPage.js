@@ -17,20 +17,17 @@ import ripple from '../images/ripple.png';
 import etherium from '../images/etherium.png';
 import wallet from '../images/wallet.png';
 import {useNavigation} from '@react-navigation/native';
-import { useDispatch, useSelector } from "react-redux";
-import { addToCart, removeFromCart } from "../components/CartReducer";
+import {useDispatch, useSelector} from 'react-redux';
+import {addToCart, removeFromCart} from '../components/CartReducer';
 
 import {LIGHTGREY, LIGHTBLACK} from '../constants/Colors';
 
-const UserWalletPage = route => {
-     const nav = useNavigation();
+const UserWalletPage = (route) => {
+  const nav = useNavigation();
 
-
-  const cart = useSelector((state) => state.cart.cart);
+  const cart = useSelector(state => state.cart.cart);
   console.log(cart);
   const dispatch = useDispatch();
-
- 
 
 
   // const [socketData, setSocketData] = useState(null);
@@ -90,19 +87,18 @@ const UserWalletPage = route => {
     },
   ];
 
-  const addItemToCart = (item) => {
+  const addItemToCart = item => {
     dispatch(addToCart(item));
   };
-  const removeItemFromCart = (item) => {
+  const removeItemFromCart = item => {
     dispatch(removeFromCart(item));
   };
-
 
   return (
     <View style={{height: '100%', backgroundColor: '#F5F8FF'}}>
       <View style={styles.headerbar}>
         <Text style={{fontSize: 25, fontWeight: '500', color: LIGHTBLACK}}>
-          Wallets
+          Döviz Kurları
         </Text>
         <TouchableOpacity>
           <Icon name="wallet" size={26} color={LIGHTGREY} />
@@ -110,20 +106,21 @@ const UserWalletPage = route => {
       </View>
       <View style={{marginHorizontal: 20}}>
         <View>
-          {/* <WalletCoinCard
-            item={{
-              name: 'Total Wallet Balance',
-              cryptobalance: '$39.584',
-              imgsrc: wallet,
-            }}
-          /> */}
-          <View style={styles.filters}>
-            <Text style={{color: LIGHTGREY}}>Sorted by higher %</Text>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text style={{color: LIGHTGREY}}>24 H</Text>
-              <Icon name="chevron-down-outline" size={18} color={LIGHTGREY} />
-            </View>
-          </View>
+          <TouchableOpacity
+            style={styles.forgotButton}
+            onPress={() =>
+              nav.navigate('FavoriteCurrencyPageScreen', {
+                data: cart,
+              })
+            }>
+            <Text style={styles.navButtonText}>Favori Döviz Kurlarını Gör</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.forgotButton}
+            onPress={() => nav.navigate('CurrencyTradePage')}>
+            <Text style={styles.navButtonText}>Döviz Alım Satım</Text>
+          </TouchableOpacity>
         </View>
         <View
           style={{
@@ -138,51 +135,45 @@ const UserWalletPage = route => {
             ItemSeparatorComponent={() => (
               <View style={{marginVertical: 8}}></View>
             )}
-            
             renderItem={({item}) => (
-        
               <View>
-                {cart.some((value) => value.id == item.id) ?   (
-                 <Pressable onPress={() => removeItemFromCart(item)}>
-              
-                 <Text style={{
-                   borderColor: "gray",
-                   borderWidth:1,
-                   marginVertical:10,
-                   padding: 5,
-                 }}>
-                   REMOVE FROM CART</Text>
-                 <CoinCard
-                 item={item}
-                 onPress={() => nav.navigate('WalletDetails', item)}
-               />
-               </Pressable>
-
-                ): (
+                {cart.some(value => value.id == item.id) ? (
+                  <Pressable onPress={() => removeItemFromCart(item)}>
+                    <Text
+                      style={{
+                        borderColor: 'gray',
+                        borderWidth: 1,
+                        marginVertical: 10,
+                        padding: 5,
+                      }}>
+                      REMOVE FROM CART
+                    </Text>
+                    <CoinCard
+                      item={item}
+                      onPress={() => nav.navigate('WalletDetails', item)}
+                    />
+                  </Pressable>
+                ) : (
                   <Pressable onPress={() => addItemToCart(item)}>
-              
-                  <Text style={{
-                    borderColor: "gray",
-                    borderWidth:1,
-                    marginVertical:10,
-                    padding: 5,
-                  }}>
-                    ADD TO CART</Text>
-                  <CoinCard
-                  item={item}
-                  onPress={() => nav.navigate('WalletDetails', item)}
-                />
-                </Pressable>
+                    <Text
+                      style={{
+                        borderColor: 'gray',
+                        borderWidth: 1,
+                        marginVertical: 10,
+                        padding: 5,
+                      }}>
+                      ADD TO CART
+                    </Text>
+                    <CoinCard
+                      item={item}
+                      onPress={() => nav.navigate('WalletDetails', item)}
+                    />
+                  </Pressable>
                 )}
-             
               </View>
-               
-             
             )}
             keyExtractor={item => item.id}
-          
           />
-          
         </View>
       </View>
       <View style={styles.footer}>

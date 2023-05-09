@@ -8,14 +8,12 @@ const CoinCard = (props) => {
 
   let {name,cryptobalance,actualbalance,decreased,percentage,difference,imgsrc} = props.item;
 
-
-  
-
   return (
           <CustomCard  style={{flexDirection:"row",alignItems:"center",backgroundColor:"#fff",borderRadius:15,paddingHorizontal:10,paddingVertical:20}}>
              <Pressable onPress={props.onPress}>
             <View>
              <Image style={{height:60,width:60}} source={imgsrc}></Image>
+             <Text>{name}</Text>
             </View>
             <View style={{flex:2,marginLeft:15,marginRight:8}}>
               <View style={{flexDirection:"row",justifyContent:"space-between"}}>
