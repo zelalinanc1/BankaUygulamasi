@@ -78,6 +78,13 @@ const HomeScreen = ({route,navigation}) => {
         onPress={() => navigation.navigate('AccountRegisterScreen')}>
         <Text style={styles.navButtonText}>Hesap Oluştur</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+          style={styles.forgotButton}
+          onPress={() => navigation.navigate('AllUserAccounts')}>
+          <Text style={styles.navButtonText}>Tüm Hesapları  Gör</Text>
+        </TouchableOpacity>
+
       <TouchableOpacity style={styles.forgotButton} onPress={() => logout()}>
         <Text style={styles.navButtonText}>Çıkış Yap</Text>
       </TouchableOpacity>

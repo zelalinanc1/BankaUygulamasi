@@ -2,8 +2,12 @@ import {Modal, Text, TouchableHighlight, View} from 'react-native';
 import React, {useState} from 'react';
 import CoinCard from '../components/CoinCard';
 import {CountdownCircleTimer} from 'react-native-countdown-circle-timer';
+import { useRoute,useNavigation } from '@react-navigation/native';
 
-const CurrencyTradePage = ({route}) => {
+const CurrencyTradePage = (props) => {
+
+  const route = useRoute();
+  const nav = useNavigation();
 
     const [modalVisible, setModalVisible] = useState(false);
 

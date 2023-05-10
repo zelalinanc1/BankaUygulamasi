@@ -116,11 +116,6 @@ const UserWalletPage = (route) => {
             <Text style={styles.navButtonText}>Favori Döviz Kurlarını Gör</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.forgotButton}
-            onPress={() => nav.navigate('CurrencyTradePage')}>
-            <Text style={styles.navButtonText}>Döviz Alım Satım</Text>
-          </TouchableOpacity>
         </View>
         <View
           style={{

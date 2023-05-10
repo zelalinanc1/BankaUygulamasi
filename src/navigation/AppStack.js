@@ -3,7 +3,7 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from '../screens/HomeScreen';
 import AccountRegisterScreen from '../screens/AccountRegisterScreen';
-import AccountDetailsScreen from '../screens/AccountDetailsScreen';
+import AllUserAccounts from '../screens/AllUserAccounts';
 import AllCurrencyPage from '../screens/AllCurrencyPage';
 import WalletDetails from '../screens/WalletDetails';
 import FavoriteCurrencyPageScreen from '../screens/FavoriteCurrencyPageScreen';
@@ -20,7 +20,7 @@ const AppStack = () => {
    <Stack.Navigator>
     <Stack.Screen name='Home' component={HomeScreen}/>
     <Stack.Screen name='AccountRegisterScreen' component={AccountRegisterScreen}/>
-    <Stack.Screen name='AccountDetailsScreen' component={AccountDetailsScreen}/>
+    <Stack.Screen name='AllUserAccounts' component={AllUserAccounts}/>
     <Stack.Screen name='AllCurrencyPage' component={AllCurrencyPage}/>
     <Stack.Screen name='WalletDetails' component={WalletDetails}/>
     <Stack.Screen name='FavoriteCurrencyPageScreen' component={FavoriteCurrencyPageScreen}/>

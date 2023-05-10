@@ -28,8 +28,6 @@ const branchNameData = [
 let userAccounts = [];
 
 const AccountRegisterScreen = ({navigation, route}) => {
-  
-
   const [accountType, setAccountType] = useState(null);
 
   const [accountNumber, setAccountNumber] = useState(null);
@@ -64,7 +62,6 @@ const AccountRegisterScreen = ({navigation, route}) => {
     randomAccount();
   }, []);
 
- 
   const addCollectionAccounts = async () => {
     let tempUserAccounts = userAccounts;
     tempUserAccounts.push({
@@ -85,6 +82,21 @@ const AccountRegisterScreen = ({navigation, route}) => {
         console.log(ref);
       })
       .catch(error => {});
+  };
+
+  const getAccountsArray = async () => {
+    // firestore()
+    // .collection("users")
+    // .where("userAccounts","array-contains",{currencyType :'TL-Türk Lirası'})
+    // .get()
+    // .then(ref => {
+    //   console.log(ref);
+    // })
+    // .catch(error => {});
+
+ 
+
+   
   };
 
   const randomAccount = () => {
@@ -170,6 +182,8 @@ const AccountRegisterScreen = ({navigation, route}) => {
         onPress={() => addCollectionAccounts()}>
         <Text style={styles.navButtonText}>Kaydet</Text>
       </TouchableOpacity>
+
+    
 
       <TouchableOpacity style={styles.forgotButton} onPress={() => logout()}>
         <Text style={styles.navButtonText}>Çıkış Yap</Text>
