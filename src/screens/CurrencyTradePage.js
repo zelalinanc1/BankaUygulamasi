@@ -9,6 +9,8 @@ const CurrencyTradePage = (props) => {
   const route = useRoute();
   const nav = useNavigation();
 
+  let {name} = route.params;
+
     const [modalVisible, setModalVisible] = useState(false);
 
     const showModal = () => {
@@ -53,6 +55,9 @@ const CurrencyTradePage = (props) => {
         </Text>
       </View>
     </Modal>
+    <Text>{name}</Text>
+    {/* <Text>{currencyType}</Text> */}
+    
 
     <TouchableHighlight
       onPress={() => {

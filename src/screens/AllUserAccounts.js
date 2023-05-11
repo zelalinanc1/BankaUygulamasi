@@ -16,46 +16,17 @@ import {useNavigation} from '@react-navigation/native';
 
 const AllUserAccounts = (route) => {
 
-    const {user,logout} = useContext(AuthContext);
+  const {user,logout,getUserDetail,userAccounts} = useContext(AuthContext);
 
-    const nav = useNavigation();
-
-    
+  const nav = useNavigation();
   
-
-  // const [userAccountNumber, setUserAccountNumber] = useState();
-  // const [userAccountIban, setUserAccountIban] = useState('');
-  // const [AccountType, setAccountType] = useState('');
-  // const [currencyType, setCurrencyType] = useState('');
-  // const [branchName, setBranchName] = useState('');
-  
-  const [userData, setUserData] = useState(null);
-
-  const [userAccountsData, setUserAccountsData] = useState('');
-
-  const getUser = async () => {
-    const currentUser = await firestore()
-      .collection('users')
-      .doc(user.uid)
-      .get()
-      .then(documentSnapshot => {
-        if (documentSnapshot.exists) {
-          console.log('User Data', documentSnapshot.data());
-          setUserData(documentSnapshot.data());
-          console.log('*********--------');
-          setUserAccountsData(documentSnapshot.data().userAccounts);
-
-          console.log("denemesss"+JSON.stringify(userAccountsData));
-
-        
-          
-        }
-      });
-  };
 
   useEffect(() => {
-    getUser();
+    getUserDetail();
+  
   }, []);
+
+
 
   return (
     <View style={styles.container}>
@@ -68,7 +39,7 @@ const AllUserAccounts = (route) => {
           }}>
             <Text>Kullanıcının Hesapları</Text>
           <FlatList
-            data={userAccountsData}
+            data={userAccounts}
             style={{height: Dimensions.get('window').height / 2}}
             ItemSeparatorComponent={() => (
               <View style={{marginVertical: 8}}></View>
@@ -76,12 +47,14 @@ const AllUserAccounts = (route) => {
             renderItem={({item}) => (
               <View>
                <UserAccounts item={item}
-              //  onPress={() => nav.navigate('CurrencyTradePage',item)}
+                // onPress={() => nav.navigate('CurrencyTradePage',{currencyType:item.currencyType})}
                />
+              
               </View>
             )}
-            keyExtractor={item => item.id}
+            keyExtractor={(item) => item.id}
           />
+          
         </View>
       
 

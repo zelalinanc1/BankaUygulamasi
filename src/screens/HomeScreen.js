@@ -5,46 +5,13 @@ import {AuthContext} from '../navigation/AuthProvider';
 import firestore from '@react-native-firebase/firestore';
 import imgPlaceHolder from '../images/avatar.jpg';
 
-const HomeScreen = ({route,navigation}) => {
-  const {user, logout} = useContext(AuthContext);
+const HomeScreen = ({route, navigation}) => {
+  const {user,logout,getUserDetail,userId,userName,userLastName,userBirthday,userIdentity,userImage,userData} = useContext(AuthContext);
 
-  const [userId, setUserId] = useState('');
-  const [userAccounts,setUserAccounts] =useState('');
-  const [userName, setUserName] = useState('');
-  const [userLastName, setUserLastName] = useState('');
-  const [userBirthday, setUserBirthday] = useState('');
-  const [userIdentity, setUserIdentity] = useState('');
-  const [userImage, setUserImage] = useState();
-  const [userAccountIban, setUserAccountIban] = useState('');
-  const [userData, setUserData] = useState(null);
-
-  const getUser = async () => {
-    const currentUser = await firestore()
-      .collection('users')
-      .doc(user.uid)
-      .get()
-      .then(documentSnapshot => {
-        if (documentSnapshot.exists) {
-          console.log('User Data', documentSnapshot.data());
-          setUserData(documentSnapshot.data());
-          setUserId(documentSnapshot.data().id);
-          console.log('*********--------');
-          setUserAccounts(documentSnapshot.data().userAccounts)
-          //console.log(user.uid);
-          setUserName(documentSnapshot.data().name);
-          setUserLastName(documentSnapshot.data().lastName);
-          setUserBirthday(documentSnapshot.data().birthday);
-          setUserIdentity(documentSnapshot.data().tcNo.split('@gmail.com'));
-          setUserImage(documentSnapshot.data().userImg);
-          setUserAccountIban(documentSnapshot.data().accountIban);
-        }
-      });
-  };
 
   useEffect(() => {
-    getUser();
+    getUserDetail();
   }, []);
-
 
   return (
     <View style={styles.container}>
@@ -58,7 +25,6 @@ const HomeScreen = ({route,navigation}) => {
       />
       <Text> Kullanici Tc: {userIdentity}</Text>
       <Text> Kullanici Doğum Tarihi: {userBirthday}</Text>
-      <Text> Kullanici Iban: {userAccountIban}</Text>
       {/* {!userAccountIban ? (
         <TouchableOpacity
           style={styles.forgotButton}
@@ -80,10 +46,16 @@ const HomeScreen = ({route,navigation}) => {
       </TouchableOpacity>
 
       <TouchableOpacity
-          style={styles.forgotButton}
-          onPress={() => navigation.navigate('AllUserAccounts')}>
-          <Text style={styles.navButtonText}>Tüm Hesapları  Gör</Text>
-        </TouchableOpacity>
+        style={styles.forgotButton}
+        onPress={() => navigation.navigate('AllUserAccounts')}>
+        <Text style={styles.navButtonText}>Tüm Hesapları Gör</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.forgotButton}
+        onPress={() => navigation.navigate('DenemePage')}>
+        <Text style={styles.navButtonText}>Deneme</Text>
+      </TouchableOpacity>
 
       <TouchableOpacity style={styles.forgotButton} onPress={() => logout()}>
         <Text style={styles.navButtonText}>Çıkış Yap</Text>
@@ -91,7 +63,9 @@ const HomeScreen = ({route,navigation}) => {
 
       <TouchableOpacity
         style={styles.forgotButton}
-        onPress={() => navigation.navigate('AllCurrencyPage',{userId:userId})}>
+        onPress={() =>
+          navigation.navigate('AllCurrencyPage', {userId: userId})
+        }>
         <Text style={styles.navButtonText}>Tüm Döviz Türlerini Gör </Text>
       </TouchableOpacity>
     </View>

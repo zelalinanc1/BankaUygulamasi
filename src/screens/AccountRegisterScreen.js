@@ -25,7 +25,7 @@ const branchNameData = [
   {label: '1257 SERDİVAN/SAK', value: '1257 SERDİVAN/SAK'},
 ];
 
-let userAccounts = [];
+
 
 const AccountRegisterScreen = ({navigation, route}) => {
   const [accountType, setAccountType] = useState(null);
@@ -34,70 +34,23 @@ const AccountRegisterScreen = ({navigation, route}) => {
 
   const [accountIban, setAccountIban] = useState(null);
 
-  const {user, logout} = useContext(AuthContext);
-
   const [currencyType, setCurrencyType] = useState(null);
 
   const [branchName, setBranchName] = useState(null);
 
+
+  const {logout,addCollectionAccounts} = useContext(AuthContext);
+
+
   const [isFocus, setIsFocus] = useState(false);
-
-  const [userData, setUserData] = useState(null);
-
-  const getUser = async () => {
-    const currentUser = await firestore()
-      .collection('users')
-      .doc(user.uid)
-      .get()
-      .then(documentSnapshot => {
-        if (documentSnapshot.exists) {
-          console.log('User Data', documentSnapshot.data());
-          setUserData(documentSnapshot.data());
-        }
-      });
-  };
-
-  useEffect(() => {
-    getUser();
-    randomAccount();
-  }, []);
-
-  const addCollectionAccounts = async () => {
-    let tempUserAccounts = userAccounts;
-    tempUserAccounts.push({
-      accountType: accountType,
-      currencyType: currencyType,
-      branchName: branchName,
-      accountNumber: accountNumber,
-      accountIban: accountIban,
-    });
-
-    firestore()
-      .collection('users')
-      .doc(user.uid)
-      .update({
-        userAccounts: tempUserAccounts,
-      })
-      .then(ref => {
-        console.log(ref);
-      })
-      .catch(error => {});
-  };
-
-  const getAccountsArray = async () => {
-    // firestore()
-    // .collection("users")
-    // .where("userAccounts","array-contains",{currencyType :'TL-Türk Lirası'})
-    // .get()
-    // .then(ref => {
-    //   console.log(ref);
-    // })
-    // .catch(error => {});
 
  
 
-   
-  };
+  useEffect(() => {
+    randomAccount();
+  }, []);
+
+
 
   const randomAccount = () => {
     setAccountNumber(Math.floor(100000 + Math.random() * 900000));
@@ -179,7 +132,7 @@ const AccountRegisterScreen = ({navigation, route}) => {
 
       <TouchableOpacity
         style={styles.forgotButton}
-        onPress={() => addCollectionAccounts()}>
+        onPress={() => addCollectionAccounts(accountType,currencyType,branchName,accountNumber,accountIban)}>
         <Text style={styles.navButtonText}>Kaydet</Text>
       </TouchableOpacity>
 
