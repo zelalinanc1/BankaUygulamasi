@@ -16,11 +16,8 @@ export const AuthProvider = ({children}) => {
   const [userIdentity, setUserIdentity] = useState('');
   const [userImage, setUserImage] = useState();
   const [userAccountIban, setUserAccountIban] = useState('');
+  const [accountCurrencyType, setAccountCurrencyType] = useState('');
   const [userData, setUserData] = useState(null);
-
-  
-  
-
 
   return (
     <AuthContext.Provider
@@ -45,6 +42,8 @@ export const AuthProvider = ({children}) => {
         setUserAccountIban,
         userData,
         setUserData,
+        accountCurrencyType,
+        setAccountCurrencyType,
         login: async (tcNo, password) => {
           try {
             await auth().signInWithEmailAndPassword(tcNo, password);
@@ -94,10 +93,9 @@ export const AuthProvider = ({children}) => {
             .get()
             .then(documentSnapshot => {
               if (documentSnapshot.exists) {
-                console.log('User Data', documentSnapshot.data());
+                // console.log('User Data', documentSnapshot.data());
                 setUserData(documentSnapshot.data());
                 setUserId(documentSnapshot.data().id);
-                console.log('*********99999999999--------');
 
                 setUserName(documentSnapshot.data().name);
                 setUserLastName(documentSnapshot.data().lastName);
@@ -108,14 +106,37 @@ export const AuthProvider = ({children}) => {
                 setUserImage(documentSnapshot.data().userImg);
                 setUserAccountIban(documentSnapshot.data().accountIban);
                 setUserAccounts(documentSnapshot.data().userAccounts);
+                console.log('+++++++');
+                //console.log(userAccounts[0].currencyType);
               }
             });
         },
-        addCollectionAccounts: async (accountType,currencyType,branchName,accountNumber,accountIban) => {
+        getUserAccountsCurrencyType:  (currencyType) => {
+          
+        {
+            function getIndex(currencyType) {
+              return userAccounts.filter(obj => obj.currencyType === currencyType);
+          }
+        }
 
+
+          let data = [];
+
+          data =  getIndex(currencyType);
+
+          return data;
+
+        },
+        addCollectionAccounts: async (
+          accountType,
+          currencyType,
+          branchName,
+          accountNumber,
+          accountIban,
+        ) => {
           let tempUserAccounts = userAccounts;
 
-        //  console.log("ne var icinde"+JSON.stringify(userAccounts));
+          //  console.log("ne var icinde"+JSON.stringify(userAccounts));
 
           tempUserAccounts.push({
             accountType: accountType,
@@ -131,9 +152,9 @@ export const AuthProvider = ({children}) => {
             .update({
               userAccounts: tempUserAccounts,
             })
-            .then(ref => {
-              console.log(ref);
-            })
+            // .then(ref => {
+            //   console.log(ref);
+            // })
             .catch(error => {});
         },
       }}>

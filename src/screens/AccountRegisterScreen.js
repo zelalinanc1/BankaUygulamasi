@@ -42,7 +42,34 @@ const AccountRegisterScreen = ({navigation, route}) => {
   const {logout,addCollectionAccounts} = useContext(AuthContext);
 
 
+  const [error, setError] = useState('');
+
+
   const [isFocus, setIsFocus] = useState(false);
+
+  const updateError = (error, stateUpdater) => {
+    stateUpdater(error);
+
+    setTimeout(() => {
+      stateUpdater('');
+    }, 2500);
+  };
+
+  const isValidForm = () => {
+
+    if (!accountType || !branchName || !currencyType)
+    return updateError('Lütfen alanları doldurunuz!', setError);
+
+
+
+    return true;
+  };
+
+  const onAccountSubmitForm = () => {
+    if (isValidForm()) {
+      addCollectionAccounts(accountType,currencyType,branchName,accountNumber,accountIban);
+    }
+  };
 
  
 
@@ -62,6 +89,7 @@ const AccountRegisterScreen = ({navigation, route}) => {
 
   return (
     <View style={styles.container}>
+      {error ? <Text>{error}</Text> : null}
       <Text>{accountType}</Text>
 
       <Dropdown
@@ -132,7 +160,7 @@ const AccountRegisterScreen = ({navigation, route}) => {
 
       <TouchableOpacity
         style={styles.forgotButton}
-        onPress={() => addCollectionAccounts(accountType,currencyType,branchName,accountNumber,accountIban)}>
+        onPress={onAccountSubmitForm}>
         <Text style={styles.navButtonText}>Kaydet</Text>
       </TouchableOpacity>
 

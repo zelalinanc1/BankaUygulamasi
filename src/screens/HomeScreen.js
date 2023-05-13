@@ -53,21 +53,19 @@ const HomeScreen = ({route, navigation}) => {
 
       <TouchableOpacity
         style={styles.forgotButton}
-        onPress={() => navigation.navigate('DenemePage')}>
-        <Text style={styles.navButtonText}>Deneme</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.forgotButton} onPress={() => logout()}>
-        <Text style={styles.navButtonText}>Çıkış Yap</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.forgotButton}
         onPress={() =>
           navigation.navigate('AllCurrencyPage', {userId: userId})
         }>
         <Text style={styles.navButtonText}>Tüm Döviz Türlerini Gör </Text>
       </TouchableOpacity>
+
+    
+
+      <TouchableOpacity style={styles.forgotButton} onPress={() => logout()}>
+        <Text style={styles.navButtonText}>Çıkış Yap</Text>
+      </TouchableOpacity>
+
+    
     </View>
   );
 };

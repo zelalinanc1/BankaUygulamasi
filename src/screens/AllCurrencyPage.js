@@ -22,13 +22,12 @@ import {addToCart, removeFromCart} from '../components/CartReducer';
 
 import {LIGHTGREY, LIGHTBLACK} from '../constants/Colors';
 
-const UserWalletPage = (route) => {
+const UserWalletPage = route => {
   const nav = useNavigation();
 
   const cart = useSelector(state => state.cart.cart);
-  console.log(cart);
+  //console.log(cart);
   const dispatch = useDispatch();
-
 
   // const [socketData, setSocketData] = useState(null);
 
@@ -47,7 +46,7 @@ const UserWalletPage = (route) => {
   const CRYPTOCURRENCIES = [
     {
       id: 1,
-      name: 'Bitcoin',
+      name: 'USD-Amerikan Doları',
       cryptobalance: '3.5290123123 BTC',
       actualbalance: '$19.53',
       percentage: '+ 4.32%',
@@ -57,7 +56,7 @@ const UserWalletPage = (route) => {
     },
     {
       id: 2,
-      name: 'Etherium',
+      name: 'EUR-Euro',
       cryptobalance: '12.5290123123 ETH',
       actualbalance: '$19.53',
       percentage: '+ 4.32%',
@@ -67,7 +66,7 @@ const UserWalletPage = (route) => {
     },
     {
       id: 3,
-      name: 'Ripple',
+      name: 'GBP-İngiliz Sterlini',
       cryptobalance: '3.5290123123 XRP',
       actualbalance: '$19.53',
       percentage: '- 4.32%',
@@ -77,7 +76,7 @@ const UserWalletPage = (route) => {
     },
     {
       id: 4,
-      name: 'Rippleeeeee',
+      name: 'CHF-İsviçre Frangı',
       cryptobalance: '3.5290123123 XRP',
       actualbalance: '$19.53',
       percentage: '- 4.32%',
@@ -115,7 +114,6 @@ const UserWalletPage = (route) => {
             }>
             <Text style={styles.navButtonText}>Favori Döviz Kurlarını Gör</Text>
           </TouchableOpacity>
-
         </View>
         <View
           style={{
@@ -132,6 +130,18 @@ const UserWalletPage = (route) => {
             )}
             renderItem={({item}) => (
               <View>
+                 <Pressable
+                  onPress={() => nav.navigate('CurrencyTradePage', {name:item.name})}>
+                  <Text
+                    style={{
+                      borderColor: 'gray',
+                      borderWidth: 1,
+                      marginVertical: 10,
+                      padding: 5,
+                    }}>
+                   AL/SAT CURRENCY TRADE
+                  </Text>
+                </Pressable>
                 {cart.some(value => value.id == item.id) ? (
                   <Pressable onPress={() => removeItemFromCart(item)}>
                     <Text

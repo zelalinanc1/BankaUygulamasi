@@ -47,7 +47,7 @@ const AllUserAccounts = (route) => {
             renderItem={({item}) => (
               <View>
                <UserAccounts item={item}
-                // onPress={() => nav.navigate('CurrencyTradePage',{currencyType:item.currencyType})}
+                 onPress={() => nav.navigate('CurrencyTradePage',{currencyType:item.currencyType})}
                />
               
               </View>
