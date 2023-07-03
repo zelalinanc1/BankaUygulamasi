@@ -12,7 +12,7 @@ const accountTypeData = [
 ];
 
 const currencyData = [
-  {label: 'TL-Türk Lirası', value: 'TL-Türk Lirası'},
+  {label: 'TRY-Türk Lirası', value: 'TRY-Türk Lirası'},
   {label: 'USD-Amerikan Doları', value: 'USD-Amerikan Doları'},
   {label: 'EUR-Euro', value: 'EUR-Euro'},
   {label: 'GBP-İngiliz Sterlini', value: 'GBP-İngiliz Sterlini'},
@@ -25,8 +25,6 @@ const branchNameData = [
   {label: '1257 SERDİVAN/SAK', value: '1257 SERDİVAN/SAK'},
 ];
 
-
-
 const AccountRegisterScreen = ({navigation, route}) => {
   const [accountType, setAccountType] = useState(null);
 
@@ -36,14 +34,15 @@ const AccountRegisterScreen = ({navigation, route}) => {
 
   const [currencyType, setCurrencyType] = useState(null);
 
+  const [currencyCount, setCurrencyCount] = useState(null);
+
   const [branchName, setBranchName] = useState(null);
 
+  const [accountDetailName, setAccountDetailName] = useState(null);
 
   const {logout,addCollectionAccounts} = useContext(AuthContext);
 
-
   const [error, setError] = useState('');
-
 
   const [isFocus, setIsFocus] = useState(false);
 
@@ -56,28 +55,33 @@ const AccountRegisterScreen = ({navigation, route}) => {
   };
 
   const isValidForm = () => {
-
-    if (!accountType || !branchName || !currencyType)
-    return updateError('Lütfen alanları doldurunuz!', setError);
-
-
+    if (!accountType || !branchName || !currencyType || !currencyCount)
+      return updateError('Lütfen alanları doldurunuz!', setError);
 
     return true;
   };
 
   const onAccountSubmitForm = () => {
     if (isValidForm()) {
-      addCollectionAccounts(accountType,currencyType,branchName,accountNumber,accountIban);
+      addCollectionAccounts(
+        accountType,
+        currencyType,
+        branchName,
+        accountNumber,
+        accountIban,
+        currencyCount,
+        
+      );
     }
-  };
 
- 
+   // navigation.navigate('AllCurrencyPage');
+
+   
+  };
 
   useEffect(() => {
     randomAccount();
   }, []);
-
-
 
   const randomAccount = () => {
     setAccountNumber(Math.floor(100000 + Math.random() * 900000));
@@ -158,13 +162,18 @@ const AccountRegisterScreen = ({navigation, route}) => {
         }}
       />
 
+      <FormInput
+        labelValue={currencyCount}
+        onChangeText={userCurrencyCount => setCurrencyCount(userCurrencyCount)}
+        placeholderText="Miktar"
+        secureTextEntry={false}
+      />
+
       <TouchableOpacity
         style={styles.forgotButton}
         onPress={onAccountSubmitForm}>
         <Text style={styles.navButtonText}>Kaydet</Text>
       </TouchableOpacity>
-
-    
 
       <TouchableOpacity style={styles.forgotButton} onPress={() => logout()}>
         <Text style={styles.navButtonText}>Çıkış Yap</Text>

@@ -1,6 +1,6 @@
 import React, {createContext, useState} from 'react';
 import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
+import firestore, {firebase} from '@react-native-firebase/firestore';
 import {Alert} from 'react-native';
 
 export const AuthContext = createContext();
@@ -18,6 +18,8 @@ export const AuthProvider = ({children}) => {
   const [userAccountIban, setUserAccountIban] = useState('');
   const [accountCurrencyType, setAccountCurrencyType] = useState('');
   const [userData, setUserData] = useState(null);
+
+  //let accounts = [];
 
   return (
     <AuthContext.Provider
@@ -68,7 +70,8 @@ export const AuthProvider = ({children}) => {
               tcNo: tcNo,
               birthday: birthday,
               userImg: url,
-              userAccounts: [],
+              //userAccounts: [],
+              // accounts: [],
             };
 
             await firestore()
@@ -86,6 +89,7 @@ export const AuthProvider = ({children}) => {
             console.log(e);
           }
         },
+
         getUserDetail: async () => {
           const currentUser = await firestore()
             .collection('users')
@@ -105,38 +109,133 @@ export const AuthProvider = ({children}) => {
                 );
                 setUserImage(documentSnapshot.data().userImg);
                 setUserAccountIban(documentSnapshot.data().accountIban);
-                setUserAccounts(documentSnapshot.data().userAccounts);
+                setUserAccounts(documentSnapshot.data().accounts);
                 console.log('+++++++');
                 //console.log(userAccounts[0].currencyType);
               }
             });
         },
-        getUserAccountsCurrencyType:  (currencyType) => {
-          
-        {
+        getUserAccountsCurrencyType: currencyType => {
+          {
             function getIndex(currencyType) {
-              return userAccounts.filter(obj => obj.currencyType === currencyType);
+              return userAccounts.filter(
+                obj => obj.currencyType.split('-')[0] === currencyType,
+              );
+            }
           }
-        }
-
 
           let data = [];
 
-          data =  getIndex(currencyType);
+          data = getIndex(currencyType);
 
           return data;
-
         },
+
+        getUserAccountByIban: accountIban => {
+          {
+            function getDataIndex(accountIban) {
+              return userAccounts.filter(
+                obj => obj.accountIban === accountIban,
+              );
+            }
+          }
+
+          let data;
+
+          data = getDataIndex(accountIban);
+
+          const data1 = Object.assign({}, ...data);
+
+          let deneme = Object.keys(data1)
+            .filter(key => !key.includes('_index'))
+            .reduce((obj, key) => {
+              return Object.assign(obj, {
+                [key]: data1[key],
+              });
+            }, {});
+
+            firestore()
+            .collection('users')
+            .doc(user.uid)
+            .update({
+              accounts: firestore.FieldValue.arrayRemove(deneme),
+            });
+
+           
+          let keys = Object.keys(deneme);
+        
+          keys.forEach(element => {
+            
+            if (element == 'currencyCount') {
+              deneme[element] = '850';
+            }
+          });
+
+          console.log(deneme); 
+
+          firestore()
+            .collection('users')
+            .doc(user.uid)
+            .update({
+              accounts: firestore.FieldValue.arrayUnion(deneme),
+            });
+
+           
+
+          //return data;
+        },
+
+        getAccountsUpdateByIban: () => {
+          let datas1 = {
+            accountDetailName: 'TR161957 1257 SERDİVAN/SAK TRY-Türk Lirası',
+            accountIban: 'TR161999',
+            accountNumber: 307134,
+            accountType: 'vadeli',
+            branchName: '1257 SERDİVAN/SAK',
+            currencyCount: '6000',
+            currencyType: 'TRY-Türk Lirası',
+          };
+
+          let datas2 = {
+            accountDetailName: 'TR161957 1257 SERDİVAN/SAK TRY-Türk Lirası',
+            accountIban: 'TR161666',
+            accountNumber: 307122,
+            accountType: 'vadeli',
+            branchName: '1257 SERDİVAN/SAK',
+            currencyCount: '9900',
+            currencyType: 'TRY-Türk Lirası',
+          };
+
+          firestore()
+            .collection('users')
+            .doc(user.uid)
+            .update({
+              accounts: firestore.FieldValue.arrayRemove(datas1),
+            });
+
+          firestore()
+            .collection('users')
+            .doc(user.uid)
+            .update({
+              accounts: firestore.FieldValue.arrayUnion(datas2),
+            });
+        },
+
         addCollectionAccounts: async (
           accountType,
           currencyType,
           branchName,
           accountNumber,
           accountIban,
+          currencyCount,
         ) => {
-          let tempUserAccounts = userAccounts;
+          let accounts = [];
 
-          //  console.log("ne var icinde"+JSON.stringify(userAccounts));
+          let tempUserAccounts;
+
+          userAccounts && userAccounts.length
+            ? (tempUserAccounts = userAccounts)
+            : (tempUserAccounts = accounts);
 
           tempUserAccounts.push({
             accountType: accountType,
@@ -144,19 +243,21 @@ export const AuthProvider = ({children}) => {
             branchName: branchName,
             accountNumber: accountNumber,
             accountIban: accountIban,
+            currencyCount: currencyCount,
+            accountDetailName:
+              accountIban + ' ' + branchName + ' ' + currencyType,
           });
 
           firestore()
             .collection('users')
             .doc(user.uid)
             .update({
-              userAccounts: tempUserAccounts,
+              accounts: tempUserAccounts,
             })
-            // .then(ref => {
-            //   console.log(ref);
-            // })
             .catch(error => {});
         },
+
+        setGuncelle: async (accountCurrencyToChoise, currencyToAmount) => {},
       }}>
       {children}
     </AuthContext.Provider>

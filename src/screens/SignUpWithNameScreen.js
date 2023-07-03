@@ -25,6 +25,8 @@ const SignUpWithNameScreen = ({navigation}) => {
 
   const {name, lastName, tcNo} = userInfo;
 
+  const {register} = useContext(AuthContext);
+
   const [birthday, setBirthday] = useState(new Date());
 
   const [open, setOpen] = useState(false);
@@ -74,7 +76,7 @@ const SignUpWithNameScreen = ({navigation}) => {
     setUserInfo({...userInfo, [fieldName]: value});
   };
 
-  const {register} = useContext(AuthContext);
+
 
   return (
     <View style={styles.container}>

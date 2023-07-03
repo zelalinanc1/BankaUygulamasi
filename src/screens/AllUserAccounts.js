@@ -16,9 +16,12 @@ import {useNavigation} from '@react-navigation/native';
 
 const AllUserAccounts = (route) => {
 
-  const {user,logout,getUserDetail,userAccounts} = useContext(AuthContext);
+  const {user,logout,getUserDetail,userAccounts,userId} = useContext(AuthContext);
+ 
 
   const nav = useNavigation();
+
+  
   
 
   useEffect(() => {
@@ -26,7 +29,7 @@ const AllUserAccounts = (route) => {
   
   }, []);
 
-
+ 
 
   return (
     <View style={styles.container}>
@@ -52,7 +55,6 @@ const AllUserAccounts = (route) => {
               
               </View>
             )}
-            keyExtractor={(item) => item.id}
           />
           
         </View>

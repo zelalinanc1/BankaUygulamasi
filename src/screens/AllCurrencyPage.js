@@ -8,15 +8,9 @@ import {
   Dimensions,
   Pressable,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
-import WalletCoinCard from '../components/WalletCoinCard';
-import CoinCard from '../components/CoinCard';
-import bitcoin from '../images/bitcoin.png';
-import ripple from '../images/ripple.png';
-import etherium from '../images/etherium.png';
-import wallet from '../images/wallet.png';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {addToCart, removeFromCart} from '../components/CartReducer';
 
@@ -26,65 +20,14 @@ const UserWalletPage = route => {
   const nav = useNavigation();
 
   const cart = useSelector(state => state.cart.cart);
-  //console.log(cart);
+
   const dispatch = useDispatch();
 
-  // const [socketData, setSocketData] = useState(null);
+  const [currencyList, setCurrencyList] = useState();
 
-  // var ws =new WebSocket('wss://stream.binance.com:9443/ws/ethusdt@trade');
 
-  //  ws.onmessage= (event) => {
-  //     // console.log(event.data);
-  //     // console.log('Socket Data', event.data());
-  //     let stockObject = JSON.parse(event.data);
-  //        //stockPriceElement.innerText = stockObject.p;
-  //        let price=parseFloat(stockObject.p).toFixed(2);
-
-  //     console.log(price);
-  // }
-
-  const CRYPTOCURRENCIES = [
-    {
-      id: 1,
-      name: 'USD-Amerikan Doları',
-      cryptobalance: '3.5290123123 BTC',
-      actualbalance: '$19.53',
-      percentage: '+ 4.32%',
-      difference: '$ 5.44',
-      decreased: false,
-      imgsrc: bitcoin,
-    },
-    {
-      id: 2,
-      name: 'EUR-Euro',
-      cryptobalance: '12.5290123123 ETH',
-      actualbalance: '$19.53',
-      percentage: '+ 4.32%',
-      decreased: false,
-      difference: '$ 3.44',
-      imgsrc: etherium,
-    },
-    {
-      id: 3,
-      name: 'GBP-İngiliz Sterlini',
-      cryptobalance: '3.5290123123 XRP',
-      actualbalance: '$19.53',
-      percentage: '- 4.32%',
-      decreased: true,
-      difference: '$ 7.44',
-      imgsrc: ripple,
-    },
-    {
-      id: 4,
-      name: 'CHF-İsviçre Frangı',
-      cryptobalance: '3.5290123123 XRP',
-      actualbalance: '$19.53',
-      percentage: '- 4.32%',
-      decreased: true,
-      difference: '$ 7.44',
-      imgsrc: ripple,
-    },
-  ];
+  let fromCurr = ['USD', 'EUR'];
+  let toCurrs = ['TRY', 'JPY'];
 
   const addItemToCart = item => {
     dispatch(addToCart(item));
@@ -93,12 +36,57 @@ const UserWalletPage = route => {
     dispatch(removeFromCart(item));
   };
 
+  
+ 
+
+
+  const getDataFromApiAsync = async () => {
+    try {
+      const response = await fetch(
+        'https://min-api.cryptocompare.com/data/pricemulti?fsyms=' +
+          fromCurr +
+          '&tsyms=' +
+          toCurrs,
+      );
+      let index = 0;
+      const json = await response.json();
+      var Output = Object.entries(json).flatMap(([fromCurrency, values]) =>
+        Object.entries(values).map(([toCurrency, price]) => ({
+          fromCurrency,
+          toCurrency,
+          price,
+          id: index++,
+        })),
+      );
+
+      setCurrencyList(Output);
+      console.log(Output);
+      return json;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getDataFromApiAsync();
+      let interval = setInterval(() => {
+        getDataFromApiAsync();
+      }, 5000);
+
+      return () => {
+        clearInterval(interval);
+      };
+    }, []),
+  );
+
   return (
     <View style={{height: '100%', backgroundColor: '#F5F8FF'}}>
       <View style={styles.headerbar}>
         <Text style={{fontSize: 25, fontWeight: '500', color: LIGHTBLACK}}>
           Döviz Kurları
         </Text>
+
         <TouchableOpacity>
           <Icon name="wallet" size={26} color={LIGHTGREY} />
         </TouchableOpacity>
@@ -123,15 +111,22 @@ const UserWalletPage = route => {
             marginBottom: 100,
           }}>
           <FlatList
-            data={CRYPTOCURRENCIES}
+            data={currencyList}
             style={{height: Dimensions.get('window').height / 2}}
             ItemSeparatorComponent={() => (
               <View style={{marginVertical: 8}}></View>
             )}
             renderItem={({item}) => (
               <View>
-                 <Pressable
-                  onPress={() => nav.navigate('CurrencyTradePage', {name:item.name})}>
+                <Pressable
+                  onPress={() =>
+                    nav.navigate('CurrencyTradePage', {
+                      name: item.toCurrency,
+                      toCurrency: item.toCurrency,
+                      fromCurrency: item.fromCurrency,
+                      price: item.price,
+                    })
+                  }>
                   <Text
                     style={{
                       borderColor: 'gray',
@@ -139,7 +134,26 @@ const UserWalletPage = route => {
                       marginVertical: 10,
                       padding: 5,
                     }}>
-                   AL/SAT CURRENCY TRADE
+                    AL CURRENCY TRADE
+                  </Text>
+                </Pressable>
+                <Pressable
+                  onPress={() =>
+                    nav.navigate('CurrencyTradePage', {
+                      name: item.fromCurrency,
+                      toCurrency: item.toCurrency,
+                      fromCurrency: item.fromCurrency,
+                      price: item.price,
+                    })
+                  }>
+                  <Text
+                    style={{
+                      borderColor: 'gray',
+                      borderWidth: 1,
+                      marginVertical: 10,
+                      padding: 5,
+                    }}>
+                    SAT CURRENCY TRADE
                   </Text>
                 </Pressable>
                 {cart.some(value => value.id == item.id) ? (
@@ -153,10 +167,9 @@ const UserWalletPage = route => {
                       }}>
                       REMOVE FROM CART
                     </Text>
-                    <CoinCard
-                      item={item}
-                      onPress={() => nav.navigate('WalletDetails', item)}
-                    />
+                    <Text>{item.fromCurrency}</Text>
+                    <Text>{item.toCurrency}</Text>
+                    <Text>{item.price}</Text>
                   </Pressable>
                 ) : (
                   <Pressable onPress={() => addItemToCart(item)}>
@@ -169,10 +182,9 @@ const UserWalletPage = route => {
                       }}>
                       ADD TO CART
                     </Text>
-                    <CoinCard
-                      item={item}
-                      onPress={() => nav.navigate('WalletDetails', item)}
-                    />
+                    <Text>{item.fromCurrency}</Text>
+                    <Text>{item.toCurrency}</Text>
+                    <Text>{item.price}</Text>
                   </Pressable>
                 )}
               </View>

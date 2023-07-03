@@ -8,7 +8,7 @@ import AllCurrencyPage from '../screens/AllCurrencyPage';
 import WalletDetails from '../screens/WalletDetails';
 import FavoriteCurrencyPageScreen from '../screens/FavoriteCurrencyPageScreen';
 import DenemePage from '../screens/DenemePage';
-import CurrencyTradePage from '../screens/CurrencyTradePage';
+import CurrencyBuyPage from '../screens/CurrencyBuyPage';
 import {Provider} from 'react-redux'
 import store from '../components/store'
 
@@ -26,7 +26,7 @@ const AppStack = () => {
     <Stack.Screen name='AllCurrencyPage' component={AllCurrencyPage}/>
     <Stack.Screen name='WalletDetails' component={WalletDetails}/>
     <Stack.Screen name='FavoriteCurrencyPageScreen' component={FavoriteCurrencyPageScreen}/>
-    <Stack.Screen name='CurrencyTradePage' component={CurrencyTradePage}/>
+    <Stack.Screen name='CurrencyBuyPage' component={CurrencyBuyPage}/>
 
 
     

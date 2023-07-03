@@ -13,6 +13,9 @@ import CoinCard from '../components/CoinCard';
 
 const FavoriteCurrencyPageScreen = ({route}) => {
   const {data} = route.params;
+  
+
+  console.log("FAVLARRR"+JSON.stringify(data))
 
   return (
     <View>
@@ -28,12 +31,12 @@ const FavoriteCurrencyPageScreen = ({route}) => {
         ItemSeparatorComponent={() => <View style={{marginVertical: 8}}></View>}
         renderItem={({item}) => (
           <View>
-            <CoinCard
-              item={item}
-            />
+            <Text>{item.fromCurrency}</Text>
+            <Text>{item.toCurrency}</Text>
+            <Text>{item.price}</Text>
           </View>
         )}
-        keyExtractor={item => item.id}
+       
       />
     </View>
   );
