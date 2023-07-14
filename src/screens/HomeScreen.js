@@ -15,6 +15,7 @@ const HomeScreen = ({route, navigation}) => {
   
   }, []);
 
+  //console.log(userAccounts[1].accountDetailName);
 
 
   return (
@@ -54,11 +55,22 @@ const HomeScreen = ({route, navigation}) => {
         onPress={() => navigation.navigate('AllUserAccounts')}>
         <Text style={styles.navButtonText}>Tüm Hesapları Gör</Text>
       </TouchableOpacity> 
-      <TouchableOpacity
+
+      {/* <TouchableOpacity
         style={styles.forgotButton}
         onPress={() => navigation.navigate('DenemePage')}>
         <Text style={styles.navButtonText}>Deneme Page</Text>
+      </TouchableOpacity> */}
+
+      <TouchableOpacity
+        style={styles.forgotButton}
+        onPress={() => navigation.navigate('MyAccountsPage')}>
+        <Text style={styles.navButtonText}>MyAccountsPage</Text>
       </TouchableOpacity>
+
+      
+       
+     
 
     
 

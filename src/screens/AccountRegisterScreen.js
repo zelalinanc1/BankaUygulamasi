@@ -74,7 +74,7 @@ const AccountRegisterScreen = ({navigation, route}) => {
       );
     }
 
-   // navigation.navigate('AllCurrencyPage');
+   navigation.navigate('Home');
 
    
   };

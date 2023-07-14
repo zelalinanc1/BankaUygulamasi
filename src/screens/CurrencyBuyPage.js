@@ -6,7 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   LayoutAnimation,
-  TextInput
+  TextInput,
 } from 'react-native';
 import React, {useState, useContext, useEffect} from 'react';
 import CoinCard from '../components/CoinCard';
@@ -17,10 +17,17 @@ import {AuthContext} from '../navigation/AuthProvider';
 import FormInput from '../components/FormInput';
 
 const CurrencyTradePage = props => {
-
   const route = useRoute();
 
-  const {getUserAccountsCurrencyType,currencyTransaction,setGuncelle,getAccountsUpdateByIban,getUserAccountByIban} = useContext(AuthContext);
+  const {
+    getUserAccountsCurrencyType,
+    getToCurrencyTransaction,
+    getFromCurrencyTransaction,
+    addAccountTransactions,
+    getUserDetail,
+    
+    
+  } = useContext(AuthContext);
 
   const nav = useNavigation();
 
@@ -28,102 +35,75 @@ const CurrencyTradePage = props => {
 
   const [accountCurrencyToChoise, setAccountCurencyToChoise] = useState(null);
 
-  const [accountCurrencyFromChoise, setAccountCurencyFromChoise] = useState(null);
+  const [accountCurrencyFromChoise, setAccountCurencyFromChoise] =
+    useState(null);
 
   const [currencyFromAmount, setCurrencyFromAmount] = useState('');
 
+  const [currencyCountToAmount, setCurrencyCountToAmount] = useState('');
+
+  const [currencyCountFromAmount, setCurrencyCountFromAmount] = useState('');
+
   const [currencyToAmount, setCurrencyToAmount] = useState('');
 
+  let {name, price, toCurrency, fromCurrency} = route.params;
 
-  let {name,price,toCurrency, fromCurrency} = route.params;
+  let valueOfFromCurrency = getUserAccountsCurrencyType(fromCurrency);
 
-  let valueOfFromCurrency=getUserAccountsCurrencyType(fromCurrency)
+  let valueOfToCurrency = getUserAccountsCurrencyType(toCurrency);
 
-  let valueOfToCurrency=getUserAccountsCurrencyType(toCurrency)
-
-
-
-
-   const convertCurrencyTransaction = () => {
-    if(currencyToAmount===0)
-    {
-      console.log("Girdiğiniz değer 0 olamaz");
-    }   
-    else if(accountCurrencyToChoise<currencyToAmount){
-      console.log("yetersiz bakiye")
+  const convertCurrencyTransaction = () => {
+    if (currencyToAmount === 0) {
+      console.log('Girdiğiniz değer 0 olamaz');
+    } else if (accountCurrencyToChoise < currencyToAmount) {
+      console.log('yetersiz bakiye');
+    } else {
+      işlemYap();
     }
-    else{
-      işlemYap()
-    }
-
   };
-
-  const Güncelle = () => {
-
-    console.log("accountCurrencyToChoise  "+accountCurrencyToChoise)
-    console.log("accountCurrencyFromChoise  "+accountCurrencyFromChoise)
-   console.log("currencyToAmount  "+currencyToAmount)
-   console.log("currencyFromAmount  "+currencyFromAmount)
-   console.log("***************************")
-
-   setGuncelle(accountCurrencyToChoise,currencyToAmount);
-
-
-  }
-
-  const updateIban = async() => {
-
-  
-
-    getUserAccountByIban(accountCurrencyFromChoise);
-  }
-
-  
-
-
 
 
   const işlemYap = () => {
+    console.log('işlem yapılabilir');
+    console.log('accountCurrencyToChoise  ' + accountCurrencyToChoise); //iban
+    console.log('accountCurrencyFromChoise  ' + accountCurrencyFromChoise); //iban
+    console.log('currencyToAmount  ' + currencyToAmount);
+    console.log('currencyFromAmount  ' + currencyFromAmount);
+    console.log('***************************');
 
-    
-    console.log("işlem yapılabilir")
-    console.log("accountCurrencyToChoise  "+accountCurrencyToChoise) //iban
-    console.log("accountCurrencyFromChoise  "+accountCurrencyFromChoise) //iban
-   console.log("currencyToAmount  "+currencyToAmount)
-   console.log("currencyFromAmount  "+currencyFromAmount)
-   console.log("***************************")
+    //to eksi from artı
 
-  // getAccountsUpdate(valueOfToCurrency)
-  //currencyTransaction(valueOfToCurrency)
+      getToCurrencyTransaction(accountCurrencyToChoise, currencyToAmount);
+      getFromCurrencyTransaction(accountCurrencyFromChoise, currencyFromAmount);
+      addAccountTransactions(accountCurrencyToChoise, currencyToAmount,accountCurrencyFromChoise, currencyFromAmount);
+     nav.navigate("Home");
+   // await addAccountTransactions(accountCurrencyToChoise, currencyToAmount,accountCurrencyFromChoise, currencyFromAmount);
+  };
 
  
+
+  useEffect(() => {
+    getUserDetail();
     
-   
-  }
   
-   const handleCalculation = currencyAmount=> {
-    const multiplication= (num1, num2) => {
+  }, []);
+
+ // console.log(parseFloat(currencyCountToAmount));
+ 
+
+  const handleCalculation = currencyAmount => {
+    const multiplication = (num1, num2) => {
       return num1 * num2;
     };
     setCurrencyFromAmount(currencyAmount);
-    let resulmultiplication = multiplication(price,currencyAmount);
+    let resulmultiplication = multiplication(price, currencyAmount);
     setCurrencyToAmount(resulmultiplication);
-   
-    
   };
-  
-
-  
-
- 
-
-  
-
 
   return (
     <View style={styles.container}>
       <Text>Denemeess Alış Sayfası</Text>
-    
+
       <Text>
         1 {fromCurrency} = {price} {toCurrency}{' '}
       </Text>
@@ -140,7 +120,7 @@ const CurrencyTradePage = props => {
         labelField="accountDetailName"
         valueField="accountIban"
         placeholder={
-          !isFocus ? toCurrency + ' Tutarının Çekileceği Hesap'  : '...'
+          !isFocus ? toCurrency + ' Tutarının Çekileceği Hesap' : '...'
         }
         searchPlaceholder="Ara..."
         value={accountCurrencyToChoise}
@@ -148,14 +128,13 @@ const CurrencyTradePage = props => {
         onBlur={() => setIsFocus(false)}
         onChange={item => {
           setAccountCurencyToChoise(item.accountIban);
+          setCurrencyCountToAmount(item.currencyCount);
           setIsFocus(false);
         }}
       />
 
-     <Text>Degereeeeeeeeeeeeeeee {accountCurrencyToChoise}</Text>
+      <Text>accountCurrencyToChoise {currencyCountToAmount}</Text>
 
-
-    
       <Dropdown
         style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
         placeholderStyle={styles.placeholderStyle}
@@ -175,13 +154,15 @@ const CurrencyTradePage = props => {
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
         onChange={item => {
-       
           setAccountCurencyFromChoise(item.accountIban);
+          setCurrencyCountFromAmount(item.currencyCount);
           setIsFocus(false);
         }}
       />
-      <Text>accountCurrencyFromChoise    {accountCurrencyFromChoise}</Text>
-      
+     
+      <Text>accountCurrencyFromChoise {currencyCountFromAmount}</Text>
+    
+
       <TextInput
         name="currAmountTo"
         autoCorrect={false}
@@ -196,19 +177,6 @@ const CurrencyTradePage = props => {
         onPress={convertCurrencyTransaction}>
         <Text style={styles.navButtonText}>İşlem Yap</Text>
       </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.forgotButton}
-        onPress={updateIban}>
-        <Text style={styles.navButtonText}>Ibana göre değerleri getir</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.forgotButton}
-        onPress={Güncelle}>
-        <Text style={styles.navButtonText}>Güncelle</Text>
-      </TouchableOpacity>
-
 
 
      

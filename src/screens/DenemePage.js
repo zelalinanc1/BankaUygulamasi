@@ -20,7 +20,7 @@ import {LIGHTGREY, LIGHTBLACK} from '../constants/Colors';
 const DenemePage = route => {
   const nav = useNavigation();
 
-  const {getUserAccountsCurrencyType} = useContext(AuthContext);
+  const {getUserAccountsCurrencyType,userAccounts} = useContext(AuthContext);
 
   const [currencyList, setCurrencyList] = useState();
 
@@ -85,6 +85,7 @@ const DenemePage = route => {
   };
 
   useFocusEffect(
+
     React.useCallback(() => {
       getDataFromApiAsync();
       let interval = setInterval(() => {

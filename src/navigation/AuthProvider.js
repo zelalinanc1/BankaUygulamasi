@@ -1,6 +1,7 @@
 import React, {createContext, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import firestore, {firebase} from '@react-native-firebase/firestore';
+
 import {Alert} from 'react-native';
 
 export const AuthContext = createContext();
@@ -10,6 +11,7 @@ export const AuthProvider = ({children}) => {
 
   const [userId, setUserId] = useState('');
   const [userAccounts, setUserAccounts] = useState('');
+  const [accountTransactions, setAccountTransactions] = useState('');
   const [userName, setUserName] = useState('');
   const [userLastName, setUserLastName] = useState('');
   const [userBirthday, setUserBirthday] = useState('');
@@ -18,6 +20,7 @@ export const AuthProvider = ({children}) => {
   const [userAccountIban, setUserAccountIban] = useState('');
   const [accountCurrencyType, setAccountCurrencyType] = useState('');
   const [userData, setUserData] = useState(null);
+
 
   //let accounts = [];
 
@@ -30,6 +33,8 @@ export const AuthProvider = ({children}) => {
         setUserId,
         userAccounts,
         setUserAccounts,
+        accountTransactions,
+        setAccountTransactions,
         userName,
         setUserName,
         userLastName,
@@ -110,7 +115,9 @@ export const AuthProvider = ({children}) => {
                 setUserImage(documentSnapshot.data().userImg);
                 setUserAccountIban(documentSnapshot.data().accountIban);
                 setUserAccounts(documentSnapshot.data().accounts);
+                setAccountTransactions(documentSnapshot.data().transactions);
                 console.log('+++++++');
+               
                 //console.log(userAccounts[0].currencyType);
               }
             });
@@ -131,7 +138,8 @@ export const AuthProvider = ({children}) => {
           return data;
         },
 
-        getUserAccountByIban: accountIban => {
+       
+        getToCurrencyTransaction: async (currencyToChoise,currencyToAmount) => {
           {
             function getDataIndex(accountIban) {
               return userAccounts.filter(
@@ -142,9 +150,11 @@ export const AuthProvider = ({children}) => {
 
           let data;
 
-          data = getDataIndex(accountIban);
+          data = getDataIndex(currencyToChoise);
 
           const data1 = Object.assign({}, ...data);
+
+          console.log("data1"+JSON.stringify(data1));
 
           let deneme = Object.keys(data1)
             .filter(key => !key.includes('_index'))
@@ -154,7 +164,7 @@ export const AuthProvider = ({children}) => {
               });
             }, {});
 
-            firestore()
+            await firestore()
             .collection('users')
             .doc(user.uid)
             .update({
@@ -162,64 +172,85 @@ export const AuthProvider = ({children}) => {
             });
 
            
+           
           let keys = Object.keys(deneme);
         
           keys.forEach(element => {
             
             if (element == 'currencyCount') {
-              deneme[element] = '850';
+              deneme[element] =  (deneme[element] - (currencyToAmount)).toFixed(2);
             }
           });
 
-          console.log(deneme); 
+          //console.log("DENEME"+ JSON.stringify(deneme));
 
-          firestore()
-            .collection('users')
-            .doc(user.uid)
-            .update({
-              accounts: firestore.FieldValue.arrayUnion(deneme),
-            });
+          await firestore()
+          .collection('users')
+          .doc(user.uid)
+          .update({
+            accounts: firestore.FieldValue.arrayUnion(deneme),
+          })
 
-           
+        
 
-          //return data;
+
         },
 
-        getAccountsUpdateByIban: () => {
-          let datas1 = {
-            accountDetailName: 'TR161957 1257 SERDİVAN/SAK TRY-Türk Lirası',
-            accountIban: 'TR161999',
-            accountNumber: 307134,
-            accountType: 'vadeli',
-            branchName: '1257 SERDİVAN/SAK',
-            currencyCount: '6000',
-            currencyType: 'TRY-Türk Lirası',
-          };
+      
+        getFromCurrencyTransaction: async (currencyFromChoise,currencyFromAmount) => {
+          {
+            function getDataIndex(accountIban) {
+              return userAccounts.filter(
+                obj => obj.accountIban === accountIban,
+              );
+            }
+          }
 
-          let datas2 = {
-            accountDetailName: 'TR161957 1257 SERDİVAN/SAK TRY-Türk Lirası',
-            accountIban: 'TR161666',
-            accountNumber: 307122,
-            accountType: 'vadeli',
-            branchName: '1257 SERDİVAN/SAK',
-            currencyCount: '9900',
-            currencyType: 'TRY-Türk Lirası',
-          };
+          let fromData;
 
-          firestore()
+          fromData = getDataIndex(currencyFromChoise);
+
+          const dataFromCurrency = Object.assign({}, ...fromData);
+
+
+          let valueOfFromCurrency = Object.keys(dataFromCurrency)
+            .filter(key => !key.includes('_index'))
+            .reduce((obj, key) => {
+              return Object.assign(obj, {
+                [key]: dataFromCurrency[key],
+              });
+            }, {});
+
+            await firestore()
             .collection('users')
             .doc(user.uid)
             .update({
-              accounts: firestore.FieldValue.arrayRemove(datas1),
+              accounts: firestore.FieldValue.arrayRemove(valueOfFromCurrency),
             });
 
-          firestore()
+          let fromCurrencykeys = Object.keys(valueOfFromCurrency);
+        
+          fromCurrencykeys.forEach(element => {
+            
+            if (element == 'currencyCount') {
+              valueOfFromCurrency[element] += parseFloat(currencyFromAmount);
+            }
+          });
+
+      
+          console.log(valueOfFromCurrency); 
+
+          await firestore()
             .collection('users')
             .doc(user.uid)
             .update({
-              accounts: firestore.FieldValue.arrayUnion(datas2),
+              accounts: firestore.FieldValue.arrayUnion(valueOfFromCurrency),
             });
+
         },
+
+      
+
 
         addCollectionAccounts: async (
           accountType,
@@ -243,7 +274,9 @@ export const AuthProvider = ({children}) => {
             branchName: branchName,
             accountNumber: accountNumber,
             accountIban: accountIban,
-            currencyCount: currencyCount,
+            currencyCount: parseFloat(currencyCount),
+            //currencyCount: Number(currencyCount),
+            //value.toFixed(2);
             accountDetailName:
               accountIban + ' ' + branchName + ' ' + currencyType,
           });
@@ -256,8 +289,46 @@ export const AuthProvider = ({children}) => {
             })
             .catch(error => {});
         },
+        addAccountTransactions: async (
+          accountCurrencyToChoise,
+          currencyToAmount,
+          accountCurrencyFromChoise, 
+          currencyFromAmount,
+           ) => {
 
-        setGuncelle: async (accountCurrencyToChoise, currencyToAmount) => {},
+            var cdate =  new Date(); 
+            
+            var dateVal= cdate.getFullYear()+"-"+cdate.getDate()+"-"+cdate.getMonth()+" "+cdate.getHours() + ":" + cdate.getMinutes() + ":" + cdate.getSeconds()
+           
+            let transactions = [];
+
+            let tempAccountTransactions;
+  
+            accountTransactions && accountTransactions.length
+              ? (tempAccountTransactions = accountTransactions)
+              : (tempAccountTransactions = transactions);
+  
+              tempAccountTransactions.push({
+              accountCurrencyToChoise: accountCurrencyToChoise,
+              currencyToAmount:parseFloat(currencyToAmount),
+              accountCurrencyFromChoise:accountCurrencyFromChoise,
+              currencyFromAmount:parseFloat(currencyFromAmount),
+              date:dateVal
+             
+            });
+  
+            firestore()
+              .collection('users')
+              .doc(user.uid)
+              .update({
+                transactions: tempAccountTransactions,
+              })
+              .catch(error => {});
+
+
+
+        },
+
       }}>
       {children}
     </AuthContext.Provider>

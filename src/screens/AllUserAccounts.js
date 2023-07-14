@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import React, {useContext, useState, useEffect} from 'react';
 import {AuthContext} from '../navigation/AuthProvider';
-import firestore from '@react-native-firebase/firestore';
 import UserAccounts from '../components/UserAccounts';
 import {useNavigation} from '@react-navigation/native';
 
@@ -26,6 +25,7 @@ const AllUserAccounts = (route) => {
 
   useEffect(() => {
     getUserDetail();
+    
   
   }, []);
 
@@ -56,6 +56,7 @@ const AllUserAccounts = (route) => {
               </View>
             )}
           />
+          
           
         </View>
       
