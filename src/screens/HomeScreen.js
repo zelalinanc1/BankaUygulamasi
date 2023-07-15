@@ -6,7 +6,7 @@ import firestore from '@react-native-firebase/firestore';
 import imgPlaceHolder from '../images/avatar.jpg';
 
 const HomeScreen = ({route, navigation}) => {
-  const {user,logout,getUserDetail,userId,userName,userLastName,userBirthday,userIdentity,userImage,userData,userAccounts} = useContext(AuthContext);
+  const {user,logout,getUserDetail,userName,userLastName,userBirthday,userIdentity,userImage,accountTransactions} = useContext(AuthContext);
 
   
 
@@ -16,7 +16,7 @@ const HomeScreen = ({route, navigation}) => {
   }, []);
 
   //console.log(userAccounts[1].accountDetailName);
-
+  
 
   return (
     <View style={styles.container}>
@@ -50,17 +50,17 @@ const HomeScreen = ({route, navigation}) => {
         <Text style={styles.navButtonText}>Hesap Oluştur</Text>
       </TouchableOpacity>
 
-       <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.forgotButton}
         onPress={() => navigation.navigate('AllUserAccounts')}>
         <Text style={styles.navButtonText}>Tüm Hesapları Gör</Text>
-      </TouchableOpacity> 
+      </TouchableOpacity> */}
 
-      {/* <TouchableOpacity
+       <TouchableOpacity
         style={styles.forgotButton}
         onPress={() => navigation.navigate('DenemePage')}>
         <Text style={styles.navButtonText}>Deneme Page</Text>
-      </TouchableOpacity> */}
+      </TouchableOpacity> 
 
       <TouchableOpacity
         style={styles.forgotButton}

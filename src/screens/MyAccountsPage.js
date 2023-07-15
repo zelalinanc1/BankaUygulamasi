@@ -5,9 +5,10 @@ import {
   SafeAreaView,
   Image,
   TouchableOpacity,
+  Modal,
   StyleSheet,
 } from 'react-native';
-import React, {useContext,useEffect} from 'react';
+import React, {useContext,useEffect,useState} from 'react';
 import wallet from '../images/wallet.png';
 import { useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -15,6 +16,7 @@ import {AuthContext} from '../navigation/AuthProvider';
 import {LIGHTGREY, LIGHTBLACK} from '../constants/Colors';
 import imgPlaceHolder from '../images/avatar.jpg';
 import WalletCoinCard from '../components/WalletCoinCard';
+import UserAccounts from '../components/UserAccounts';
 
 const MyAccountsPage = props => {
   const {userImage,getUserDetail,userAccounts} = useContext(AuthContext);
@@ -23,6 +25,7 @@ const MyAccountsPage = props => {
 
   useEffect(() => {
     getUserDetail();
+   
   
   }, []);
 
@@ -30,7 +33,6 @@ const MyAccountsPage = props => {
 
   let accountCount = userAccounts[0].currencyCount;
 
-  console.log(userAccounts != null ? "bos degul" : "bos");
  
   return (
     <View
@@ -66,7 +68,6 @@ const MyAccountsPage = props => {
         
         : (<Text>Selammmmm</Text>) }
 
-    
       </View>
       </View>
     </View>

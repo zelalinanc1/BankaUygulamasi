@@ -233,7 +233,7 @@ export const AuthProvider = ({children}) => {
           fromCurrencykeys.forEach(element => {
             
             if (element == 'currencyCount') {
-              valueOfFromCurrency[element] += parseFloat(currencyFromAmount);
+              valueOfFromCurrency[element] += parseFloat(currencyFromAmount).toFixed(2);
             }
           });
 
@@ -310,9 +310,9 @@ export const AuthProvider = ({children}) => {
   
               tempAccountTransactions.push({
               accountCurrencyToChoise: accountCurrencyToChoise,
-              currencyToAmount:parseFloat(currencyToAmount),
+              currencyToAmount:parseFloat(currencyToAmount).toFixed(2),
               accountCurrencyFromChoise:accountCurrencyFromChoise,
-              currencyFromAmount:parseFloat(currencyFromAmount),
+              currencyFromAmount:parseFloat(currencyFromAmount).toFixed(2),
               date:dateVal
              
             });
