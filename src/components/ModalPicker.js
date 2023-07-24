@@ -1,6 +1,7 @@
 import { StyleSheet,View, Text,TouchableOpacity,Dimensions,ScrollView } from 'react-native'
 import React, {useContext,useEffect,useState} from 'react';
 import { AuthContext } from '../navigation/AuthProvider';
+import Transactions from './Transactions';
 
 
 const WIDTH =Dimensions.get('window').width;
@@ -9,11 +10,15 @@ const HEIGHT =Dimensions.get('window').height;
 
 const ModalPicker = (props) => {
 
-  const {userAccounts} = useContext(AuthContext);
+  const {userAccounts,getTransactionsByIban} = useContext(AuthContext);
 
     const onPressItem = (option) => {
         props.changeModalVisibility(false);
         props.setData(option);
+        
+     
+      
+      
 
     }
 
@@ -29,6 +34,7 @@ const ModalPicker = (props) => {
             <Text  style={styles.text} >{item.accountDetailName}</Text>
 
         </TouchableOpacity>
+       
     )
   })
 
@@ -42,7 +48,9 @@ const ModalPicker = (props) => {
             {option}
         </ScrollView>
         </View> 
+       
     </TouchableOpacity>
+    
   )
 }
 

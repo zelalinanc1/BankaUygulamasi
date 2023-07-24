@@ -21,6 +21,8 @@ export const AuthProvider = ({children}) => {
   const [accountCurrencyType, setAccountCurrencyType] = useState('');
   const [userData, setUserData] = useState(null);
 
+ 
+
 
   //let accounts = [];
 
@@ -122,6 +124,7 @@ export const AuthProvider = ({children}) => {
               }
             });
         },
+    
         getUserAccountsCurrencyType: currencyType => {
           {
             function getIndex(currencyType) {
@@ -136,6 +139,26 @@ export const AuthProvider = ({children}) => {
           data = getIndex(currencyType);
 
           return data;
+        },
+        getTransactionsByIban: accountIban => {
+
+          {
+            function getIndex(accountIban) {
+              return accountTransactions.filter(
+                obj => obj.accountCurrencyToChoise === accountIban,
+              );
+            }
+          }
+
+          let data = [];
+
+          data = getIndex(accountIban);
+
+          //console.log(data);
+
+          return data;
+
+
         },
 
        
@@ -178,7 +201,7 @@ export const AuthProvider = ({children}) => {
           keys.forEach(element => {
             
             if (element == 'currencyCount') {
-              deneme[element] =  (deneme[element] - (currencyToAmount)).toFixed(2);
+              deneme[element] =  Number(deneme[element] - (currencyToAmount));
             }
           });
 
@@ -233,7 +256,7 @@ export const AuthProvider = ({children}) => {
           fromCurrencykeys.forEach(element => {
             
             if (element == 'currencyCount') {
-              valueOfFromCurrency[element] += parseFloat(currencyFromAmount).toFixed(2);
+              valueOfFromCurrency[element] += Number(currencyFromAmount);
             }
           });
 
@@ -275,8 +298,6 @@ export const AuthProvider = ({children}) => {
             accountNumber: accountNumber,
             accountIban: accountIban,
             currencyCount: parseFloat(currencyCount),
-            //currencyCount: Number(currencyCount),
-            //value.toFixed(2);
             accountDetailName:
               accountIban + ' ' + branchName + ' ' + currencyType,
           });
@@ -310,9 +331,9 @@ export const AuthProvider = ({children}) => {
   
               tempAccountTransactions.push({
               accountCurrencyToChoise: accountCurrencyToChoise,
-              currencyToAmount:parseFloat(currencyToAmount).toFixed(2),
+              currencyToAmount:Number(currencyToAmount).toFixed(2),
               accountCurrencyFromChoise:accountCurrencyFromChoise,
-              currencyFromAmount:parseFloat(currencyFromAmount).toFixed(2),
+              currencyFromAmount:Number(currencyFromAmount).toFixed(2),
               date:dateVal
              
             });

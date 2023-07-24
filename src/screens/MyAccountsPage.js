@@ -7,33 +7,40 @@ import {
   TouchableOpacity,
   Modal,
   StyleSheet,
+  Dimensions,
 } from 'react-native';
-import React, {useContext,useEffect,useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import wallet from '../images/wallet.png';
-import { useNavigation} from '@react-navigation/native';
+import {useRoute, useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {AuthContext} from '../navigation/AuthProvider';
 import {LIGHTGREY, LIGHTBLACK} from '../constants/Colors';
 import imgPlaceHolder from '../images/avatar.jpg';
 import WalletCoinCard from '../components/WalletCoinCard';
-import UserAccounts from '../components/UserAccounts';
+import CustomCard from '../components/CustomCard';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+const windowHeight = Dimensions.get('window').height;
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import TopCard from '../components/TopCard';
 
 const MyAccountsPage = props => {
-  const {userImage,getUserDetail,userAccounts} = useContext(AuthContext);
+  const {
+    userImage,
+    getUserDetail,
+    userAccounts,
+    getTransactionsByIban,
+    getFirstUserDetail,
+  } = useContext(AuthContext);
 
   const navigation = useNavigation();
 
   useEffect(() => {
-    getUserDetail();
+    
+   getUserDetail();
    
+  }, [])
   
-  }, []);
 
-  let firstAccountDetail = userAccounts[0].accountNumber + " - " + userAccounts[0].branchName;
-
-  let accountCount = userAccounts[0].currencyCount;
-
- 
   return (
     <View
       style={{
@@ -61,14 +68,26 @@ const MyAccountsPage = props => {
           </View>
         </View>
       </View>
-      <View style={{marginHorizontal:20,marginTop: -55}}>
-      <View>
-        {userAccounts != null ? 
-          (<WalletCoinCard item={{name:firstAccountDetail,accountCount:accountCount}}/>)
-        
-        : (<Text>Selammmmm</Text>) }
-
-      </View>
+      <View style={{marginHorizontal: 20, marginTop: -55}}>
+        <View>
+          {userAccounts != null ? (
+            <WalletCoinCard
+              item={{
+                name:
+                  userAccounts[0].accountNumber +
+                  ' - ' +
+                  userAccounts[0].branchName,
+                accountCount: userAccounts[0].currencyCount,
+              }}
+            />
+          ) : (
+            <View>
+              <CustomCard style={styles.container}>
+               <TopCard/>
+              </CustomCard>
+            </View>
+          )}
+        </View>
       </View>
     </View>
   );
@@ -76,12 +95,17 @@ const MyAccountsPage = props => {
 
 export default MyAccountsPage;
 const styles = StyleSheet.create({
-  
-  col:{
-    flexDirection:'row',
-    marginTop:25,
-    marginHorizontal:20,
-    alignItems:'center',
+  col: {
+    flexDirection: 'row',
+    marginTop: 25,
+    marginHorizontal: 20,
+    alignItems: 'center',
     backgroundColor: '#009142',
-},
+  },
+  container: {
+    padding: 20,
+    backgroundColor: '#fff',
+    borderRadius: 15,
+    height: 170,
+  },
 });

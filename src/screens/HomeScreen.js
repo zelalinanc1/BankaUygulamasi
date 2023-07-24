@@ -12,7 +12,7 @@ const HomeScreen = ({route, navigation}) => {
 
   useEffect(() => {
     getUserDetail();
-  
+   
   }, []);
 
   //console.log(userAccounts[1].accountDetailName);

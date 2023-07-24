@@ -17,6 +17,7 @@ const currencyData = [
   {label: 'EUR-Euro', value: 'EUR-Euro'},
   {label: 'GBP-İngiliz Sterlini', value: 'GBP-İngiliz Sterlini'},
   {label: 'CHF-İsviçre Frangı', value: 'CHF-İsviçre Frangı'},
+  {label: 'JPY-Japon Yeni', value: 'JPY-Japon Yeni'},
 ];
 
 const branchNameData = [

@@ -12,13 +12,24 @@ import {GREEN, LIGHTGREY, LIGHTBLACK} from '../constants/Colors';
 import {useRoute, useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import ModalPicker from './ModalPicker';
+import {AuthContext} from '../navigation/AuthProvider';
+import Transactions from './Transactions';
+import TopCard from './TopCard';
+
 
 const WalletCoinCard = props => {
+
+  const nav = useNavigation();
+
+  const {userAccounts,getTransactionsByIban,accountTransactions} = useContext(AuthContext);
+
+  //let val = getTransactionsByIban(userAccounts[0].accountIban);
+
   const route = useRoute();
 
   const params = route.params;
 
-  let {name, accountCount} =
+  let {name, accountCount,iban} =
     typeof props.item == 'undefined' ? params : props.item;
 
    
@@ -30,12 +41,16 @@ const WalletCoinCard = props => {
     setisModalVisible(bool);
   };
 
+
   const setData = option => {
     setchooseData(option);
+    
   };
 
  
+
   return (
+    <View>
     <CustomCard style={styles.container}>
       <View
         style={{
@@ -71,6 +86,7 @@ const WalletCoinCard = props => {
             <ModalPicker
               changeModalVisibility={changeModalVisibility}
               setData={setData}
+          
             />
           </Modal>
         </View>
@@ -101,14 +117,19 @@ const WalletCoinCard = props => {
         }}>
            {chooseData.length == 0 ? accountCount : chooseData.currencyCount}
       </Text>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          marginBottom: 20,
-          height: 20,
-        }}></View>
+      
+        <TopCard/>
+        
     </CustomCard>
+    <View>
+    {accountTransactions != null ? 
+          ( <Transactions item={{ibanVal:getTransactionsByIban(chooseData.accountIban),firstVal:getTransactionsByIban(userAccounts[0].accountIban)}}/>)
+        
+        : (<Text>Selammmmm</Text>) }
+   
+    </View>
+    </View>
+    
   );
 };
 
