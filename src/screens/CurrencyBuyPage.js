@@ -75,7 +75,7 @@ const CurrencyTradePage = props => {
 
       getToCurrencyTransaction(accountCurrencyToChoise, currencyToAmount);
       getFromCurrencyTransaction(accountCurrencyFromChoise, currencyFromAmount);
-      addAccountTransactions(accountCurrencyToChoise, currencyToAmount,accountCurrencyFromChoise, currencyFromAmount);
+      addAccountTransactions(accountCurrencyToChoise, currencyToAmount,accountCurrencyFromChoise, currencyFromAmount,fromCurrency,toCurrency);
      nav.navigate("Home");
    // await addAccountTransactions(accountCurrencyToChoise, currencyToAmount,accountCurrencyFromChoise, currencyFromAmount);
   };
@@ -99,6 +99,7 @@ const CurrencyTradePage = props => {
     let resulmultiplication = multiplication(price, currencyAmount);
     setCurrencyToAmount(resulmultiplication);
   };
+  
 
   return (
     <View style={styles.container}>
@@ -159,6 +160,7 @@ const CurrencyTradePage = props => {
           setIsFocus(false);
         }}
       />
+     
      
       <Text>accountCurrencyFromChoise {currencyCountFromAmount}</Text>
     

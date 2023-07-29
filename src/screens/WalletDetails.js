@@ -10,14 +10,9 @@ import {
 } from 'react-native';
 import React from 'react';
 import WalletCoinCard from '../components/WalletCoinCard';
-import CoinCard from '../components/CoinCard';
 import Icon from 'react-native-vector-icons/Ionicons';
-import bitcoin from '../images/bitcoin.png';
-import ripple from '../images/ripple.png';
-import etherium from '../images/etherium.png';
 import {useRoute, useNavigation} from '@react-navigation/native';
 import CTACard from '../components/CTACard';
-
 import {LIGHTGREY, LIGHTBLACK} from '../constants/Colors';
 
 const WalletDetails = props => {

@@ -6,26 +6,36 @@ import {
   FlatList,
   Dimensions,
   Pressable,
+  TextInput,
+  Image,
+  TouchableHighlight,
 } from 'react-native';
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext, useState, useEffect, useRef} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {addToCart, removeFromCart} from '../components/CartReducer';
 import {AuthContext} from '../navigation/AuthProvider';
+import Search from '../images/search.png';
+import Close from '../images/close.png';
 
 import {LIGHTGREY, LIGHTBLACK} from '../constants/Colors';
-
 
 const DenemePage = route => {
   const nav = useNavigation();
 
-  const {getUserAccountsCurrencyType,userAccounts} = useContext(AuthContext);
+  const {getUserAccountsCurrencyType, userAccounts} = useContext(AuthContext);
 
   const [currencyList, setCurrencyList] = useState();
 
-  let fromCurr = ['USD', 'EUR'];
-  let toCurrs = ['TRY', 'JPY'];
+  const [oldData, setOldData] = useState();
+  const searchRef = useRef();
+
+  const [search, setSearch] = useState('');
+
+  let fromCurr = ['USD', 'EUR', 'AUD', 'CHF'];
+  let toCurrs = ['TRY', 'JPY', 'CAD'];
 
   const cart = useSelector(state => state.cart.cart);
 
@@ -38,23 +48,19 @@ const DenemePage = route => {
     dispatch(removeFromCart(item));
   };
 
-  const findIsAccounts = (fromCurrency,toCurrency,price) => {
+  const findIsAccounts = (fromCurrency, toCurrency, price) => {
     let findIsFromAccount = getUserAccountsCurrencyType(fromCurrency);
     let findIsToAccount = getUserAccountsCurrencyType(toCurrency);
 
-    findIsFromAccount.length === 0 || findIsToAccount.length ===0 ? console.log("Array is empty!") 
-    
-    : nav.navigate('CurrencyBuyPage', {
-      name: fromCurrency,
-      toCurrency: toCurrency,
-      fromCurrency: fromCurrency,
-      price: price,
-    })
-
-  }
-
-  
-
+    findIsFromAccount.length === 0 || findIsToAccount.length === 0
+      ? console.log('Array is empty!')
+      : nav.navigate('CurrencyBuyPage', {
+          name: fromCurrency,
+          toCurrency: toCurrency,
+          fromCurrency: fromCurrency,
+          price: price,
+        });
+  };
 
   const getDataFromApiAsync = async () => {
     try {
@@ -64,19 +70,19 @@ const DenemePage = route => {
           '&tsyms=' +
           toCurrs,
       );
-      let index =0;
+      let index = 0;
       const json = await response.json();
       var Output = Object.entries(json).flatMap(([fromCurrency, values]) =>
         Object.entries(values).map(([toCurrency, price]) => ({
           fromCurrency,
           toCurrency,
           price,
-          id:index++
-      
+          id: index++,
         })),
       );
 
       setCurrencyList(Output);
+      setOldData(Output);
       console.log(Output);
       return json;
     } catch (error) {
@@ -84,8 +90,26 @@ const DenemePage = route => {
     }
   };
 
-  useFocusEffect(
+  const searchFilterFunction = text => {
+    // Check if searched text is not blank
+    if (text !== '') {
+      let tempData = currencyList.filter(item => {
+        return (
+          item.fromCurrency.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
+          item.toCurrency.toLowerCase().indexOf(text.toLowerCase()) > -1
+        );
+      });
+      setCurrencyList(tempData);
+    } else {
+      setCurrencyList(oldData);
+    }
+  };
 
+  var hours = new Date().getHours();
+  var min = new Date().getMinutes();
+  //console.log(hours + ':' + min);
+
+  useFocusEffect(
     React.useCallback(() => {
       getDataFromApiAsync();
       let interval = setInterval(() => {
@@ -104,114 +128,136 @@ const DenemePage = route => {
         <Text style={{fontSize: 25, fontWeight: '500', color: LIGHTBLACK}}>
           Döviz Kurları
         </Text>
-
-        <TouchableOpacity>
-          <Icon name="wallet" size={26} color={LIGHTGREY} />
-        </TouchableOpacity>
       </View>
       <View style={{marginHorizontal: 20}}>
-        <View>
-          <TouchableOpacity
-            style={styles.forgotButton}
-            onPress={() =>
-              nav.navigate('FavoriteCurrencyPageScreen', {
-                data: cart,
-              })
-            }>
-            <Text style={styles.navButtonText}>Favori Döviz Kurlarını Gör</Text>
-          </TouchableOpacity>
-        </View>
         <View
           style={{
-            marginTop: 10,
-            backgroundColor: '#F5F8FF',
-            overflow: 'hidden',
-            marginBottom: 100,
-          }}>
-          <FlatList
-            data={currencyList}
-            style={{height: Dimensions.get('window').height / 2}}
-            ItemSeparatorComponent={() => (
-              <View style={{marginVertical: 8}}></View>
-            )}
-            renderItem={({item}) => (
-              <View>
-                <Pressable
-                  onPress={() =>findIsAccounts(item.fromCurrency,item.toCurrency,item.price)
-                  }>
-                  <Text
-                    style={{
-                      borderColor: 'gray',
-                      borderWidth: 1,
-                      marginVertical: 10,
-                      padding: 5,
-                    }}>
-                    AL CURRENCY TRADE
-                  </Text>
-                </Pressable>
-                <Pressable
-                  onPress={() =>findIsAccounts(item.fromCurrency,item.toCurrency,item.price)
-                  }>
-                  <Text
-                    style={{
-                      borderColor: 'gray',
-                      borderWidth: 1,
-                      marginVertical: 10,
-                      padding: 5,
-                    }}>
-                    SAT CURRENCY TRADE
-                  </Text>
-                </Pressable>
-                {cart.some(value => value.id == item.id) ? (
-                  <Pressable onPress={() => removeItemFromCart(item)}>
-                    <Text
-                      style={{
-                        borderColor: 'gray',
-                        borderWidth: 1,
-                        marginVertical: 10,
-                        padding: 5,
-                      }}>
-                      REMOVE FROM CART
-                    </Text>
-                    <Text>{item.fromCurrency}</Text>
-                    <Text>{item.toCurrency}</Text>
-                    <Text>{item.price}</Text>
-                  </Pressable>
-                ) : (
-                  <Pressable onPress={() => addItemToCart(item)}>
-                    <Text
-                      style={{
-                        borderColor: 'gray',
-                        borderWidth: 1,
-                        marginVertical: 10,
-                        padding: 5,
-                      }}>
-                      ADD TO CART
-                    </Text>
-                    <Text>{item.fromCurrency}</Text>
-                    <Text>{item.toCurrency}</Text>
-                    <Text>{item.price}</Text>
-                  </Pressable>
-                )}
-              </View>
-            )}
-            keyExtractor={item => item.id}
-          />
-        </View>
-      </View>
-      <View style={styles.footer}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
             width: '100%',
-            paddingBottom: 40,
+            height: 50,
+            borderRadius: 10,
+            borderWidth: 0.2,
+
+            flexDirection: 'row',
+            alignItems: 'center',
           }}>
-          <Icon name="wallet" size={28} color={LIGHTBLACK} />
-          <Icon name="compass" size={28} color={LIGHTGREY} />
-          <Icon name="notifications" size={28} color={LIGHTGREY} />
-          <Icon name="settings-sharp" size={28} color={LIGHTGREY} />
+          <Image
+            source={Search}
+            style={{width: 24, height: 24, marginLeft: 15, opacity: 0.5}}
+          />
+          <TextInput
+            ref={searchRef}
+            placeholder="Döviz ara..."
+            style={{width: '76%', height: 50}}
+            value={search}
+            onChangeText={txt => {
+              searchFilterFunction(txt);
+              setSearch(txt);
+            }}
+          />
+          {search == '' ? null : (
+            <TouchableOpacity
+              style={{marginRight: 15}}
+              onPress={() => {
+                searchRef.current.clear();
+                searchFilterFunction('');
+                setSearch('');
+              }}>
+              <Image
+                source={Close}
+                style={{width: 16, height: 16, opacity: 0.5}}
+              />
+            </TouchableOpacity>
+          )}
         </View>
+        <View style={{ height: 10,}}/>
+        
+        <View
+                  style={{
+                    width: '100%',
+                    height: 40,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}>
+                    <Text style={{marginLeft: 181}}>AL</Text>
+                    <Text style={{marginRight: 30}}>SAT</Text>
+                    </View>
+                    <View
+              style={{
+                height: 1,
+                width: '100%',
+                backgroundColor: '#CCC',
+              }}></View>
+              <View style={{ height: 10,}}/>
+       
+        <FlatList
+          data={currencyList}
+         
+          ItemSeparatorComponent={() => (
+            <View
+              style={{
+                height: 1,
+                width: '100%',
+                backgroundColor: '#CCC',
+              }}></View>
+          )}
+          showsVerticalScrollIndicator={false}
+          renderItem={({item, index}) => {
+            return (
+              <View
+                style={{
+                  backgroundColor: 'white',
+                  marginBottom: index == currencyList.length - 1 ? 20 : 0,
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                }}>
+                <View
+                  style={{
+                    width: '100%',
+                    height: 70,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}>
+                  <Text
+                    style={{fontWeight: '600', marginLeft: 10, marginTop: 10}}>
+                    {item.fromCurrency.substring(0, 30)} /{' '}
+                    {item.toCurrency.substring(0, 50)}
+                  </Text>
+
+                  <Pressable
+                    style={({pressed}) => [
+                      {backgroundColor: pressed ? 'blue' : 'white'},
+                      styles.button,
+                    ]}
+                    onPress={() =>
+                      findIsAccounts(
+                        item.fromCurrency,
+                        item.toCurrency,
+                        item.price,
+                      )
+                    }>
+                    <Text style={styles.text}>{item.price}</Text>
+                  </Pressable>
+
+                 
+                  <Pressable
+                    style={({pressed}) => [
+                      {backgroundColor: pressed ? 'blue' : 'white'},
+                      styles.button,
+                    ]}
+                    onPress={() =>
+                      findIsAccounts(
+                        item.fromCurrency,
+                        item.toCurrency,
+                        item.price,
+                      )
+                    }>
+                    <Text style={styles.text}>{item.price}</Text>
+                  </Pressable>
+                </View>
+              </View>
+            );
+          }}
+        />
       </View>
     </View>
   );
@@ -229,19 +275,52 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 20,
   },
-  filters: {
-    flexDirection: 'row',
+
+  currView: {
     marginTop: 10,
-    marginHorizontal: 5,
-    justifyContent: 'space-between',
+    backgroundColor: '#F5F8FF',
+    marginBottom: 100,
   },
-  footer: {
+  textView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginHorizontal: 5,
+  },
+  headerView: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    //paddingHorizontal: 12,
+    paddingTop: 10,
+    //paddingBottom: 10,
+  },
+  headerText: {
+    marginRight: 45,
+    marginHorizontal: 45,
+  },
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 80,
+    height: 40,
+    marginLeft: 10, marginTop: 10,
+    borderColor: '#2596be',
+    //paddingVertical: 12,
+    //paddingHorizontal: 12,
+    borderRadius: 4,
+    elevation: 3,
+  },
+  alSat: {
+    top: -18,
+    textAlign: 'left',
+    left: 204,
     position: 'absolute',
-    left: 1,
-    right: 1,
-    bottom: 0,
-    backgroundColor: '#fff',
-    paddingHorizontal: 25,
-    paddingTop: 20,
+    color: 'black',
+  },
+  text: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'black',
   },
 });

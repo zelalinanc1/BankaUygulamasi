@@ -21,9 +21,7 @@ const WalletCoinCard = props => {
 
   const nav = useNavigation();
 
-  const {userAccounts,getTransactionsByIban,accountTransactions} = useContext(AuthContext);
-
-  //let val = getTransactionsByIban(userAccounts[0].accountIban);
+  const {userAccounts,getTransactionsByIban,accountTransactions,getLastTransactionsByIban} = useContext(AuthContext);
 
   const route = useRoute();
 
@@ -47,7 +45,6 @@ const WalletCoinCard = props => {
     
   };
 
- 
 
   return (
     <View>
@@ -115,7 +112,7 @@ const WalletCoinCard = props => {
           fontSize: 12,
           fontFamily: 'RopaSans-Regular',
         }}>
-           {chooseData.length == 0 ? accountCount : chooseData.currencyCount}
+           {chooseData.length == 0 ? accountCount : chooseData.currencyCount.toFixed(2)}
       </Text>
       
         <TopCard/>
@@ -123,7 +120,7 @@ const WalletCoinCard = props => {
     </CustomCard>
     <View>
     {accountTransactions != null ? 
-          ( <Transactions item={{ibanVal:getTransactionsByIban(chooseData.accountIban),firstVal:getTransactionsByIban(userAccounts[0].accountIban)}}/>)
+          ( <Transactions item={{ibanNo:chooseData.accountIban}}/>)
         
         : (<Text>Selammmmm</Text>) }
    

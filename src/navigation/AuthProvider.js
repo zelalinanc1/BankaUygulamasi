@@ -126,17 +126,17 @@ export const AuthProvider = ({children}) => {
         },
     
         getUserAccountsCurrencyType: currencyType => {
-          {
+          
             function getIndex(currencyType) {
               return userAccounts.filter(
-                obj => obj.currencyType.split('-')[0] === currencyType,
+                obj =>  obj.currencyType?.split('-')[0] === currencyType,
               );
             }
-          }
 
           let data = [];
 
           data = getIndex(currencyType);
+
 
           return data;
         },
@@ -145,7 +145,7 @@ export const AuthProvider = ({children}) => {
           {
             function getIndex(accountIban) {
               return accountTransactions.filter(
-                obj => obj.accountCurrencyToChoise === accountIban,
+                obj => obj.accountCurrencyToChoise === accountIban || obj.accountCurrencyFromChoise === accountIban,
               );
             }
           }
@@ -154,9 +154,25 @@ export const AuthProvider = ({children}) => {
 
           data = getIndex(accountIban);
 
-          //console.log(data);
-
           return data;
+
+
+        },
+        getLastTransactionsByIban: accountIban => {
+
+          {
+            function getIndex(accountIban) {
+              return accountTransactions.filter(
+                obj => obj.accountCurrencyToChoise === accountIban || obj.accountCurrencyFromChoise === accountIban,
+              );
+            }
+          }
+
+          let data = [];
+
+          data = getIndex(accountIban);
+          
+          return data[data.length-1];
 
 
         },
@@ -315,6 +331,7 @@ export const AuthProvider = ({children}) => {
           currencyToAmount,
           accountCurrencyFromChoise, 
           currencyFromAmount,
+          fromCurrency,toCurrency
            ) => {
 
             var cdate =  new Date(); 
@@ -331,6 +348,8 @@ export const AuthProvider = ({children}) => {
   
               tempAccountTransactions.push({
               accountCurrencyToChoise: accountCurrencyToChoise,
+              fromCurrency:fromCurrency,
+              toCurrency:toCurrency,
               currencyToAmount:Number(currencyToAmount).toFixed(2),
               accountCurrencyFromChoise:accountCurrencyFromChoise,
               currencyFromAmount:Number(currencyFromAmount).toFixed(2),

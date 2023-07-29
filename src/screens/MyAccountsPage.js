@@ -28,8 +28,6 @@ const MyAccountsPage = props => {
     userImage,
     getUserDetail,
     userAccounts,
-    getTransactionsByIban,
-    getFirstUserDetail,
   } = useContext(AuthContext);
 
   const navigation = useNavigation();
