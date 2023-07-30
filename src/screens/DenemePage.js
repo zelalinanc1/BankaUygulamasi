@@ -52,14 +52,30 @@ const DenemePage = route => {
     let findIsFromAccount = getUserAccountsCurrencyType(fromCurrency);
     let findIsToAccount = getUserAccountsCurrencyType(toCurrency);
 
-    findIsFromAccount.length === 0 || findIsToAccount.length === 0
-      ? console.log('Array is empty!')
-      : nav.navigate('CurrencyBuyPage', {
-          name: fromCurrency,
-          toCurrency: toCurrency,
-          fromCurrency: fromCurrency,
-          price: price,
-        });
+   if(findIsFromAccount.length != 0 && findIsToAccount.length != 0){
+    nav.navigate('CurrencyBuyPage', {
+      name: fromCurrency,
+      toCurrency: toCurrency,
+      fromCurrency: fromCurrency,
+      price: price,
+    })
+   }else if( findIsFromAccount.length === 0){
+    nav.navigate('NewAccountsScreen',{accountName:fromCurrency})
+   }else if(findIsToAccount.length === 0){
+    nav.navigate('NewAccountsScreen',{accountName:toCurrency})
+   }
+   else {
+    nav.navigate('NewAccountsScreen',{accountName:toCurrency})
+   }
+
+        // findIsFromAccount.length === 0 || findIsToAccount.length === 0
+        // ? nav.navigate('NewAccountsScreen')
+        // : nav.navigate('CurrencyBuyPage', {
+        //     name: fromCurrency,
+        //     toCurrency: toCurrency,
+        //     fromCurrency: fromCurrency,
+        //     price: price,
+        //   });
   };
 
   const getDataFromApiAsync = async () => {

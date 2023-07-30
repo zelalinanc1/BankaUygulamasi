@@ -122,7 +122,30 @@ const WalletCoinCard = props => {
     {accountTransactions != null ? 
           ( <Transactions item={{ibanNo:chooseData.accountIban}}/>)
         
-        : (<Text>Selammmmm</Text>) }
+        : ( <View style={{marginTop:30}}>
+          <View style={{flexDirection: 'row'}}>
+            <Text
+              style={{
+                fontWeight: 'bold',
+                fontFamily: 'OpenSans-Regular',
+                color: '#000',
+              }}>
+              Son Hareket{' '}
+            </Text>
+          </View>
+          <View style={{height: 18}} />
+          <View
+            style={{
+              marginStart: -17,
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <Text style={{paddingLeft: 17}}>
+              Bu hesabınızda henüz hareketiniz bulunmuyor.
+            </Text>
+          </View>
+          
+        </View>) }
    
     </View>
     </View>

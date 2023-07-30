@@ -81,7 +81,32 @@ const MyAccountsPage = props => {
           ) : (
             <View>
               <CustomCard style={styles.container}>
+                <Text>Hoş Geldin!</Text>
                <TopCard/>
+               <View style={{marginTop:40}}>
+          <View style={{flexDirection: 'row'}}>
+            <Text
+              style={{
+                fontWeight: 'bold',
+                fontFamily: 'OpenSans-Regular',
+                color: '#000',
+              }}>
+              Son Hareket{' '}
+            </Text>
+          </View>
+          <View style={{height: 18}} />
+          <View
+            style={{
+              marginStart: -17,
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <Text style={{paddingLeft: 17}}>
+             Lütfen hesap oluşturunuz.
+            </Text>
+          </View>
+          
+        </View>
               </CustomCard>
             </View>
           )}

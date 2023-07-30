@@ -30,7 +30,7 @@ const Transactions =props  => {
 
   let val= getLastTransactionsByIban(ibanNo)
 
-  console.log(val)
+ 
   
 
 

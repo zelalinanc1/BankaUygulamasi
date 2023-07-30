@@ -13,7 +13,7 @@ const TransactionsDetail = props => {
 
     let {transactions} = typeof props.item == 'undefined' ? params : props.item;
 
-    //console.log(transactions)
+   
   
 
   return (

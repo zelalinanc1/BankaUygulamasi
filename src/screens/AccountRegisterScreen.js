@@ -6,6 +6,9 @@ import firestore from '@react-native-firebase/firestore';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 
+import Icon from 'react-native-vector-icons/Fontisto';
+import turkishlira from '../images/turkishlira.jpg';
+
 const accountTypeData = [
   {label: 'vadeli', value: 'vadeli'},
   {label: 'vadesiz', value: 'vadesiz'},
@@ -39,9 +42,8 @@ const AccountRegisterScreen = ({navigation, route}) => {
 
   const [branchName, setBranchName] = useState(null);
 
-  const [accountDetailName, setAccountDetailName] = useState(null);
 
-  const {logout,addCollectionAccounts} = useContext(AuthContext);
+  const {addCollectionAccounts} = useContext(AuthContext);
 
   const [error, setError] = useState('');
 
@@ -57,7 +59,7 @@ const AccountRegisterScreen = ({navigation, route}) => {
 
   const isValidForm = () => {
     if (!accountType || !branchName || !currencyType || !currencyCount)
-      return updateError('Lütfen alanları doldurunuz!', setError);
+      return updateError('Lütfen tüm alanları doldurunuz!', setError);
 
     return true;
   };
@@ -74,10 +76,7 @@ const AccountRegisterScreen = ({navigation, route}) => {
         
       );
     }
-
-   navigation.navigate('Home');
-
-   
+    navigation.navigate("Home")
   };
 
   useEffect(() => {
@@ -94,11 +93,10 @@ const AccountRegisterScreen = ({navigation, route}) => {
 
   return (
     <View style={styles.container}>
-      {error ? <Text>{error}</Text> : null}
-      <Text>{accountType}</Text>
-
+      {error ? <Text style={{color: '#2e64e5',paddingHorizontal:10}}>{error}</Text> : null}
+    
       <Dropdown
-        style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
+        style={[styles.dropdown, isFocus ]}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
@@ -117,10 +115,10 @@ const AccountRegisterScreen = ({navigation, route}) => {
           setAccountType(item.value);
           setIsFocus(false);
         }}
+        
       />
-      <Text>{currencyType}</Text>
       <Dropdown
-        style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
+        style={[styles.dropdown]}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
@@ -140,9 +138,8 @@ const AccountRegisterScreen = ({navigation, route}) => {
           setIsFocus(false);
         }}
       />
-      <Text>{branchName}</Text>
       <Dropdown
-        style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
+        style={[styles.dropdown, isFocus]}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
@@ -162,23 +159,19 @@ const AccountRegisterScreen = ({navigation, route}) => {
           setIsFocus(false);
         }}
       />
-
+     <View style={styles.searchSection}>
       <FormInput
         labelValue={currencyCount}
-        onChangeText={userCurrencyCount => setCurrencyCount(userCurrencyCount)}
+        keyboardType = 'numeric'
+        onChangeText={userCurrencyCount => setCurrencyCount(userCurrencyCount.replace(/[^0-9]/g, ''))}
         placeholderText="Miktar"
         secureTextEntry={false}
+        
       />
-
-      <TouchableOpacity
-        style={styles.forgotButton}
-        onPress={onAccountSubmitForm}>
-        <Text style={styles.navButtonText}>Kaydet</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.forgotButton} onPress={() => logout()}>
-        <Text style={styles.navButtonText}>Çıkış Yap</Text>
-      </TouchableOpacity>
+        <FormButton buttonTitle="Onay" onPress={onAccountSubmitForm} />
+      </View>
+      
+    
     </View>
   );
 };
@@ -187,18 +180,35 @@ export default AccountRegisterScreen;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    //backgroundColor: 'white',
     padding: 16,
   },
+  searchSection: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft:9
+    
+},
+searchIcon: {
+  padding: 10,
+},
   dropdown: {
+    margin:10,
     height: 50,
-    borderColor: 'gray',
+    backgroundColor: 'white',
+    borderColor: 'white',
+    borderBottomColor:'gray',
     borderWidth: 0.5,
-    borderRadius: 8,
     paddingHorizontal: 8,
   },
   icon: {
     marginRight: 5,
+  },
+  imageStyle: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
   },
   label: {
     position: 'absolute',
@@ -218,6 +228,7 @@ const styles = StyleSheet.create({
   iconStyle: {
     width: 20,
     height: 20,
+    
   },
   inputSearchStyle: {
     height: 40,

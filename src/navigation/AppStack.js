@@ -11,6 +11,7 @@ import DenemePage from '../screens/DenemePage';
 import CurrencyBuyPage from '../screens/CurrencyBuyPage';
 import AllAccountTransactions from '../screens/AllAccountTransactions';
 import MyAccountsPage from '../screens/MyAccountsPage';
+import NewAccountsScreen from '../screens/NewAccountsScreen';
 import {Provider} from 'react-redux'
 import store from '../components/store'
 
@@ -26,7 +27,7 @@ const AppStack = () => {
   }}>
     
     <Stack.Screen name='Home' component={HomeScreen} />
-    <Stack.Screen name='AccountRegisterScreen' component={AccountRegisterScreen}/>
+    <Stack.Screen name='AccountRegisterScreen' component={AccountRegisterScreen} options={{title:'Hesap Açılışı',headerShown: true,headerTintColor: 'white',headerStyle: {backgroundColor: '#009142'}}}/>
     <Stack.Screen name='AllUserAccounts' component={AllUserAccounts}/>
     <Stack.Screen name='DenemePage' component={DenemePage}/>
     <Stack.Screen name='AllCurrencyPage' component={AllCurrencyPage}/>
@@ -35,6 +36,8 @@ const AppStack = () => {
     <Stack.Screen name='CurrencyBuyPage' component={CurrencyBuyPage}/>
     <Stack.Screen name='MyAccountsPage' component={MyAccountsPage}/>
     <Stack.Screen name='AllAccountTransactions' component={AllAccountTransactions}/>
+    <Stack.Screen name='NewAccountsScreen' component={NewAccountsScreen} options={{title:'Alış/Satış',headerShown: true,headerTintColor: 'white',headerStyle: {backgroundColor: '#009142'}}}/>
+    
     
 
 
