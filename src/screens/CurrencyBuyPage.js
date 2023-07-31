@@ -15,6 +15,7 @@ import {CountdownCircleTimer} from 'react-native-countdown-circle-timer';
 import {useRoute, useNavigation} from '@react-navigation/native';
 import {AuthContext} from '../navigation/AuthProvider';
 import FormInput from '../components/FormInput';
+import FormButton from '../components/FormButton';
 
 const CurrencyTradePage = props => {
   const route = useRoute();
@@ -25,8 +26,6 @@ const CurrencyTradePage = props => {
     getFromCurrencyTransaction,
     addAccountTransactions,
     getUserDetail,
-    
-    
   } = useContext(AuthContext);
 
   const nav = useNavigation();
@@ -46,7 +45,7 @@ const CurrencyTradePage = props => {
 
   const [currencyToAmount, setCurrencyToAmount] = useState('');
 
-  let {name, price, toCurrency, fromCurrency} = route.params;
+  let { price, toCurrency, fromCurrency} = route.params;
 
   let valueOfFromCurrency = getUserAccountsCurrencyType(fromCurrency);
 
@@ -62,7 +61,6 @@ const CurrencyTradePage = props => {
     }
   };
 
-
   const işlemYap = () => {
     console.log('işlem yapılabilir');
     console.log('accountCurrencyToChoise  ' + accountCurrencyToChoise); //iban
@@ -73,23 +71,23 @@ const CurrencyTradePage = props => {
 
     //to eksi from artı
 
-      getToCurrencyTransaction(accountCurrencyToChoise, currencyToAmount);
-      getFromCurrencyTransaction(accountCurrencyFromChoise, currencyFromAmount);
-      addAccountTransactions(accountCurrencyToChoise, currencyToAmount,accountCurrencyFromChoise, currencyFromAmount,fromCurrency,toCurrency);
-     nav.navigate("Home");
-   // await addAccountTransactions(accountCurrencyToChoise, currencyToAmount,accountCurrencyFromChoise, currencyFromAmount);
+    getToCurrencyTransaction(accountCurrencyToChoise, currencyToAmount);
+    getFromCurrencyTransaction(accountCurrencyFromChoise, currencyFromAmount);
+    addAccountTransactions(
+      accountCurrencyToChoise,
+      currencyToAmount,
+      accountCurrencyFromChoise,
+      currencyFromAmount,
+      fromCurrency,
+      toCurrency,
+    );
+    nav.navigate('Home');
+    // await addAccountTransactions(accountCurrencyToChoise, currencyToAmount,accountCurrencyFromChoise, currencyFromAmount);
   };
-
- 
 
   useEffect(() => {
     getUserDetail();
-    
-  
   }, []);
-
- // console.log(parseFloat(currencyCountToAmount));
- 
 
   const handleCalculation = currencyAmount => {
     const multiplication = (num1, num2) => {
@@ -99,18 +97,39 @@ const CurrencyTradePage = props => {
     let resulmultiplication = multiplication(price, currencyAmount);
     setCurrencyToAmount(resulmultiplication);
   };
-  
 
   return (
     <View style={styles.container}>
-      <Text>Denemeess Alış Sayfası</Text>
-
-      <Text>
-        1 {fromCurrency} = {price} {toCurrency}{' '}
-      </Text>
-
+      <View style={styles.headerContainer}>
+        <Text>
+          1 {fromCurrency} = {price} {toCurrency}{' '}
+        </Text>
+        <View style={{height: 10}} />
+        <Text>Size özel döviz kurunuz 30 sn. sabitlenmiştir.</Text>
+        <View style={{height: 10}} />
+        <CountdownCircleTimer
+          isPlaying
+          duration={90}
+          colors="#004777"
+          onComplete={() => {
+            nav.navigate('Home');
+          }}
+          size={150}>
+          {({remainingTime}) => (
+            <View
+              style={{
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Text>Kalan Süre </Text>
+              <Text>{remainingTime}</Text>
+            </View>
+          )}
+        </CountdownCircleTimer>
+      </View>
       <Dropdown
-        style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
+        style={[styles.dropdown, isFocus]}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
@@ -133,11 +152,17 @@ const CurrencyTradePage = props => {
           setIsFocus(false);
         }}
       />
-
-      <Text>accountCurrencyToChoise {currencyCountToAmount}</Text>
+      {accountCurrencyToChoise != null ? (
+        <Text style={{marginTop: -30, paddingLeft: 17}}>
+          Kullanılabilir Bakiye: {parseFloat(currencyCountToAmount).toFixed(2)}{' '}
+          {toCurrency}
+        </Text>
+      ) : (
+        <Text style={{marginTop: -30, paddingLeft: 17}}></Text>
+      )}
 
       <Dropdown
-        style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
+        style={[styles.dropdown, isFocus]}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
@@ -160,28 +185,37 @@ const CurrencyTradePage = props => {
           setIsFocus(false);
         }}
       />
-     
-     
-      <Text>accountCurrencyFromChoise {currencyCountFromAmount}</Text>
-    
+      {accountCurrencyFromChoise != null ? (
+        <Text style={{marginTop: -30, paddingLeft: 17}}>
+          Kullanılabilir Bakiye:{' '}
+          {parseFloat(currencyCountFromAmount).toFixed(2)} {fromCurrency}
+        </Text>
+      ) : (
+        <Text style={{marginTop: -30, paddingLeft: 17}}></Text>
+      )}
 
-      <TextInput
-        name="currAmountTo"
-        autoCorrect={false}
-        placeholder="USD Miktar"
-        onChangeText={handleCalculation}
-      />
-      <Text>TL Tutar</Text>
-      <Text>{currencyToAmount}</Text>
+      <View style={styles.currencyConvertContainer}>
+        <TextInput
+          name="currAmountTo"
+          autoCorrect={false}
+          keyboardType="numeric"
+          placeholder="USD Tutar"
+          placeholderTextColor="green"
+          onChangeText={handleCalculation}
+          underlineColorAndroid="green"
+          textAlign={'center'}
+        />
 
-      <TouchableOpacity
-        style={styles.forgotButton}
-        onPress={convertCurrencyTransaction}>
-        <Text style={styles.navButtonText}>İşlem Yap</Text>
-      </TouchableOpacity>
-
-
-     
+        <Text style={{color: 'green', borderBottomColor: 'green'}}>
+          TL Tutar {currencyToAmount}
+        </Text>
+      </View>
+      <View style={styles.searchSection}>
+        <FormButton
+          buttonTitle="İşlem Yap"
+          onPress={convertCurrencyTransaction}
+        />
+      </View>
     </View>
   );
 };
@@ -190,14 +224,39 @@ export default CurrencyTradePage;
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#F5F8FF',
+    //padding: 16,
+    //height: 50,
+    flex: 1,
+  },
+  searchSection: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 9,
+  },
+  headerContainer: {
     backgroundColor: 'white',
+    // alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 220,
+    width: '100%',
+  },
+  currencyConvertContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     padding: 16,
   },
   dropdown: {
-    height: 50,
-    borderColor: 'gray',
+    margin: 10,
+    height: 80,
+    backgroundColor: 'white',
+    borderColor: 'white',
+    //borderBottomColor:'gray',
     borderWidth: 0.5,
-    borderRadius: 8,
     paddingHorizontal: 8,
   },
   icon: {
@@ -214,6 +273,7 @@ const styles = StyleSheet.create({
   },
   placeholderStyle: {
     fontSize: 16,
+    //height:150
   },
   selectedTextStyle: {
     fontSize: 16,

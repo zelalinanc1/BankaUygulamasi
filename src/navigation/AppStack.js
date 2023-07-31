@@ -33,7 +33,7 @@ const AppStack = () => {
     <Stack.Screen name='AllCurrencyPage' component={AllCurrencyPage}/>
     <Stack.Screen name='WalletDetails' component={WalletDetails}/>
     <Stack.Screen name='FavoriteCurrencyPageScreen' component={FavoriteCurrencyPageScreen}/>
-    <Stack.Screen name='CurrencyBuyPage' component={CurrencyBuyPage}/>
+    <Stack.Screen name='CurrencyBuyPage' component={CurrencyBuyPage} options={{title:'Alış/Satış',headerShown: true,headerTintColor: 'white',headerStyle: {backgroundColor: '#009142'}}}/>
     <Stack.Screen name='MyAccountsPage' component={MyAccountsPage}/>
     <Stack.Screen name='AllAccountTransactions' component={AllAccountTransactions}/>
     <Stack.Screen name='NewAccountsScreen' component={NewAccountsScreen} options={{title:'Alış/Satış',headerShown: true,headerTintColor: 'white',headerStyle: {backgroundColor: '#009142'}}}/>

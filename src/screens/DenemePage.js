@@ -52,6 +52,9 @@ const DenemePage = route => {
     let findIsFromAccount = getUserAccountsCurrencyType(fromCurrency);
     let findIsToAccount = getUserAccountsCurrencyType(toCurrency);
 
+    console.log("From Curr"+fromCurrency)
+    console.log("To Curr"+toCurrency)
+
    if(findIsFromAccount.length != 0 && findIsToAccount.length != 0){
     nav.navigate('CurrencyBuyPage', {
       name: fromCurrency,
@@ -77,6 +80,9 @@ const DenemePage = route => {
         //     price: price,
         //   });
   };
+  
+
+
 
   const getDataFromApiAsync = async () => {
     try {
