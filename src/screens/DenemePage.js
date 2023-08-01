@@ -11,11 +11,7 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import React, {useContext, useState, useEffect, useRef} from 'react';
-import Icon from 'react-native-vector-icons/Ionicons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
-import {useDispatch, useSelector} from 'react-redux';
-import {addToCart, removeFromCart} from '../components/CartReducer';
 import {AuthContext} from '../navigation/AuthProvider';
 import Search from '../images/search.png';
 import Close from '../images/close.png';
@@ -37,16 +33,7 @@ const DenemePage = route => {
   let fromCurr = ['USD', 'EUR', 'AUD', 'CHF'];
   let toCurrs = ['TRY', 'JPY', 'CAD'];
 
-  const cart = useSelector(state => state.cart.cart);
 
-  const dispatch = useDispatch();
-
-  const addItemToCart = item => {
-    dispatch(addToCart(item));
-  };
-  const removeItemFromCart = item => {
-    dispatch(removeFromCart(item));
-  };
 
   const findIsAccounts = (fromCurrency, toCurrency, price) => {
     let findIsFromAccount = getUserAccountsCurrencyType(fromCurrency);

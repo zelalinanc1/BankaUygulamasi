@@ -56,24 +56,7 @@ const HomeScreen = ({route, navigation}) => {
         <Text style={styles.navButtonText}>Tüm Hesapları Gör</Text>
       </TouchableOpacity> */}
 
-       <TouchableOpacity
-        style={styles.forgotButton}
-        onPress={() => navigation.navigate('DenemePage')}>
-        <Text style={styles.navButtonText}>Deneme Page</Text>
-      </TouchableOpacity> 
-
-      <TouchableOpacity
-        style={styles.forgotButton}
-        onPress={() => navigation.navigate('MyAccountsPage')}>
-        <Text style={styles.navButtonText}>MyAccountsPage</Text>
-      </TouchableOpacity>
-
-      
-       
      
-
-    
-
       <TouchableOpacity style={styles.forgotButton} onPress={() => logout()}>
         <Text style={styles.navButtonText}>Çıkış Yap</Text>
       </TouchableOpacity>

@@ -1,6 +1,6 @@
-
-import React from 'react'
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
 import AccountRegisterScreen from '../screens/AccountRegisterScreen';
 import AllUserAccounts from '../screens/AllUserAccounts';
@@ -12,41 +12,134 @@ import CurrencyBuyPage from '../screens/CurrencyBuyPage';
 import AllAccountTransactions from '../screens/AllAccountTransactions';
 import MyAccountsPage from '../screens/MyAccountsPage';
 import NewAccountsScreen from '../screens/NewAccountsScreen';
-import {Provider} from 'react-redux'
-import store from '../components/store'
-
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const Stack = createNativeStackNavigator();
-//options={{headerShown: false}}
+const Tab = createBottomTabNavigator();
+
+
+
+const MyAccounts = ({navigation}) => (
+  <Stack.Navigator>
+    <Stack.Screen name="MyAccountsPage" component={MyAccountsPage} options={{headerShown: false}} />
+    <Stack.Screen
+      name="AllAccountTransactions"
+      component={AllAccountTransactions}
+    />
+    <Stack.Screen
+      name="AccountRegisterScreen"
+      component={AccountRegisterScreen}
+      options={{
+        title: 'Hesap Açılışı',
+        headerShown: true,
+        headerTintColor: 'white',
+        headerStyle: {backgroundColor: '#009142'},
+      }}
+    />
+    <Stack.Screen name="DenemePage" component={DenemePage} options={{headerShown: false}} />
+  </Stack.Navigator>
+);
+const Deneme = ({navigation}) => (
+  <Stack.Navigator>
+    <Stack.Screen name="DenemePage" component={DenemePage} options={{headerShown: false}} />
+    <Stack.Screen
+      name="CurrencyBuyPage"
+      component={CurrencyBuyPage}
+      options={{
+        title: 'Alış/Satış',
+        headerShown: true,
+        headerTintColor: 'white',
+        headerStyle: {backgroundColor: '#009142'},
+      }}
+    />
+    <Stack.Screen
+      name="NewAccountsScreen"
+      component={NewAccountsScreen}
+      options={{
+        title: 'Alış/Satış',
+        headerShown: true,
+        headerTintColor: 'white',
+        headerStyle: {backgroundColor: '#009142'},
+      }}
+    />
+  </Stack.Navigator>
+);
+const Home = ({navigation}) => (
+  <Stack.Navigator>
+    <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}} />
+    <Stack.Screen
+      name="AllAccountTransactions"
+      component={AllAccountTransactions}
+    />
+    <Stack.Screen
+      name="AccountRegisterScreen"
+      component={AccountRegisterScreen}
+      options={{
+        title: 'Hesap Açılışı',
+        headerShown: true,
+        headerTintColor: 'white',
+        headerStyle: {backgroundColor: '#009142'},
+      }}
+    />
+    
+  </Stack.Navigator>
+);
 
 const AppStack = () => {
   return (
-    <Provider store={store}>
-   <Stack.Navigator  screenOptions={{
-    headerShown: false
-  }}>
     
-    <Stack.Screen name='Home' component={HomeScreen} />
-    <Stack.Screen name='AccountRegisterScreen' component={AccountRegisterScreen} options={{title:'Hesap Açılışı',headerShown: true,headerTintColor: 'white',headerStyle: {backgroundColor: '#009142'}}}/>
-    <Stack.Screen name='AllUserAccounts' component={AllUserAccounts}/>
-    <Stack.Screen name='DenemePage' component={DenemePage}/>
-    <Stack.Screen name='AllCurrencyPage' component={AllCurrencyPage}/>
-    <Stack.Screen name='WalletDetails' component={WalletDetails}/>
-    <Stack.Screen name='FavoriteCurrencyPageScreen' component={FavoriteCurrencyPageScreen}/>
-    <Stack.Screen name='CurrencyBuyPage' component={CurrencyBuyPage} options={{title:'Alış/Satış',headerShown: true,headerTintColor: 'white',headerStyle: {backgroundColor: '#009142'}}}/>
-    <Stack.Screen name='MyAccountsPage' component={MyAccountsPage}/>
-    <Stack.Screen name='AllAccountTransactions' component={AllAccountTransactions}/>
-    <Stack.Screen name='NewAccountsScreen' component={NewAccountsScreen} options={{title:'Alış/Satış',headerShown: true,headerTintColor: 'white',headerStyle: {backgroundColor: '#009142'}}}/>
-    
-    
-
-
-    
-    
-  
-   </Stack.Navigator>
-   </Provider>
+    <Tab.Navigator
+      tabBarOptions={{
+        activeTintColor: '#2e64e5',
+      }}>
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={({route}) => ({
+          tabBarLabel: 'Home',
+          headerShown: false,
+          // tabBarVisible: route.state && route.state.index === 0,
+          tabBarIcon: ({color, size}) => (
+            <MaterialCommunityIcons
+              name="home-outline"
+              color={color}
+              size={size}
+            />
+          ),
+        })}
+      />
+       <Tab.Screen
+        name="MyAccounts"
+        component={MyAccounts}
+        options={({route}) => ({
+          tabBarLabel: 'Hesaplar',
+          headerShown: false,
+          // tabBarVisible: route.state && route.state.index === 0,
+          tabBarIcon: ({color, size}) => (
+            <MaterialCommunityIcons
+              name="home-outline"
+              color={color}
+              size={size}
+            />
+          ),
+        })}
+      />
+       <Tab.Screen
+        name="Deneme"
+        component={Deneme}
+        options={{
+           tabBarLabel: 'İşlemler',
+           headerShown: false,
+          tabBarIcon: ({color, size}) => (
+            <Ionicons name="person-outline" color={color} size={size} />
+          ),
+        }}
+      />
+      
+    </Tab.Navigator>
   );
-}
+};
 
-export default AppStack
+export default AppStack;
