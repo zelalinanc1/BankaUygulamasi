@@ -23,20 +23,18 @@ const windowHeight = Dimensions.get('window').height;
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import TopCard from '../components/TopCard';
 
-const MyAccountsPage = props => {
-  const {
-    userImage,
-    getUserDetail,
-    userAccounts,
-  } = useContext(AuthContext);
 
-  const navigation = useNavigation();
+const MyAccountsPage = ({route, navigation}) => {
+  const {user,logout,getUserDetail,userName,userLastName,userBirthday,userIdentity,userImage,userAccounts,accountTransactions} = useContext(AuthContext);
+
+  
 
   useEffect(() => {
-    
-   getUserDetail();
+    getUserDetail();
    
-  }, [])
+  }, []);
+
+  
   
 
   return (

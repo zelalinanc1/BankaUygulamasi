@@ -58,6 +58,8 @@ const DenemePage = route => {
     nav.navigate('NewAccountsScreen',{accountName:toCurrency})
    }
 
+   console.log(toCurrency)
+
         // findIsFromAccount.length === 0 || findIsToAccount.length === 0
         // ? nav.navigate('NewAccountsScreen')
         // : nav.navigate('CurrencyBuyPage', {
@@ -68,7 +70,7 @@ const DenemePage = route => {
         //   });
   };
   
-
+  
 
 
   const getDataFromApiAsync = async () => {

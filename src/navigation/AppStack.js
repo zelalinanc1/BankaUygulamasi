@@ -1,20 +1,21 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import HomeScreen from '../screens/HomeScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 import AccountRegisterScreen from '../screens/AccountRegisterScreen';
-import AllUserAccounts from '../screens/AllUserAccounts';
-import AllCurrencyPage from '../screens/AllCurrencyPage';
-import WalletDetails from '../screens/WalletDetails';
-import FavoriteCurrencyPageScreen from '../screens/FavoriteCurrencyPageScreen';
-import DenemePage from '../screens/DenemePage';
+import HomeScreen from '../screens/HomeScreen';
 import CurrencyBuyPage from '../screens/CurrencyBuyPage';
+import SignUpWithImageScreen from '../screens/SignUpWithImageScreen';
+import EmailPage from '../screens/EmailPage';
+import UpdatePhone from '../screens/UpdatePhone';
+import DenemePage from '../screens/DenemePage';
 import AllAccountTransactions from '../screens/AllAccountTransactions';
+import OpenAccountScreen from '../screens/OpenAccountScreen';
 import MyAccountsPage from '../screens/MyAccountsPage';
 import NewAccountsScreen from '../screens/NewAccountsScreen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -24,6 +25,7 @@ const Tab = createBottomTabNavigator();
 const MyAccounts = ({navigation}) => (
   <Stack.Navigator>
     <Stack.Screen name="MyAccountsPage" component={MyAccountsPage} options={{headerShown: false}} />
+    <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown: false}} />
     <Stack.Screen
       name="AllAccountTransactions"
       component={AllAccountTransactions}
@@ -39,13 +41,33 @@ const MyAccounts = ({navigation}) => (
       }}
     />
     <Stack.Screen name="DenemePage" component={DenemePage} options={{headerShown: false}} />
+    <Stack.Screen
+      name="NewAccountsScreen"
+      component={NewAccountsScreen}
+      options={{
+        title: 'Alış/Satış',
+        headerShown: true,
+        headerTintColor: 'white',
+        headerStyle: {backgroundColor: '#009142'},
+      }}
+    />
+     <Stack.Screen
+      name="CurrencyBuyPage"
+      component={CurrencyBuyPage}
+      options={{
+        title: 'Alış/Satış',
+        headerShown: true,
+        headerTintColor: 'white',
+        headerStyle: {backgroundColor: '#009142'},
+      }}
+    />
   </Stack.Navigator>
 );
 const Deneme = ({navigation}) => (
   <Stack.Navigator>
     <Stack.Screen name="DenemePage" component={DenemePage} options={{headerShown: false}} />
     <Stack.Screen
-      name="CurrencyBuyPage"
+      name="CurrencyBuy"
       component={CurrencyBuyPage}
       options={{
         title: 'Alış/Satış',
@@ -64,58 +86,72 @@ const Deneme = ({navigation}) => (
         headerStyle: {backgroundColor: '#009142'},
       }}
     />
-  </Stack.Navigator>
-);
-const Home = ({navigation}) => (
-  <Stack.Navigator>
-    <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}} />
-    <Stack.Screen
-      name="AllAccountTransactions"
-      component={AllAccountTransactions}
-    />
-    <Stack.Screen
-      name="AccountRegisterScreen"
-      component={AccountRegisterScreen}
+     <Stack.Screen
+      name="CurrencyBuyPage"
+      component={CurrencyBuyPage}
       options={{
-        title: 'Hesap Açılışı',
+        title: 'Alış/Satış',
         headerShown: true,
         headerTintColor: 'white',
         headerStyle: {backgroundColor: '#009142'},
       }}
     />
-    
   </Stack.Navigator>
 );
+const Home = ({navigation}) => (
+  <Stack.Navigator> 
+    {/* <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown: false}} /> */}
+     <Stack.Screen name="ProfileScreen" component={ProfileScreen} options={{headerShown: false}} />
+    <Stack.Screen name="SignUpWithImageScreen" component={SignUpWithImageScreen} />
+    <Stack.Screen name="OpenAccountScreen" component={OpenAccountScreen} options={{headerShown: false}} /> 
+    <Stack.Screen name="EmailPage" component={EmailPage}  /> 
+    <Stack.Screen name="UpdatePhone" component={UpdatePhone}  /> 
+  </Stack.Navigator>
+);
+
+
+
+
+
 
 const AppStack = () => {
   return (
     
-    <Tab.Navigator
-      tabBarOptions={{
-        activeTintColor: '#2e64e5',
-      }}>
+    <Tab.Navigator screenOptions={{headerShown:false}}>
+      
       <Tab.Screen
-        name="Home"
+        name="HomeScreen"
         component={Home}
-        options={({route}) => ({
-          tabBarLabel: 'Home',
+        screenOptions={({route}) => ({
+          tabBarLabel: 'HomeScreen',
+          tabBarActiveTintColor: '#2e64e5',
           headerShown: false,
+          headerLeft: () => (
+            <Button
+              onPress={() => alert('This is a button!')}
+              title="Info"
+              color="#fff"
+            />
+          ),
+          
           // tabBarVisible: route.state && route.state.index === 0,
           tabBarIcon: ({color, size}) => (
             <MaterialCommunityIcons
-              name="home-outline"
+              name="account"
               color={color}
               size={size}
             />
           ),
         })}
-      />
+      />  
        <Tab.Screen
         name="MyAccounts"
         component={MyAccounts}
-        options={({route}) => ({
+        screenOptions={({route}) => ({
           tabBarLabel: 'Hesaplar',
           headerShown: false,
+          tabBarActiveTintColor: '#2e64e5',
+          
           // tabBarVisible: route.state && route.state.index === 0,
           tabBarIcon: ({color, size}) => (
             <MaterialCommunityIcons
@@ -126,12 +162,15 @@ const AppStack = () => {
           ),
         })}
       />
+      
        <Tab.Screen
         name="Deneme"
         component={Deneme}
-        options={{
+        screenOptions={{
            tabBarLabel: 'İşlemler',
            headerShown: false,
+           tabBarActiveTintColor: '#2e64e5',
+          
           tabBarIcon: ({color, size}) => (
             <Ionicons name="person-outline" color={color} size={size} />
           ),

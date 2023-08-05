@@ -1,31 +1,31 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import SignUpScreen from '../screens/SignupScreen';
 import LoginScreen from '../screens/LoginScreen';
+import SplashScreen from '../screens/SplashScreen';
 import SignUpWithImageScreen from '../screens/SignUpWithImageScreen';
-import SignUpWithNameScreen from '../screens/SignUpWithNameScreen';
+import SignUpPage from '../screens/SignUpPage';
 
 const Stack = createNativeStackNavigator();
 
 const AuthStack = () => {
   return (
-    <Stack.Navigator initialRouteName={LoginScreen}>
+    <Stack.Navigator initialRouteName={SplashScreen}>
       <Stack.Screen
-        name="Login"
-        component={LoginScreen}
+        name="SplashScreen"
+        component={SplashScreen}
         options={{header: () => null}}
+      />
+      <Stack.Screen
+        name="LoginScreen"
+        component={LoginScreen}
+        //options={{header: () => null}}
       />
 
       <Stack.Screen
         name="SignUpWithImageScreen"
         component={SignUpWithImageScreen}
       />
-      <Stack.Screen
-        name="SignUpWithNameScreen"
-        component={SignUpWithNameScreen}
-      />
-      <Stack.Screen name="Signup" component={SignUpScreen} />
+      <Stack.Screen name="SignUpPage" component={SignUpPage} />
     </Stack.Navigator>
   );
 };

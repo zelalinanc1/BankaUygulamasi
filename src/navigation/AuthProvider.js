@@ -14,9 +14,10 @@ export const AuthProvider = ({children}) => {
   const [accountTransactions, setAccountTransactions] = useState('');
   const [userName, setUserName] = useState('');
   const [userLastName, setUserLastName] = useState('');
-  const [userBirthday, setUserBirthday] = useState('');
+  const [userMail, setUserMail] = useState('');
   const [userIdentity, setUserIdentity] = useState('');
   const [userImage, setUserImage] = useState();
+  const [userPhone, setUserPhone] = useState();
   const [userAccountIban, setUserAccountIban] = useState('');
   const [accountCurrencyType, setAccountCurrencyType] = useState('');
   const [userData, setUserData] = useState(null);
@@ -41,42 +42,43 @@ export const AuthProvider = ({children}) => {
         setUserName,
         userLastName,
         setUserLastName,
-        userBirthday,
-        setUserBirthday,
         userIdentity,
         setUserIdentity,
         userImage,
         setUserImage,
+        userPhone, 
+        setUserPhone,
         userAccountIban,
         setUserAccountIban,
         userData,
         setUserData,
         accountCurrencyType,
         setAccountCurrencyType,
-        login: async (tcNo, password) => {
+        login: async (userMail, password) => {
           try {
-            await auth().signInWithEmailAndPassword(tcNo, password);
+            await auth().signInWithEmailAndPassword(userMail, password);
           } catch (e) {
-            const error = 'Tc No ve şifre uyuşmuyor';
+            const error = 'E Mail  ve şifre uyuşmuyor';
 
             Alert.alert(error);
           }
         },
 
-        register: async (tcNo, password, name, lastName, birthday, url) => {
+        register: async (username,userLastName,userMail,password) => {
           try {
             const response = await auth().createUserWithEmailAndPassword(
-              tcNo,
+              userMail,
               password,
             );
 
             const useData = {
               id: response.user.uid,
-              name: name,
-              lastName: lastName,
-              tcNo: tcNo,
-              birthday: birthday,
-              userImg: url,
+              name: username,
+              lastName: userLastName,
+              userMail: userMail,
+              userImg: '',
+              phoneNumber: '',
+              //userImg: url,
               //userAccounts: [],
               // accounts: [],
             };
@@ -96,6 +98,26 @@ export const AuthProvider = ({children}) => {
             console.log(e);
           }
         },
+        updateImage: async (url) => {
+
+          firestore()
+          .collection('users')
+          .doc(user.uid)
+          .update({
+            userImg: url,
+          })
+          .catch(error => {});
+        },
+        updatePhone: async (url) => {
+
+          firestore()
+          .collection('users')
+          .doc(user.uid)
+          .update({
+            phoneNumber: phoneNumber,
+          })
+          .catch(error => {});
+        },
 
         getUserDetail: async () => {
           const currentUser = await firestore()
@@ -110,11 +132,9 @@ export const AuthProvider = ({children}) => {
 
                 setUserName(documentSnapshot.data().name);
                 setUserLastName(documentSnapshot.data().lastName);
-                setUserBirthday(documentSnapshot.data().birthday);
-                setUserIdentity(
-                  documentSnapshot.data().tcNo.split('@gmail.com'),
-                );
+                setUserIdentity(documentSnapshot.data().userMail);
                 setUserImage(documentSnapshot.data().userImg);
+                setUserPhone(documentSnapshot.data().phoneNumber);
                 setUserAccountIban(documentSnapshot.data().accountIban);
                 setUserAccounts(documentSnapshot.data().accounts);
                 setAccountTransactions(documentSnapshot.data().transactions);

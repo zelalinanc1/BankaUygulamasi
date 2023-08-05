@@ -5,13 +5,16 @@ import imgPlaceHolder from '../images/avatar.jpg';
 import storage from '@react-native-firebase/storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FormButton from '../components/FormButton';
+import {AuthContext} from '../navigation/AuthProvider';
 
-const SignUpWithImageScreen = ({route, navigation}) => {
+const SignUpWithImageScreen = ({ navigation}) => {
   const [profile, setProfile] = useState(null);
 
   const [transferred, setTransferred] = useState(0);
 
-  const {name, lastName, birthday, tcNo} = route.params;
+  const {updateImage} = useContext(AuthContext);
+
+  
 
   //Galeriden Seçme
 
@@ -79,17 +82,21 @@ const SignUpWithImageScreen = ({route, navigation}) => {
       console.log('----------------');
       console.log(url);
 
-      navigation.navigate('Signup', {
-        url: url,
-        name: name,
-        lastName: lastName,
-        birthday: birthday,
-        tcNo: tcNo,
-      });
+      // navigation.navigate('Signup', {
+      //   url: url,
+      //   name: name,
+      //   lastName: lastName,
+      //   birthday: birthday,
+      //   tcNo: tcNo,
+      // });
+
+      updateImage(url);
     } catch (e) {
       console.log(e);
       return null;
     }
+
+    navigation.navigate('ProfileScreen')
   };
 
   return (

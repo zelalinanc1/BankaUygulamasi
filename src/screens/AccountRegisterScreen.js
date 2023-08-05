@@ -76,7 +76,7 @@ const AccountRegisterScreen = ({navigation, route}) => {
         
       );
     }
-    navigation.navigate("Home")
+    navigation.navigate("HomeScreen")
   };
 
   useEffect(() => {

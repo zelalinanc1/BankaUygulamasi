@@ -27,6 +27,7 @@ const WalletCoinCard = props => {
 
   const params = route.params;
 
+
   let {name, accountCount,iban} =
     typeof props.item == 'undefined' ? params : props.item;
 

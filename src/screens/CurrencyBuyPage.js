@@ -81,7 +81,7 @@ const CurrencyTradePage = props => {
       fromCurrency,
       toCurrency,
     );
-    nav.navigate('Home');
+    nav.navigate('MyAccountsPage');
     // await addAccountTransactions(accountCurrencyToChoise, currencyToAmount,accountCurrencyFromChoise, currencyFromAmount);
   };
 

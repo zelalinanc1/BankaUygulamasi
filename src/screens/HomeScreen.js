@@ -6,7 +6,7 @@ import firestore from '@react-native-firebase/firestore';
 import imgPlaceHolder from '../images/avatar.jpg';
 
 const HomeScreen = ({route, navigation}) => {
-  const {user,logout,getUserDetail,userName,userLastName,userBirthday,userIdentity,userImage,accountTransactions} = useContext(AuthContext);
+  const {user,logout,getUserDetail,userName,userLastName,userBirthday,userIdentity,userImage,userAccounts,accountTransactions} = useContext(AuthContext);
 
   
 
@@ -15,7 +15,7 @@ const HomeScreen = ({route, navigation}) => {
    
   }, []);
 
-  //console.log(userAccounts[1].accountDetailName);
+ // console.log(userAccounts[1].accountDetailName);
   
 
   return (
@@ -29,7 +29,7 @@ const HomeScreen = ({route, navigation}) => {
         source={userImage ? {uri: userImage} : imgPlaceHolder}
       />
       <Text> Kullanici Tc: {userIdentity}</Text>
-      <Text> Kullanici Doğum Tarihi: {userBirthday}</Text>
+      
       {/* {!userAccountIban ? (
         <TouchableOpacity
           style={styles.forgotButton}
