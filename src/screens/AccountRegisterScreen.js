@@ -38,6 +38,8 @@ const AccountRegisterScreen = ({navigation, route}) => {
 
   const [currencyType, setCurrencyType] = useState(null);
 
+
+
   const [currencyCount, setCurrencyCount] = useState(null);
 
   const [branchName, setBranchName] = useState(null);

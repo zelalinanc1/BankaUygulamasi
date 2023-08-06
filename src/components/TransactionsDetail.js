@@ -25,7 +25,7 @@ const TransactionsDetail = props => {
             <View style={{marginVertical: 8}}></View>
           )}
           renderItem={({item}) => (
-            <TouchableOpacity style={styles.container}>
+            <View style={styles.container}>
             <View style={styles.mainContent}>
               <AntDesign
                 name="codepen-circle"
@@ -69,7 +69,7 @@ const TransactionsDetail = props => {
             
             </View>
            
-          </TouchableOpacity>
+          </View>
           )}
         />
 

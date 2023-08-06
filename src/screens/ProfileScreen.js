@@ -10,13 +10,7 @@ import {
 import React, {useContext, useState, useEffect} from 'react';
 import {AuthContext} from '../navigation/AuthProvider';
 import imgPlaceHolder from '../images/avatar.jpg';
-import FormButton from '../components/FormButton';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import LinearGradient from 'react-native-linear-gradient';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
-
-
 
 const ProfileScreen = ({ navigation}) => {
 
@@ -75,9 +69,9 @@ const ProfileScreen = ({ navigation}) => {
             </View>
           </View>
 
-          <AntDesign name="arrowright" size={20} color="#009387" />
+          <AntDesign name="right" size={20} color="#009387" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.accountList_item} onPress={()=>navigation.navigate('UpdatePhone', {userPhone: userPhone})}>
+        <TouchableOpacity style={styles.accountList_item} onPress={()=>navigation.navigate('UpdatePhone', {userPhones: userPhone})}>
           <View style={styles.accountList_item_image_text}>
            
             <View>
@@ -86,7 +80,7 @@ const ProfileScreen = ({ navigation}) => {
             </View>
           </View>
 
-          <AntDesign name="arrowright" size={20} color="#009387" />
+          <AntDesign name="right" size={20} color="#009387" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.accountList_item} onPress={updateResim}>
           <View style={styles.accountList_item_image_text}>
@@ -97,7 +91,7 @@ const ProfileScreen = ({ navigation}) => {
             </View>
           </View>
 
-          <AntDesign name="arrowright" size={20} color="#009387" />
+          <AntDesign name="right" size={20} color="#009387" />
         </TouchableOpacity>
 
       </View>
@@ -123,7 +117,7 @@ const styles = StyleSheet.create({
         //justifyContent: 'center',
         alignItems: 'center',
         width:'100%',
-        height:60,
+        height:100,
         backgroundColor: 'white'
     },
     accountList_item: {

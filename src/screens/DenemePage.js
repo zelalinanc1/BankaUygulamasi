@@ -135,12 +135,12 @@ const DenemePage = route => {
 
   return (
     <View style={{height: '100%', backgroundColor: '#F5F8FF'}}>
-      <View style={styles.headerbar}>
+      {/* <View style={styles.headerbar}>
         <Text style={{fontSize: 25, fontWeight: '500', color: LIGHTBLACK}}>
           Döviz Kurları
         </Text>
-      </View>
-      <View style={{marginHorizontal: 20}}>
+      </View> */}
+      <View style={{marginHorizontal: 20,marginTop:20}}>
         <View
           style={{
             width: '100%',

@@ -6,13 +6,14 @@ import storage from '@react-native-firebase/storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FormButton from '../components/FormButton';
 import {AuthContext} from '../navigation/AuthProvider';
+import LinearGradient from 'react-native-linear-gradient';
 
 const SignUpWithImageScreen = ({ navigation}) => {
   const [profile, setProfile] = useState(null);
 
   const [transferred, setTransferred] = useState(0);
 
-  const {updateImage} = useContext(AuthContext);
+  const {updateImage,userImage} = useContext(AuthContext);
 
   
 
@@ -28,6 +29,7 @@ const SignUpWithImageScreen = ({ navigation}) => {
       console.log('************************');
       setProfile(image.path);
     });
+    await uploadImage();
   };
 
   //takePhotoFromCamera
@@ -42,6 +44,7 @@ const SignUpWithImageScreen = ({ navigation}) => {
       console.log('************************');
       setProfile(image.path);
     });
+    await uploadImage();
   };
 
   const uploadImage = async () => {
@@ -101,24 +104,42 @@ const SignUpWithImageScreen = ({ navigation}) => {
 
   return (
     <View>
-      {/* <Text>Resimle Kayıt Sayfası </Text> */}
-      {/* <Text>{name}</Text>
-      <Text>{lastName}</Text>
-      <Text>{birthday}</Text>
-      <Text>{tcNo}</Text> */}
+      
       <View style={styles.imgContainer}>
         <Image
           style={styles.image}
-          source={profile ? {uri: profile} : imgPlaceHolder}
+          source={userImage ? {uri: userImage} : imgPlaceHolder}
+          //source={profile ? {uri: profile} : imgPlaceHolder}
         />
-         <FormButton buttonTitle="Galeriden seç" onPress={imagePick} />
-        <FormButton buttonTitle="Kameradan seç" onPress={takePhotoFromCamera} />
-      </View>
-     
+        <Text style={{marginTop:10,color:'black'}}>Profil fotoğrafınızı değiştirebilirsiniz.</Text>
 
-      <TouchableOpacity style={styles.forgotButton} onPress={uploadImage}>
-        <Icon name="arrow-right" size={15} color="black" />
-      </TouchableOpacity>
+         {/* <FormButton  buttonTitle="Galeriden seç" onPress={imagePick} />
+        <FormButton buttonTitle="Fotoğraf Çek" onPress={takePhotoFromCamera} /> */}
+        <TouchableOpacity
+                  style={styles.signIn}
+                  onPress={imagePick}
+              >
+              <LinearGradient
+                  colors={['#08d4c4', '#01ab9d']}
+                  style={styles.signIn}
+              >
+                  <Text style={{color: 'white'}}>Galeriden seç</Text>
+              </LinearGradient>
+              </TouchableOpacity>
+              <TouchableOpacity
+                  style={styles.signIn}
+                  onPress={takePhotoFromCamera}
+              >
+              <LinearGradient
+                  colors={['#08d4c4', '#01ab9d']}
+                  style={styles.signIn}
+              >
+                  <Text style={{color: 'white'}}>Fotoğraf Çek</Text>
+              </LinearGradient>
+              </TouchableOpacity>
+
+      </View>
+    
     </View>
   );
 };
@@ -159,6 +180,14 @@ const styles = StyleSheet.create({
     color: '#2e64e5',
     fontFamily: 'Lato-Regular',
   },
+  signIn: {
+    width: '95%',
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 3,
+    marginTop:25
+},
   profileContainer: {
     flex: 0.8,
     justifyContent: 'center',
@@ -166,6 +195,7 @@ const styles = StyleSheet.create({
   },
   imgContainer: {
     alignItems: 'center',
+    marginTop:25
   },
   imgButtonContainer: {
     marginVertical: 35,

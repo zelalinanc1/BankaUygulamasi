@@ -25,14 +25,16 @@ import TopCard from '../components/TopCard';
 
 
 const MyAccountsPage = ({route, navigation}) => {
-  const {user,logout,getUserDetail,userName,userLastName,userBirthday,userIdentity,userImage,userAccounts,accountTransactions} = useContext(AuthContext);
+  const {getUserDetail,userName,userLastName,userBirthday,userIdentity,userImage,userAccounts,accountTransactions} = useContext(AuthContext);
+
 
   
 
   useEffect(() => {
-    getUserDetail();
-   
+   getUserDetail()
   }, []);
+
+  
 
   
   

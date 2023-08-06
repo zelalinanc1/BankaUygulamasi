@@ -38,10 +38,11 @@ const AllAccountTransactions = props => {
               color="#fff"
               style={{marginRight: 5}}
             />
-            <Text style={styles.headerItems__text_unactive}>Hesap İşlemleri </Text>
+            <Text style={styles.headerItems__text_unactive}>İşlemler </Text>
           </TouchableOpacity>
           </View>
           </View>
+          <View style={{marginTop:10}}/>
           <TransactionsDetail item={{transactions:transactions}}/>
      
 
@@ -57,6 +58,8 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: '#009142',
     height: windowHeight * 0.18,
+    marginTop:10,
+    borderRadius:10
   },
   headerItems: {
     marginTop: 30,

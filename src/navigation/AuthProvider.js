@@ -14,13 +14,13 @@ export const AuthProvider = ({children}) => {
   const [accountTransactions, setAccountTransactions] = useState('');
   const [userName, setUserName] = useState('');
   const [userLastName, setUserLastName] = useState('');
-  const [userMail, setUserMail] = useState('');
   const [userIdentity, setUserIdentity] = useState('');
   const [userImage, setUserImage] = useState();
   const [userPhone, setUserPhone] = useState();
   const [userAccountIban, setUserAccountIban] = useState('');
   const [accountCurrencyType, setAccountCurrencyType] = useState('');
   const [userData, setUserData] = useState(null);
+
 
  
 
@@ -77,7 +77,7 @@ export const AuthProvider = ({children}) => {
               lastName: userLastName,
               userMail: userMail,
               userImg: '',
-              phoneNumber: '',
+              
               //userImg: url,
               //userAccounts: [],
               // accounts: [],
@@ -108,7 +108,7 @@ export const AuthProvider = ({children}) => {
           })
           .catch(error => {});
         },
-        updatePhone: async (url) => {
+        updatePhone: async (phoneNumber) => {
 
           firestore()
           .collection('users')
@@ -138,6 +138,7 @@ export const AuthProvider = ({children}) => {
                 setUserAccountIban(documentSnapshot.data().accountIban);
                 setUserAccounts(documentSnapshot.data().accounts);
                 setAccountTransactions(documentSnapshot.data().transactions);
+                
                 console.log('+++++++');
                
                 //console.log(userAccounts[0].currencyType);
@@ -196,6 +197,8 @@ export const AuthProvider = ({children}) => {
 
 
         },
+
+       
 
        
         getToCurrencyTransaction: async (currencyToChoise,currencyToAmount) => {
