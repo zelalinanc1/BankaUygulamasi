@@ -1,25 +1,38 @@
-import { View, Text,StyleSheet,TextInput } from 'react-native'
-import React, {useContext, useState} from 'react';
+import { View, Text,StyleSheet,TextInput,TouchableOpacity } from 'react-native'
+import React, {useContext, useState,useEffect} from 'react';
+import Feather from 'react-native-vector-icons/Feather';
+import {AuthContext} from '../navigation/AuthProvider';
 
-const EmailPage = ({route}) => {
+const EmailPage = ({route,navigation}) => {
 
   const [email, setEmail] = useState();
 
-  const {userIdentity} = route.params;
+ 
+  const {updateEmail,userIdentity,getUserDetail} = useContext(AuthContext);
 
-  console.log(userIdentity)
+
+  const {userMail} = route.params;
+
+  
+  useEffect(() => {
+    getUserDetail();
+    userIdentity
+  }, []);
+
+  const updatedEmail = async() => {
+
+    await updateEmail(email);
+    navigation.navigate('ProfileScreen')
+  }
+  
+  
   
   return (
-    <View>
+    <View >
         <View style={styles.accountList_item}>
-           
-        <View style={styles.accountList_item_image_text}>
-             {/* <Text style={styles.account_libelle}>E-post Bilgileri</Text> */}
-            
-           
-           </View>
+        <Feather name="check-circle" color="green" size={20} />
            <TextInput 
-                  placeholder={userIdentity}
+                  placeholder={userMail}
                   placeholderTextColor="black"
                   style={[styles.accountList_item_image_text]}
                   autoCapitalize="none"
@@ -28,6 +41,19 @@ const EmailPage = ({route}) => {
               />
 
          </View>
+         <View style={{width:110}}/>
+             <TouchableOpacity
+                  onPress={()=> updatedEmail()}
+                  style={[styles.signIn, {
+                      borderColor: '#009387',
+                      borderWidth: 1,
+                      marginVertical:50
+                  }]}
+              >
+                  <Text style={[styles.textSign, {
+                      color: '#009387'
+                  }]}>Değiştir</Text>
+              </TouchableOpacity>
         
        
     </View>
@@ -37,21 +63,22 @@ const EmailPage = ({route}) => {
 export default EmailPage;
 const styles = StyleSheet.create({
     accountList_item_image_text: {
-        flexDirection: 'row',
-        alignItems: 'center',
+       
+        width:200,
+        marginStart:10,
         fontWeight: 'bold',
       },
       accountList_item: {
         backgroundColor: '#fff',
-        paddingHorizontal: 15,
-        paddingVertical: 15,
-        borderBottomWidth: 1,
+      
+        
         borderBottomColor: 'gray',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
+        flexDirection: 'row',
+        alignItems: 'center',
         height:90,
         marginTop:20
       },
+     
       account_libelle: {
         fontWeight: 'bold',
         fontFamily: 'OpenSans-Regular',
@@ -63,4 +90,17 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         color: '#05375a',
     },
+    signIn: {
+      width: 90,
+      height: 40,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 10,
+      marginHorizontal:150
+     
+  },
+  textSign: {
+    fontSize: 18,
+    fontWeight: 'bold'
+  } 
 })

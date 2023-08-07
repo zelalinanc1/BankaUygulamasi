@@ -1,5 +1,5 @@
 import React from 'react';
-import {  Text, Platform,  View } from 'react-native';
+import {  Text,  View } from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import ProfileScreen from '../screens/ProfileScreen';
@@ -8,14 +8,12 @@ import CurrencyBuyPage from '../screens/CurrencyBuyPage';
 import SignUpWithImageScreen from '../screens/SignUpWithImageScreen';
 import AllUserAccounts from '../screens/AllUserAccounts';
 import EmailPage from '../screens/EmailPage';
-import UpdatePhone from '../screens/UpdatePhone';
 import DenemePage from '../screens/DenemePage';
 import AllAccountTransactions from '../screens/AllAccountTransactions';
 import OpenAccountScreen from '../screens/OpenAccountScreen';
 import MyAccountsPage from '../screens/MyAccountsPage';
 import NewAccountsScreen from '../screens/NewAccountsScreen';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 
 const Stack = createNativeStackNavigator();
@@ -167,8 +165,13 @@ const Profil = ({navigation}) => (
       component={OpenAccountScreen}
       options={{headerShown: false}}
     />
-    <Stack.Screen name="EmailPage" component={EmailPage} />
-    <Stack.Screen
+    <Stack.Screen name="EmailPage" component={EmailPage}  options={{
+        title: 'Email Bilgileri',
+        headerShown: true,
+        headerTintColor: 'white',
+        headerStyle: {backgroundColor: '#009142'},
+      }} />
+    {/* <Stack.Screen
       name="UpdatePhone"
       component={UpdatePhone}
       options={{
@@ -177,7 +180,7 @@ const Profil = ({navigation}) => (
         headerTintColor: 'white',
         headerStyle: {backgroundColor: '#009142'},
       }}
-    />
+    /> */}
   </Stack.Navigator>
 );
 const UserAccounts = ({navigation}) => (

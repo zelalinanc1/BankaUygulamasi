@@ -39,15 +39,15 @@ const SplashScreen = ({navigation}) => {
       >
           <Text style={[styles.title, {
               color: colors.text
-          }]}>Stay connected with everyone!</Text>
-          <Text style={styles.text}>Sign in with account</Text>
+          }]}>Mobil bankacılığa hoş geldiniz!</Text>
+          
           <View style={styles.button}>
           <TouchableOpacity onPress={()=>nav.navigate('LoginScreen')}>
               <LinearGradient
                   colors={['#08d4c4', '#01ab9d']}
                   style={styles.signIn}
               >
-                  <Text style={styles.textSign}>Get Started</Text>
+                  <Text style={styles.textSign}>Hadi Başlayalım</Text>
                   <MaterialIcons 
                       name="navigate-next"
                       color="#fff"

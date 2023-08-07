@@ -14,11 +14,12 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const ProfileScreen = ({ navigation}) => {
 
- const {user,logout,getUserDetail,userName,userLastName,userImage,userPhone,userIdentity} = useContext(AuthContext);
+ const {user,logout,getUserDetail,userName,userLastName,userImage,userIdentity} = useContext(AuthContext);
 
 
   useEffect(() => {
     getUserDetail();
+    userIdentity
    
   }, []);
 
@@ -27,10 +28,7 @@ const ProfileScreen = ({ navigation}) => {
     navigation.navigate('SignUpWithImageScreen');
   }
 
-  const updateTelefon = () => {
-     
-    navigation.navigate('UpdatePhone');
-  }
+ 
 
   return (
     <View style={styles.container}>
@@ -60,28 +58,18 @@ const ProfileScreen = ({ navigation}) => {
 
         <View>
 
-        <TouchableOpacity style={styles.accountList_item} onPress={()=>navigation.navigate('EmailPage',{userIdentity: userIdentity})}>
+        <TouchableOpacity style={styles.accountList_item} onPress={()=>navigation.navigate('EmailPage',{userMail: userIdentity})}>
           <View style={styles.accountList_item_image_text}>
            
             <View>
-              <Text style={styles.account_libelle}>E-post Bilgileri</Text>
+              <Text style={styles.account_libelle}>E-posta Bilgileri</Text>
             
             </View>
           </View>
 
           <AntDesign name="right" size={20} color="#009387" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.accountList_item} onPress={()=>navigation.navigate('UpdatePhone', {userPhones: userPhone})}>
-          <View style={styles.accountList_item_image_text}>
-           
-            <View>
-              <Text style={styles.account_libelle}>Telefon Numarası Bilgileri</Text>
-              
-            </View>
-          </View>
-
-          <AntDesign name="right" size={20} color="#009387" />
-        </TouchableOpacity>
+    
         <TouchableOpacity style={styles.accountList_item} onPress={updateResim}>
           <View style={styles.accountList_item_image_text}>
            

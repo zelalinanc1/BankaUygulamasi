@@ -15,15 +15,11 @@ export const AuthProvider = ({children}) => {
   const [userName, setUserName] = useState('');
   const [userLastName, setUserLastName] = useState('');
   const [userIdentity, setUserIdentity] = useState('');
-  const [userImage, setUserImage] = useState();
-  const [userPhone, setUserPhone] = useState();
+  const [userImage, setUserImage] = useState('');
+
   const [userAccountIban, setUserAccountIban] = useState('');
   const [accountCurrencyType, setAccountCurrencyType] = useState('');
   const [userData, setUserData] = useState(null);
-
-
- 
-
 
   //let accounts = [];
 
@@ -46,8 +42,6 @@ export const AuthProvider = ({children}) => {
         setUserIdentity,
         userImage,
         setUserImage,
-        userPhone, 
-        setUserPhone,
         userAccountIban,
         setUserAccountIban,
         userData,
@@ -64,7 +58,7 @@ export const AuthProvider = ({children}) => {
           }
         },
 
-        register: async (username,userLastName,userMail,password) => {
+        register: async (username, userLastName, userMail, password) => {
           try {
             const response = await auth().createUserWithEmailAndPassword(
               userMail,
@@ -77,7 +71,7 @@ export const AuthProvider = ({children}) => {
               lastName: userLastName,
               userMail: userMail,
               userImg: '',
-              
+
               //userImg: url,
               //userAccounts: [],
               // accounts: [],
@@ -98,25 +92,41 @@ export const AuthProvider = ({children}) => {
             console.log(e);
           }
         },
-        updateImage: async (url) => {
+        changePassword: async userMail => {
+          await auth()
+            .sendPasswordResetEmail(userMail)
+            .then(() => {
+              Alert.alert(
+                'Hata!',
+                'Şifre sıfırlama mail adresinize yollanmıştır!',
+                [{text: 'Tamam'}],
+              );
+            })
 
-          firestore()
-          .collection('users')
-          .doc(user.uid)
-          .update({
-            userImg: url,
-          })
-          .catch(error => {});
+            .catch(error => {
+              Alert.alert('Hata!', 'E Mail adresi doğru değil!!', [
+                {text: 'Tamam'},
+              ]);
+            });
         },
-        updatePhone: async (phoneNumber) => {
-
+        updateImage: async url => {
           firestore()
-          .collection('users')
-          .doc(user.uid)
-          .update({
-            phoneNumber: phoneNumber,
-          })
-          .catch(error => {});
+            .collection('users')
+            .doc(user.uid)
+            .update({
+              userImg: url,
+            })
+            .catch(error => {});
+        },
+
+        updateEmail: async userMail => {
+          firestore()
+            .collection('users')
+            .doc(user.uid)
+            .update({
+              userMail: userMail,
+            })
+            .catch(error => {});
         },
 
         getUserDetail: async () => {
@@ -134,39 +144,38 @@ export const AuthProvider = ({children}) => {
                 setUserLastName(documentSnapshot.data().lastName);
                 setUserIdentity(documentSnapshot.data().userMail);
                 setUserImage(documentSnapshot.data().userImg);
-                setUserPhone(documentSnapshot.data().phoneNumber);
+
                 setUserAccountIban(documentSnapshot.data().accountIban);
                 setUserAccounts(documentSnapshot.data().accounts);
                 setAccountTransactions(documentSnapshot.data().transactions);
-                
+
                 console.log('+++++++');
-               
+
                 //console.log(userAccounts[0].currencyType);
               }
             });
         },
-    
+
         getUserAccountsCurrencyType: currencyType => {
-          
-            function getIndex(currencyType) {
-              return userAccounts.filter(
-                obj =>  obj.currencyType?.split('-')[0] === currencyType,
-              );
-            }
+          function getIndex(currencyType) {
+            return userAccounts.filter(
+              obj => obj.currencyType?.split('-')[0] === currencyType,
+            );
+          }
 
           let data = [];
 
           data = getIndex(currencyType);
 
-
           return data;
         },
         getTransactionsByIban: accountIban => {
-
           {
             function getIndex(accountIban) {
               return accountTransactions.filter(
-                obj => obj.accountCurrencyToChoise === accountIban || obj.accountCurrencyFromChoise === accountIban,
+                obj =>
+                  obj.accountCurrencyToChoise === accountIban ||
+                  obj.accountCurrencyFromChoise === accountIban,
               );
             }
           }
@@ -176,15 +185,14 @@ export const AuthProvider = ({children}) => {
           data = getIndex(accountIban);
 
           return data;
-
-
         },
         getLastTransactionsByIban: accountIban => {
-
           {
             function getIndex(accountIban) {
               return accountTransactions.filter(
-                obj => obj.accountCurrencyToChoise === accountIban || obj.accountCurrencyFromChoise === accountIban,
+                obj =>
+                  obj.accountCurrencyToChoise === accountIban ||
+                  obj.accountCurrencyFromChoise === accountIban,
               );
             }
           }
@@ -192,16 +200,14 @@ export const AuthProvider = ({children}) => {
           let data = [];
 
           data = getIndex(accountIban);
-          
-          return data[data.length-1];
 
-
+          return data[data.length - 1];
         },
 
-       
-
-       
-        getToCurrencyTransaction: async (currencyToChoise,currencyToAmount) => {
+        getToCurrencyTransaction: async (
+          currencyToChoise,
+          currencyToAmount,
+        ) => {
           {
             function getDataIndex(accountIban) {
               return userAccounts.filter(
@@ -216,7 +222,7 @@ export const AuthProvider = ({children}) => {
 
           const data1 = Object.assign({}, ...data);
 
-          console.log("data1"+JSON.stringify(data1));
+          console.log('data1' + JSON.stringify(data1));
 
           let deneme = Object.keys(data1)
             .filter(key => !key.includes('_index'))
@@ -226,40 +232,35 @@ export const AuthProvider = ({children}) => {
               });
             }, {});
 
-            await firestore()
+          await firestore()
             .collection('users')
             .doc(user.uid)
             .update({
               accounts: firestore.FieldValue.arrayRemove(deneme),
             });
 
-           
-           
           let keys = Object.keys(deneme);
-        
+
           keys.forEach(element => {
-            
             if (element == 'currencyCount') {
-              deneme[element] =  Number(deneme[element] - (currencyToAmount));
+              deneme[element] = Number(deneme[element] - currencyToAmount);
             }
           });
 
           //console.log("DENEME"+ JSON.stringify(deneme));
 
           await firestore()
-          .collection('users')
-          .doc(user.uid)
-          .update({
-            accounts: firestore.FieldValue.arrayUnion(deneme),
-          })
-
-        
-
-
+            .collection('users')
+            .doc(user.uid)
+            .update({
+              accounts: firestore.FieldValue.arrayUnion(deneme),
+            });
         },
 
-      
-        getFromCurrencyTransaction: async (currencyFromChoise,currencyFromAmount) => {
+        getFromCurrencyTransaction: async (
+          currencyFromChoise,
+          currencyFromAmount,
+        ) => {
           {
             function getDataIndex(accountIban) {
               return userAccounts.filter(
@@ -274,7 +275,6 @@ export const AuthProvider = ({children}) => {
 
           const dataFromCurrency = Object.assign({}, ...fromData);
 
-
           let valueOfFromCurrency = Object.keys(dataFromCurrency)
             .filter(key => !key.includes('_index'))
             .reduce((obj, key) => {
@@ -283,7 +283,7 @@ export const AuthProvider = ({children}) => {
               });
             }, {});
 
-            await firestore()
+          await firestore()
             .collection('users')
             .doc(user.uid)
             .update({
@@ -291,16 +291,14 @@ export const AuthProvider = ({children}) => {
             });
 
           let fromCurrencykeys = Object.keys(valueOfFromCurrency);
-        
+
           fromCurrencykeys.forEach(element => {
-            
             if (element == 'currencyCount') {
               valueOfFromCurrency[element] += Number(currencyFromAmount);
             }
           });
 
-      
-          console.log(valueOfFromCurrency); 
+          console.log(valueOfFromCurrency);
 
           await firestore()
             .collection('users')
@@ -308,11 +306,7 @@ export const AuthProvider = ({children}) => {
             .update({
               accounts: firestore.FieldValue.arrayUnion(valueOfFromCurrency),
             });
-
         },
-
-      
-
 
         addCollectionAccounts: async (
           accountType,
@@ -352,46 +346,52 @@ export const AuthProvider = ({children}) => {
         addAccountTransactions: async (
           accountCurrencyToChoise,
           currencyToAmount,
-          accountCurrencyFromChoise, 
+          accountCurrencyFromChoise,
           currencyFromAmount,
-          fromCurrency,toCurrency
-           ) => {
+          fromCurrency,
+          toCurrency,
+        ) => {
+          var cdate = new Date();
 
-            var cdate =  new Date(); 
-            
-            var dateVal= cdate.getFullYear()+"-"+cdate.getDate()+"-"+cdate.getMonth()+" "+cdate.getHours() + ":" + cdate.getMinutes() + ":" + cdate.getSeconds()
-           
-            let transactions = [];
+          var dateVal =
+            cdate.getFullYear() +
+            '-' +
+            cdate.getDate() +
+            '-' +
+            cdate.getMonth() +
+            ' ' +
+            cdate.getHours() +
+            ':' +
+            cdate.getMinutes() +
+            ':' +
+            cdate.getSeconds();
 
-            let tempAccountTransactions;
-  
-            accountTransactions && accountTransactions.length
-              ? (tempAccountTransactions = accountTransactions)
-              : (tempAccountTransactions = transactions);
-  
-              tempAccountTransactions.push({
-              accountCurrencyToChoise: accountCurrencyToChoise,
-              fromCurrency:fromCurrency,
-              toCurrency:toCurrency,
-              currencyToAmount:Number(currencyToAmount).toFixed(2),
-              accountCurrencyFromChoise:accountCurrencyFromChoise,
-              currencyFromAmount:Number(currencyFromAmount).toFixed(2),
-              date:dateVal
-             
-            });
-  
-            firestore()
-              .collection('users')
-              .doc(user.uid)
-              .update({
-                transactions: tempAccountTransactions,
-              })
-              .catch(error => {});
+          let transactions = [];
 
+          let tempAccountTransactions;
 
+          accountTransactions && accountTransactions.length
+            ? (tempAccountTransactions = accountTransactions)
+            : (tempAccountTransactions = transactions);
 
+          tempAccountTransactions.push({
+            accountCurrencyToChoise: accountCurrencyToChoise,
+            fromCurrency: fromCurrency,
+            toCurrency: toCurrency,
+            currencyToAmount: Number(currencyToAmount).toFixed(2),
+            accountCurrencyFromChoise: accountCurrencyFromChoise,
+            currencyFromAmount: Number(currencyFromAmount).toFixed(2),
+            date: dateVal,
+          });
+
+          firestore()
+            .collection('users')
+            .doc(user.uid)
+            .update({
+              transactions: tempAccountTransactions,
+            })
+            .catch(error => {});
         },
-
       }}>
       {children}
     </AuthContext.Provider>

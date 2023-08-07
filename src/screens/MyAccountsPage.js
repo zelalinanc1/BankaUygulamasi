@@ -25,7 +25,7 @@ import TopCard from '../components/TopCard';
 
 
 const MyAccountsPage = ({route, navigation}) => {
-  const {getUserDetail,userName,userLastName,userBirthday,userIdentity,userImage,userAccounts,accountTransactions} = useContext(AuthContext);
+  const {getUserDetail,userName,userLastName,userImage,userAccounts} = useContext(AuthContext);
 
 
   
@@ -58,11 +58,12 @@ const MyAccountsPage = ({route, navigation}) => {
             marginTop: 15,
             width: '100%',
           }}>
-          <View style={{width: '50%'}}>
+          <View style={{width: '50%',flexDirection: 'row', alignItems: 'center',}}>
             <Image
               source={userImage ? {uri: userImage} : imgPlaceHolder}
               style={{height: 40, width: 40, borderRadius: 40}}
             />
+            <Text style={{paddingLeft:50,color: 'white'}}>{userName} {userLastName}</Text>
           </View>
         </View>
       </View>

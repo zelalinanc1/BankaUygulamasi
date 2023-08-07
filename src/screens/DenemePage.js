@@ -236,9 +236,11 @@ const DenemePage = route => {
 
                   <Pressable
                     style={({pressed}) => [
-                      {backgroundColor: pressed ? 'blue' : 'white'},
+                      {backgroundColor: pressed ? '#009387' : 'white'},
                       styles.button,
+                     
                     ]}
+                  
                     onPress={() =>
                       findIsAccounts(
                         item.fromCurrency,
@@ -252,7 +254,7 @@ const DenemePage = route => {
                  
                   <Pressable
                     style={({pressed}) => [
-                      {backgroundColor: pressed ? 'blue' : 'white'},
+                      {backgroundColor: pressed ? '#009387' : 'white'},
                       styles.button,
                     ]}
                     onPress={() =>
@@ -314,12 +316,11 @@ const styles = StyleSheet.create({
     width: 80,
     height: 40,
     marginLeft: 10, marginTop: 10,
-    borderColor: '#2596be',
-    //paddingVertical: 12,
-    //paddingHorizontal: 12,
+    borderColor: '#009387',
     borderRadius: 4,
     elevation: 3,
   },
+
   alSat: {
     top: -18,
     textAlign: 'left',

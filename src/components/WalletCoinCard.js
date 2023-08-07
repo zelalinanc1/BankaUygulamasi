@@ -16,22 +16,23 @@ import {AuthContext} from '../navigation/AuthProvider';
 import Transactions from './Transactions';
 import TopCard from './TopCard';
 
-
 const WalletCoinCard = props => {
-
   const nav = useNavigation();
 
-  const {userAccounts,getTransactionsByIban,accountTransactions,getLastTransactionsByIban} = useContext(AuthContext);
+  const {
+    userAccounts,
+    getTransactionsByIban,
+    accountTransactions,
+    getLastTransactionsByIban,
+  } = useContext(AuthContext);
 
   const route = useRoute();
 
   const params = route.params;
 
-
-  let {name, accountCount,iban} =
+  let {name, accountCount, iban} =
     typeof props.item == 'undefined' ? params : props.item;
 
-   
   const [chooseData, setchooseData] = useState('');
 
   const [isModalVisible, setisModalVisible] = useState(false);
@@ -40,117 +41,116 @@ const WalletCoinCard = props => {
     setisModalVisible(bool);
   };
 
-
   const setData = option => {
     setchooseData(option);
-    
   };
-
 
   return (
     <View>
-    <CustomCard style={styles.container}>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Text
-            style={{
-              fontSize: 18,
-              color: LIGHTBLACK,
-              fontWeight: 'bold',
-              marginLeft: 10,
-              fontFamily: 'ArchivoNarrow-Medium',
-            }}>
-               {chooseData.length == 0 ? name : chooseData.accountNumber} - {chooseData.branchName}
-          </Text>
-        </View>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Icon
-            name="ellipsis1"
-            size={40}
-            color={LIGHTGREY}
-            onPress={() => changeModalVisibility(true)}
-          />
-             
-          <Modal
-            transparent={true}
-            animationType="fade"
-            visible={isModalVisible}
-            nRequestClose={() => changeModalVisibility(false)}>
-            <ModalPicker
-              changeModalVisibility={changeModalVisibility}
-              setData={setData}
-          
-            />
-          </Modal>
-        </View>
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          marginTop: 10,
-          justifyContent: 'space-between',
-        }}>
-        <Text
+      <CustomCard style={styles.container}>
+        <View
           style={{
-            fontSize: 13,
-            marginLeft: 10,
-            color: LIGHTBLACK,
-            fontFamily: 'OpenSans_Condensed-Light',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
           }}>
-          Kullanılabilir Bakiye
-        </Text>
-      </View>
-      <Text
-        style={{
-          marginLeft: 10,
-          marginTop: 5,
-          color: LIGHTGREY,
-          fontSize: 12,
-          fontFamily: 'RopaSans-Regular',
-        }}>
-           {chooseData.length == 0 ? accountCount : chooseData.currencyCount.toFixed(2)}
-      </Text>
-      
-        <TopCard/>
-        
-    </CustomCard>
-    <View>
-    {accountTransactions != null ? 
-          ( <Transactions item={{ibanNo:chooseData.accountIban}}/>)
-        
-        : ( <View style={{marginTop:30}}>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Text
               style={{
+                fontSize: 18,
+                color: LIGHTBLACK,
                 fontWeight: 'bold',
-                fontFamily: 'OpenSans-Regular',
-                color: '#000',
+                marginLeft: 10,
+                fontFamily: 'ArchivoNarrow-Medium',
               }}>
-              Son Hareket{' '}
+              {chooseData.length == 0 ? name : chooseData.accountNumber} -{' '}
+              {chooseData.branchName}
             </Text>
           </View>
-          <View style={{height: 18}} />
-          <View
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Icon
+              name="ellipsis1"
+              size={40}
+              color={LIGHTGREY}
+              onPress={() => changeModalVisibility(true)}
+            />
+
+            <Modal
+              transparent={true}
+              animationType="fade"
+              visible={isModalVisible}
+              nRequestClose={() => changeModalVisibility(false)}>
+              <ModalPicker
+                changeModalVisibility={changeModalVisibility}
+                setData={setData}
+              />
+            </Modal>
+          </View>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginTop: 10,
+            justifyContent: 'space-between',
+          }}>
+          <Text
             style={{
-              marginStart: -17,
-              flexDirection: 'row',
-              alignItems: 'center',
+              fontSize: 13,
+              marginLeft: 10,
+              color: LIGHTBLACK,
+              fontFamily: 'OpenSans_Condensed-Light',
             }}>
-            <Text style={{paddingLeft: 17}}>
-              Bu hesabınızda henüz hareketiniz bulunmuyor.
-            </Text>
+            Kullanılabilir Bakiye
+          </Text>
+          <Text
+            style={{
+              marginLeft: 40,
+              marginTop: 5,
+              color: LIGHTGREY,
+              fontSize: 12,
+              fontFamily: 'RopaSans-Regular',
+            }}>
+            {chooseData.length == 0
+              ? accountCount 
+             //+' ' +accountCount.currencyType.split('-')[1]
+              : chooseData.currencyCount.toFixed(2) +
+                ' ' +
+                chooseData.currencyType.split('-')[1]}
+          </Text>
+        </View>
+
+        <TopCard />
+      </CustomCard>
+      <View>
+        {accountTransactions != null ? (
+          <Transactions item={{ibanNo: chooseData.accountIban}} />
+        ) : (
+          <View style={{marginTop: 30}}>
+            <View style={{flexDirection: 'row'}}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontFamily: 'OpenSans-Regular',
+                  color: '#000',
+                }}>
+                Son Hareket{' '}
+              </Text>
+            </View>
+            <View style={{height: 18}} />
+            <View
+              style={{
+                marginStart: -17,
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <Text style={{paddingLeft: 17}}>
+                Bu hesabınızda henüz hareketiniz bulunmuyor.
+              </Text>
+            </View>
           </View>
-          
-        </View>) }
-   
+        )}
+      </View>
     </View>
-    </View>
-    
   );
 };
 

@@ -18,14 +18,14 @@ const AuthStack = () => {
       <Stack.Screen
         name="LoginScreen"
         component={LoginScreen}
-        //options={{header: () => null}}
+        options={{header: () => null}}
       />
 
       <Stack.Screen
         name="SignUpWithImageScreen"
         component={SignUpWithImageScreen}
       />
-      <Stack.Screen name="SignUpPage" component={SignUpPage} />
+      <Stack.Screen name="SignUpPage" component={SignUpPage} options={{header: () => null}}/>
     </Stack.Navigator>
   );
 };

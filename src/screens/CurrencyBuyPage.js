@@ -81,7 +81,7 @@ const CurrencyTradePage = props => {
       fromCurrency,
       toCurrency,
     );
-    nav.navigate('MyAccountsPage');
+    nav.goBack();
     // await addAccountTransactions(accountCurrencyToChoise, currencyToAmount,accountCurrencyFromChoise, currencyFromAmount);
   };
 
@@ -109,10 +109,10 @@ const CurrencyTradePage = props => {
         <View style={{height: 10}} />
         <CountdownCircleTimer
           isPlaying
-          duration={90}
-          colors="#004777"
+          duration={30}
+          colors="#009387"
           onComplete={() => {
-            nav.navigate('Home');
+            nav.goBack();
           }}
           size={150}>
           {({remainingTime}) => (
@@ -211,6 +211,18 @@ const CurrencyTradePage = props => {
         </Text>
       </View>
       <View style={styles.searchSection}>
+      <TouchableOpacity
+                  onPress={() => convertCurrencyTransaction()}
+                  style={[styles.signIn, {
+                      borderColor: '#009387',
+                      borderWidth: 1,
+                      marginVertical:50
+                  }]}
+              >
+                  <Text style={[styles.textSign, {
+                      color: '#009387'
+                  }]}>İşlem Yap</Text>
+              </TouchableOpacity>
         <FormButton
           buttonTitle="İşlem Yap"
           onPress={convertCurrencyTransaction}
@@ -229,11 +241,24 @@ const styles = StyleSheet.create({
     //height: 50,
     flex: 1,
   },
+  signIn: {
+    marginTop:5,
+    width: 90,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    flexDirection: 'row',
+},
+textSign: {
+  fontSize: 18,
+  fontWeight: 'bold'
+},
   searchSection: {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingLeft: 9,
+   // paddingLeft: 9,
   },
   headerContainer: {
     backgroundColor: 'white',

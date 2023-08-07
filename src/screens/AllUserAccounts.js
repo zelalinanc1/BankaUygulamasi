@@ -21,7 +21,7 @@ const AllUserAccounts = route => {
   
   return (
    
-      <SafeAreaView>
+      <View>
         
       {userAccounts != null ? (
       
@@ -30,8 +30,14 @@ const AllUserAccounts = route => {
             data={userAccounts}
             
             ItemSeparatorComponent={() => (
-              <View style={{marginVertical: 8}}></View>
+              <View
+              style={{
+                height: 1,
+                width: '100%',
+                backgroundColor: '#CCC',
+              }}></View>
             )}
+            showsVerticalScrollIndicator={false}
             renderItem={({item}) => (
               <View style={{marginTop: 30}}>
                 <Text>
@@ -113,7 +119,7 @@ const AllUserAccounts = route => {
         </View>
       )}
      
-      </SafeAreaView>
+      </View>
     
   );
 };
@@ -125,7 +131,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     borderBottomWidth: 1,
     borderBottomColor: '#edf1f2',
-    marginBottom: 5,
+    marginBottom: 50,
   },
   centerContainer: {
     //flexDirection: 'row',
