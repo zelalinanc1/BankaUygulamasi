@@ -5,6 +5,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import ProfileScreen from '../screens/ProfileScreen';
 import AccountRegisterScreen from '../screens/AccountRegisterScreen';
 import CurrencyBuyPage from '../screens/CurrencyBuyPage';
+import CurrencySellPage from '../screens/CurrencySellPage';
 import SignUpWithImageScreen from '../screens/SignUpWithImageScreen';
 import AllUserAccounts from '../screens/AllUserAccounts';
 import EmailPage from '../screens/EmailPage';
@@ -91,9 +92,20 @@ const MyAccounts = ({navigation}) => (
         headerStyle: {backgroundColor: '#009142'},
       }}
     />
+     <Stack.Screen
+      name="CurrencySellPage"
+      component={CurrencySellPage}
+      options={{
+        title: 'Alış/Satış',
+        headerShown: true,
+        headerTintColor: 'white',
+        headerStyle: {backgroundColor: '#009142'},
+      }}
+    />
+    
   </Stack.Navigator>
 );
-const Deneme = ({navigation}) => (
+const Kurlar = ({navigation}) => (
   <Stack.Navigator>
     <Stack.Screen
       name="DenemePage"
@@ -108,6 +120,16 @@ const Deneme = ({navigation}) => (
     <Stack.Screen
       name="CurrencyBuy"
       component={CurrencyBuyPage}
+      options={{
+        title: 'Alış/Satış',
+        headerShown: true,
+        headerTintColor: 'white',
+        headerStyle: {backgroundColor: '#009142'},
+      }}
+    />
+    <Stack.Screen
+      name="CurrencySellPage"
+      component={CurrencySellPage}
       options={{
         title: 'Alış/Satış',
         headerShown: true,
@@ -196,6 +218,16 @@ const UserAccounts = ({navigation}) => (
       }}
     />
     <Stack.Screen
+      name="AllAccountTransactions"
+      component={AllAccountTransactions}
+      options={{
+        title: 'İşlem Geçmişi',
+        headerShown: true,
+        headerTintColor: 'white',
+        headerStyle: {backgroundColor: '#009142'},
+      }}
+    />
+    <Stack.Screen
       name="AccountRegisterScreen"
       component={AccountRegisterScreen}
       options={{
@@ -239,12 +271,9 @@ const AppStack = () => {
           }
         }}
       />
-     
-       
-
       <Tab.Screen
         name="Kurlar"
-        component={Deneme}
+        component={Kurlar}
         options={{
           tabBarIcon: ({focused})=>{
             return (
@@ -256,7 +285,6 @@ const AppStack = () => {
           }
         }}
       />
-
       <Tab.Screen
         name="Profil"
         component={Profil}

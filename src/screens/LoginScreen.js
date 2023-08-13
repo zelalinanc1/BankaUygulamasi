@@ -18,6 +18,7 @@ import {AuthContext} from '../navigation/AuthProvider';
 import {useTheme, useNavigation} from '@react-navigation/native';
 
 const LoginScreen = ({navigation}) => {
+  
   const [data, setData] = React.useState({
     userMail: '',
     password: '',
@@ -30,7 +31,10 @@ const LoginScreen = ({navigation}) => {
   const {login, changePassword} = useContext(AuthContext);
 
   const textInputChange = val => {
-    if (val.trim().length >= 4) {
+
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+
+    if ( reg.test(val) ) {
       setData({
         ...data,
         userMail: val,
@@ -91,9 +95,11 @@ const LoginScreen = ({navigation}) => {
       ]);
       return;
     }
+    
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
 
-    if (data.userMail.length < 4) {
-      Alert.alert('Hata!', 'Mail adresi en az 4 karakterli olmalıdır!', [
+    if (!reg.test(data.userMail)) {
+      Alert.alert('Hata!', 'Lütfen doğru bir email formatını giriniz!', [
         {text: 'Tamam'},
       ]);
       return;
@@ -172,7 +178,7 @@ const LoginScreen = ({navigation}) => {
         {data.isValidUser ? null : (
           <Animatable.View animation="fadeInLeft" duration={500}>
             <Text style={styles.errorMsg}>
-              Kullanıcı emaili en az 4 karakterli olmalıdır .
+            Lütfen doğru bir email formatını giriniz!
             </Text>
           </Animatable.View>
         )}

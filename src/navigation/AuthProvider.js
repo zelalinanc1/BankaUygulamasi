@@ -174,8 +174,29 @@ export const AuthProvider = ({children}) => {
             function getIndex(accountIban) {
               return accountTransactions.filter(
                 obj =>
-                  obj.accountCurrencyToChoise === accountIban ||
-                  obj.accountCurrencyFromChoise === accountIban,
+                  obj.accountCurrencyToChoise === accountIban
+                  //obj.accountCurrencyFromChoise === accountIban,
+                 // obj.accountCurrencyToChoise === accountIban ||
+                  //obj.accountCurrencyFromChoise === accountIban,
+              );
+            }
+          }
+
+          let data = [];
+
+          data = getIndex(accountIban);
+
+          return data;
+        },
+        getTransactions1ByIban: accountIban => {
+          {
+            function getIndex(accountIban) {
+              return accountTransactions.filter(
+                obj =>
+                  //obj.accountCurrencyToChoise === accountIban,
+                  obj.accountCurrencyFromChoise === accountIban
+                 // obj.accountCurrencyToChoise === accountIban ||
+                  //obj.accountCurrencyFromChoise === accountIban,
               );
             }
           }
@@ -193,6 +214,7 @@ export const AuthProvider = ({children}) => {
                 obj =>
                   obj.accountCurrencyToChoise === accountIban ||
                   obj.accountCurrencyFromChoise === accountIban,
+                 
               );
             }
           }

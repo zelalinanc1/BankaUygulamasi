@@ -1,4 +1,4 @@
-import {View,SafeAreaView, StyleSheet, Text, FlatList, TouchableOpacity,NestableScrollContainer,NestableDraggableFlatList,ScrollView} from 'react-native';
+import {View,SafeAreaView, StyleSheet, Text, FlatList, TouchableOpacity} from 'react-native';
 import React, {useContext, useState, useEffect} from 'react';
 import {AuthContext} from '../navigation/AuthProvider';
 import {useNavigation} from '@react-navigation/native';
@@ -6,7 +6,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FormButton from '../components/FormButton';
 import LinearGradient from 'react-native-linear-gradient';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const AllUserAccounts = route => {
   const {user, logout, getUserDetail, userAccounts, userId} =
@@ -18,7 +18,7 @@ const AllUserAccounts = route => {
     getUserDetail();
   }, []);
 
-  
+ 
   return (
    
       <View>
@@ -43,6 +43,7 @@ const AllUserAccounts = route => {
                 <Text>
                   {item.accountType} {item.currencyType.split('-')[1]}{' '}
                 </Text>
+                
                 <View style={styles.container}>
                   <View style={styles.mainContent}>
                     <MaterialCommunityIcons
@@ -63,6 +64,9 @@ const AllUserAccounts = route => {
                       <Text style={styles.operationTitle}>
                         {item.branchName}
                       </Text>
+                      <TouchableOpacity onPress={() => nav.navigate('AllAccountTransactions',{ibanNo:item.accountIban})}>
+                      <AntDesign name="right" size={20} color="#009387" />
+                      </TouchableOpacity>
                     </View>
                   </View>
                   <View></View>

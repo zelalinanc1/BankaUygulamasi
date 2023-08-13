@@ -63,7 +63,7 @@ const SignUpWithImageScreen = ({ navigation}) => {
     const storageRef = storage().ref(`photos/${filename}`);
     const task = storageRef.putFile(uploadUri);
 
-    // Set transferred state
+    
     task.on('state_changed', taskSnapshot => {
       console.log(
         `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,

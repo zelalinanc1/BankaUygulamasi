@@ -11,20 +11,27 @@ const TransactionsDetail = props => {
 
     const params = route.params;
 
-    let {transactions} = typeof props.item == 'undefined' ? params : props.item;
+    let {transactions,transactions1} = typeof props.item == 'undefined' ? params : props.item;
 
    
   
 
   return (
+    <View>
     <View style={styles.dayContainer}>
-     
      <FlatList
           data={transactions}
           ItemSeparatorComponent={() => (
-            <View style={{marginVertical: 8}}></View>
+            <View
+            style={{
+              height: 1,
+              width: '100%',
+              backgroundColor: '#CCC',
+            }}></View>
           )}
+          showsVerticalScrollIndicator={false}
           renderItem={({item}) => (
+            <View>
             <View style={styles.container}>
             <View style={styles.mainContent}>
               <AntDesign
@@ -70,10 +77,76 @@ const TransactionsDetail = props => {
             </View>
            
           </View>
+          </View>
+          )}
+        />
+
+        <Text>ikicissssssssssssi</Text>
+
+        <FlatList
+          data={transactions1}
+          ItemSeparatorComponent={() => (
+            <View
+            style={{
+              height: 1,
+              width: '100%',
+              backgroundColor: '#CCC',
+            }}></View>
+          )}
+          showsVerticalScrollIndicator={false}
+          renderItem={({item}) => (
+            <View>
+            <View style={styles.container}>
+            <View style={styles.mainContent}>
+              <AntDesign
+                name="codepen-circle"
+                size={30}
+                color="#000"
+                style={{marginRight: 15}}
+              />
+        
+              <View style={{flexDirection: 'row',
+                }}>
+                <Text style={styles.operationTitle}>{item.accountCurrencyToChoise}</Text>
+                <AntDesign
+                name="retweet"
+                size={20}
+                color="#000"
+                
+              />
+                <Text style={styles.operationTitle}>{item.accountCurrencyFromChoise}</Text>
+              </View>
+            </View>
+            <View>
+            </View>
+            <View
+            style={{
+              marginStart: 20,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            <Text style={{paddingLeft:33}}>{item.date}</Text>
+            <Text
+              style={{
+                fontFamily: 'OpenSans-Regular',
+                color: '#154ee7',
+                fontSize: 16,
+              }}>
+              {item.currencyToAmount} {item.toCurrency}
+            </Text>
+           
+           
+            
+            </View>
+           
+          </View>
+          </View>
           )}
         />
 
      
+    </View>
     </View>
   )
 }

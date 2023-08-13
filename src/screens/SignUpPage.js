@@ -78,13 +78,16 @@ const SignUpPage = ({navigation}) => {
         }
     }
     const textEmailChange = (val) => {
-        if( val.length >= 4 ) {
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+
+        if( reg.test(val) ) {
             setData({
                 ...data,
                 userMail: val,
                 isEmail:true,
                 check_textEmailChange: true
             });
+            
         } else {
             setData({
                 ...data,
@@ -252,7 +255,7 @@ const SignUpPage = ({navigation}) => {
               </View>
               { data.isEmail ? null : 
           <Animatable.View animation="fadeInLeft" duration={500}>
-          <Text style={styles.errorMsg}>Kullanıcı emaili en az 4 karakterli olmalıdır .</Text>
+          <Text style={styles.errorMsg}>Lütfen doğru bir email formatını giriniz.</Text>
           </Animatable.View>
           }
   

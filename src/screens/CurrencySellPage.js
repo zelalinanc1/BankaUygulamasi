@@ -10,17 +10,19 @@ import {
   Alert,
 } from 'react-native';
 import React, {useState, useContext, useEffect} from 'react';
-import CoinCard from '../components/CoinCard';
-import {Dropdown} from 'react-native-element-dropdown';
-import {CountdownCircleTimer} from 'react-native-countdown-circle-timer';
 import {useRoute, useNavigation} from '@react-navigation/native';
 import {AuthContext} from '../navigation/AuthProvider';
-import FormInput from '../components/FormInput';
+import {Dropdown} from 'react-native-element-dropdown';
+import {CountdownCircleTimer} from 'react-native-countdown-circle-timer';
 import FormButton from '../components/FormButton';
 
-const CurrencyBuyPage = props => {
+const CurrencySellPage = props => {
+
   const route = useRoute();
 
+  let { price, toCurrency, fromCurrency} = route.params;
+
+ 
   const {
     getUserAccountsCurrencyType,
     getToCurrencyTransaction,
@@ -29,11 +31,10 @@ const CurrencyBuyPage = props => {
     getUserDetail,
   } = useContext(AuthContext);
 
+ 
   const nav = useNavigation();
 
   const [isFocus, setIsFocus] = useState(false);
-
-  const [isVisible, setIsVisible] = useState(false);
 
   const [accountCurrencyToChoise, setAccountCurencyToChoise] = useState(null);
 
@@ -48,19 +49,17 @@ const CurrencyBuyPage = props => {
 
   const [currencyToAmount, setCurrencyToAmount] = useState('');
 
-  let { price, toCurrency, fromCurrency} = route.params;
-
   let valueOfFromCurrency = getUserAccountsCurrencyType(fromCurrency);
 
   let valueOfToCurrency = getUserAccountsCurrencyType(toCurrency);
 
   const convertCurrencyTransaction = () => {
-
+  
    if (currencyToAmount === 0) {
     Alert.alert('Hata!', 'Girdiğiniz değer 0 olamaz!', [
       {text: 'Tamam'},
     ]);
-    } else if (currencyToAmount > currencyCountToAmount) {
+    } else if (currencyFromAmount > currencyCountToAmount) {
       Alert.alert('Hata!', 'Yetersiz Bakiye!', [
         {text: 'Tamam'},
       ]);
@@ -69,13 +68,18 @@ const CurrencyBuyPage = props => {
     }
   };
 
-  let yazıl =fromCurrency + ' Tutar';
-
   const işlemYap = () => {
-   
+    console.log('işlem yapılabilir');
+    console.log('accountCurrencyToChoise  ' + accountCurrencyToChoise); //iban
+    console.log('accountCurrencyFromChoise  ' + accountCurrencyFromChoise); //iban
+    console.log('currencyToAmount  ' + currencyToAmount);
+    console.log('currencyFromAmount  ' + currencyFromAmount);
+    console.log('***************************');
 
-    getToCurrencyTransaction(accountCurrencyToChoise, currencyToAmount);
-    getFromCurrencyTransaction(accountCurrencyFromChoise, currencyFromAmount);
+   
+    getToCurrencyTransaction(accountCurrencyToChoise, currencyFromAmount);
+    getFromCurrencyTransaction(accountCurrencyFromChoise, currencyToAmount);
+
     addAccountTransactions(
       accountCurrencyToChoise,
       currencyToAmount,
@@ -99,8 +103,9 @@ const CurrencyBuyPage = props => {
     let resulmultiplication = multiplication(price, currencyAmount);
     setCurrencyToAmount(resulmultiplication);
   };
-
+  let yazıl =toCurrency + ' Tutar';
   return (
+    
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <Text>
@@ -197,11 +202,12 @@ const CurrencyBuyPage = props => {
       )}
 
       <View style={styles.currencyConvertContainer}>
+        
         <TextInput
           name="currAmountTo"
           autoCorrect={false}
           keyboardType="numeric"
-          placeholder={yazıl}
+          placeholder={yazıl} 
           placeholderTextColor="green"
           onChangeText={handleCalculation}
           underlineColorAndroid="green"
@@ -209,7 +215,7 @@ const CurrencyBuyPage = props => {
         />
 
         <Text style={{color: 'green', borderBottomColor: 'green'}}>
-          {toCurrency} Tutar {currencyToAmount}
+          {fromCurrency} Tutar {currencyToAmount}
         </Text>
       </View>
       <View style={styles.searchSection}>
@@ -231,11 +237,10 @@ const CurrencyBuyPage = props => {
         />
       </View>
     </View>
-  );
-};
+  )
+}
 
-export default CurrencyBuyPage;
-
+export default CurrencySellPage;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#F5F8FF',

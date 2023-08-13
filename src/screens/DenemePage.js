@@ -30,7 +30,7 @@ const DenemePage = route => {
 
   const [search, setSearch] = useState('');
 
-  let fromCurr = ['USD', 'EUR', 'AUD', 'CHF'];
+  let fromCurr = ['USD', 'EUR', 'GBP', 'CHF'];
   let toCurrs = ['TRY', 'JPY', 'CAD'];
 
 
@@ -59,15 +59,35 @@ const DenemePage = route => {
    }
 
    console.log(toCurrency)
+  };
+  const findIsSellAccounts = (fromCurrency, toCurrency, price) => {
+    let findIsFromAccount = getUserAccountsCurrencyType(fromCurrency);
+    let findIsToAccount = getUserAccountsCurrencyType(toCurrency);
 
-        // findIsFromAccount.length === 0 || findIsToAccount.length === 0
-        // ? nav.navigate('NewAccountsScreen')
-        // : nav.navigate('CurrencyBuyPage', {
-        //     name: fromCurrency,
-        //     toCurrency: toCurrency,
-        //     fromCurrency: fromCurrency,
-        //     price: price,
-        //   });
+    
+   
+
+   if(findIsFromAccount.length != 0 && findIsToAccount.length != 0){
+    nav.navigate('CurrencySellPage', {
+      name: fromCurrency,
+      toCurrency: fromCurrency,
+      fromCurrency: toCurrency,
+      price: price,
+    })
+   }else if( findIsFromAccount.length === 0){
+    nav.navigate('NewAccountsScreen',{accountName:fromCurrency})
+   }else if(findIsToAccount.length === 0){
+    nav.navigate('NewAccountsScreen',{accountName:toCurrency})
+   }
+   else {
+    nav.navigate('NewAccountsScreen',{accountName:toCurrency})
+   }
+
+   console.log("From Curr"+fromCurrency)
+   console.log("To Curr"+toCurrency)
+   console.log(toCurrency)
+
+ 
   };
   
   
@@ -135,11 +155,6 @@ const DenemePage = route => {
 
   return (
     <View style={{height: '100%', backgroundColor: '#F5F8FF'}}>
-      {/* <View style={styles.headerbar}>
-        <Text style={{fontSize: 25, fontWeight: '500', color: LIGHTBLACK}}>
-          Döviz Kurları
-        </Text>
-      </View> */}
       <View style={{marginHorizontal: 20,marginTop:20}}>
         <View
           style={{
@@ -258,7 +273,7 @@ const DenemePage = route => {
                       styles.button,
                     ]}
                     onPress={() =>
-                      findIsAccounts(
+                      findIsSellAccounts(
                         item.fromCurrency,
                         item.toCurrency,
                         item.price,

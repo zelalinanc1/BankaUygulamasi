@@ -25,6 +25,7 @@ import TopCard from '../components/TopCard';
 
 
 const MyAccountsPage = ({route, navigation}) => {
+  
   const {getUserDetail,userName,userLastName,userImage,userAccounts} = useContext(AuthContext);
 
 

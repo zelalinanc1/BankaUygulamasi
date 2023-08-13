@@ -16,7 +16,7 @@ import {AuthContext} from '../navigation/AuthProvider';
 const windowHeight = Dimensions.get('window').height;
 const AllAccountTransactions = props => {
 
-  const {getTransactionsByIban} = useContext(AuthContext);
+  const {getTransactionsByIban,getTransactions1ByIban} = useContext(AuthContext);
 
   const route = useRoute();
 
@@ -24,26 +24,19 @@ const AllAccountTransactions = props => {
   let {ibanNo} = typeof props.item == 'undefined' ? params : props.item;
 
   let transactions =getTransactionsByIban(ibanNo)
+  let transactions1 =getTransactions1ByIban(ibanNo)
 
-  console.log(transactions)
+  //getTransactions1ByIban
 
+  
   return (
     <View style={StyleSheet.root}>
-      <View style={styles.header}>
-        <View style={styles.headerItems}>
-        <TouchableOpacity style={styles.headerItems_item_inactive}>
-            <AntDesign
-              name="wallet"
-              size={20}
-              color="#fff"
-              style={{marginRight: 5}}
-            />
-            <Text style={styles.headerItems__text_unactive}>İşlemler </Text>
-          </TouchableOpacity>
-          </View>
-          </View>
+     
           <View style={{marginTop:10}}/>
-          <TransactionsDetail item={{transactions:transactions}}/>
+          {transactions != null  || transactions1 != null  ? (
+            <TransactionsDetail item={{transactions:transactions,transactions1:transactions1}}/>
+          ): (<Text>jshdebsfkhedbs</Text>)}
+          
      
 
     </View>
@@ -57,7 +50,7 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: '#009142',
-    height: windowHeight * 0.18,
+    height: windowHeight * 0.10,
     marginTop:10,
     borderRadius:10
   },
@@ -66,6 +59,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+   
   },
   headerItems_item: {
     flexDirection: 'row',
