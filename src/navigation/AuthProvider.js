@@ -169,44 +169,45 @@ export const AuthProvider = ({children}) => {
 
           return data;
         },
-        getTransactionsByIban: accountIban => {
+        getTransactionsByFromName: currName => {
           {
-            function getIndex(accountIban) {
+            function getIndex(currName) {
               return accountTransactions.filter(
                 obj =>
-                  obj.accountCurrencyToChoise === accountIban
+                  //obj.accountCurrencyToChoise === accountIban
                   //obj.accountCurrencyFromChoise === accountIban,
-                 // obj.accountCurrencyToChoise === accountIban ||
-                  //obj.accountCurrencyFromChoise === accountIban,
+                  obj.fromCurrency === currName //||
+                  //obj.toCurrency === currName,
               );
             }
           }
 
           let data = [];
 
-          data = getIndex(accountIban);
+          data = getIndex(currName);
 
           return data;
         },
-        getTransactions1ByIban: accountIban => {
+        getTransactionsByToName: currName => {
           {
-            function getIndex(accountIban) {
+            function getIndex(currName) {
               return accountTransactions.filter(
                 obj =>
-                  //obj.accountCurrencyToChoise === accountIban,
-                  obj.accountCurrencyFromChoise === accountIban
-                 // obj.accountCurrencyToChoise === accountIban ||
+                  //obj.accountCurrencyToChoise === accountIban
                   //obj.accountCurrencyFromChoise === accountIban,
+                  //obj.fromCurrency === currName //||
+                  obj.toCurrency === currName,
               );
             }
           }
 
           let data = [];
 
-          data = getIndex(accountIban);
+          data = getIndex(currName);
 
           return data;
         },
+       
         getLastTransactionsByIban: accountIban => {
           {
             function getIndex(accountIban) {
@@ -414,6 +415,56 @@ export const AuthProvider = ({children}) => {
             })
             .catch(error => {});
         },
+        addAccountSellTransactions: async (
+          accountCurrencyToChoise,
+          currencyToAmount,
+          accountCurrencyFromChoise,
+          currencyFromAmount,
+          fromCurrency,
+          toCurrency,
+        ) => {
+          var cdate = new Date();
+
+          var dateVal =
+            cdate.getFullYear() +
+            '-' +
+            cdate.getDate() +
+            '-' +
+            cdate.getMonth() +
+            ' ' +
+            cdate.getHours() +
+            ':' +
+            cdate.getMinutes() +
+            ':' +
+            cdate.getSeconds();
+
+          let transactions = [];
+
+          let tempAccountTransactions;
+
+          accountTransactions && accountTransactions.length
+            ? (tempAccountTransactions = accountTransactions)
+            : (tempAccountTransactions = transactions);
+
+          tempAccountTransactions.push({
+            accountCurrencyToChoise: accountCurrencyToChoise,
+            fromCurrency: fromCurrency,
+            toCurrency: toCurrency,
+            currencyToAmount: Number(currencyFromAmount).toFixed(2),
+            accountCurrencyFromChoise: accountCurrencyFromChoise,
+            currencyFromAmount: Number(currencyToAmount).toFixed(2),
+            date: dateVal,
+          });
+
+          firestore()
+            .collection('users')
+            .doc(user.uid)
+            .update({
+              transactions: tempAccountTransactions,
+            })
+            .catch(error => {});
+        },
+        
       }}>
       {children}
     </AuthContext.Provider>

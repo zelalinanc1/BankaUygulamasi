@@ -26,7 +26,7 @@ const Transactions =props  => {
 
   const navigation = useNavigation();
 
-  let {ibanNo} = typeof props.item == 'undefined' ? params : props.item;
+  let {ibanNo,currName} = typeof props.item == 'undefined' ? params : props.item;
 
   let val= getLastTransactionsByIban(ibanNo)
 
@@ -76,7 +76,7 @@ const Transactions =props  => {
               {val.currencyToAmount} {val.toCurrency}
             </Text>
           </View>
-          <TouchableOpacity style={styles.accountList_item}  onPress={() => navigation.navigate('AllAccountTransactions',{ibanNo:ibanNo})}>
+          <TouchableOpacity style={styles.accountList_item}  onPress={() => navigation.navigate('AllAccountTransactions',{ibanNo:ibanNo,currName: currName})}>
             <View>
               <Text style={styles.account_libelle}>
                 Hesap Hareketlerine Git

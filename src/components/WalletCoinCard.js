@@ -123,7 +123,7 @@ const WalletCoinCard = props => {
       </CustomCard>
       <View>
         {accountTransactions != null ? (
-          <Transactions item={{ibanNo: chooseData.accountIban}} />
+          <Transactions item={{ibanNo: chooseData.accountIban,currName: chooseData.currencyType.split('-')[0]}} />
         ) : (
           <View style={{marginTop: 30}}>
             <View style={{flexDirection: 'row'}}>

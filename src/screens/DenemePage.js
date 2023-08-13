@@ -83,9 +83,7 @@ const DenemePage = route => {
     nav.navigate('NewAccountsScreen',{accountName:toCurrency})
    }
 
-   console.log("From Curr"+fromCurrency)
-   console.log("To Curr"+toCurrency)
-   console.log(toCurrency)
+   
 
  
   };

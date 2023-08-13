@@ -9,7 +9,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const AllUserAccounts = route => {
-  const {user, logout, getUserDetail, userAccounts, userId} =
+  const {user, logout, getUserDetail, userAccounts, userId,accountTransactions} =
     useContext(AuthContext);
 
   const nav = useNavigation();
@@ -64,9 +64,10 @@ const AllUserAccounts = route => {
                       <Text style={styles.operationTitle}>
                         {item.branchName}
                       </Text>
-                      <TouchableOpacity onPress={() => nav.navigate('AllAccountTransactions',{ibanNo:item.accountIban})}>
+                      {accountTransactions != null ? ( <TouchableOpacity onPress={() => nav.navigate('AllAccountTransactions',{currName:item.currencyType.split('-')[0]})}>
                       <AntDesign name="right" size={20} color="#009387" />
-                      </TouchableOpacity>
+                      </TouchableOpacity>)  : (<View></View>)}
+                     
                     </View>
                   </View>
                   <View></View>

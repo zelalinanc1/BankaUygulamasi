@@ -15,33 +15,33 @@ import {AuthContext} from '../navigation/AuthProvider';
 
 const windowHeight = Dimensions.get('window').height;
 const AllAccountTransactions = props => {
-
-  const {getTransactionsByIban,getTransactions1ByIban} = useContext(AuthContext);
+  const {
+    getTransactionsByIban,
+    getTransactions1ByIban,
+    getTransactionsByFromName,
+    getTransactionsByToName,
+  } = useContext(AuthContext);
 
   const route = useRoute();
 
   const params = route.params;
-  let {ibanNo} = typeof props.item == 'undefined' ? params : props.item;
 
-  let transactions =getTransactionsByIban(ibanNo)
-  let transactions1 =getTransactions1ByIban(ibanNo)
+  let {currName} = typeof props.item == 'undefined' ? params : props.item;
 
-  //getTransactions1ByIban
+  let fromTransaction = getTransactionsByFromName(currName);
 
-  
+  let toTransaction = getTransactionsByToName(currName);
+
   return (
     <View style={StyleSheet.root}>
-     
-          <View style={{marginTop:10}}/>
-          {transactions != null  || transactions1 != null  ? (
-            <TransactionsDetail item={{transactions:transactions,transactions1:transactions1}}/>
-          ): (<Text>jshdebsfkhedbs</Text>)}
-          
-     
+      <View style={{marginTop: 10}} />
 
+      <TransactionsDetail
+        item={{fromTransaction: fromTransaction, toTransaction: toTransaction}}
+      />
     </View>
-  )
-}
+  );
+};
 
 export default AllAccountTransactions;
 const styles = StyleSheet.create({
@@ -50,16 +50,15 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: '#009142',
-    height: windowHeight * 0.10,
-    marginTop:10,
-    borderRadius:10
+    height: windowHeight * 0.1,
+    marginTop: 10,
+    borderRadius: 10,
   },
   headerItems: {
     marginTop: 30,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-   
   },
   headerItems_item: {
     flexDirection: 'row',

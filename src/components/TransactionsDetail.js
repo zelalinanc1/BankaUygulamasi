@@ -11,7 +11,7 @@ const TransactionsDetail = props => {
 
     const params = route.params;
 
-    let {transactions,transactions1} = typeof props.item == 'undefined' ? params : props.item;
+    let {toTransaction,fromTransaction} = typeof props.item == 'undefined' ? params : props.item;
 
    
   
@@ -20,7 +20,7 @@ const TransactionsDetail = props => {
     <View>
     <View style={styles.dayContainer}>
      <FlatList
-          data={transactions}
+          data={toTransaction}
           ItemSeparatorComponent={() => (
             <View
             style={{
@@ -69,22 +69,17 @@ const TransactionsDetail = props => {
                 color: '#154ee7',
                 fontSize: 16,
               }}>
-              {item.currencyToAmount} {item.toCurrency}
+              - {item.currencyToAmount} {item.toCurrency}
             </Text>
-           
-           
-            
+          
             </View>
-           
           </View>
           </View>
           )}
         />
-
-        <Text>ikicissssssssssssi</Text>
 
         <FlatList
-          data={transactions1}
+          data={fromTransaction}
           ItemSeparatorComponent={() => (
             <View
             style={{
@@ -133,17 +128,15 @@ const TransactionsDetail = props => {
                 color: '#154ee7',
                 fontSize: 16,
               }}>
-              {item.currencyToAmount} {item.toCurrency}
+              + {item.currencyFromAmount} {item.fromCurrency}
             </Text>
-           
-           
-            
+          
             </View>
-           
           </View>
           </View>
           )}
         />
+       
 
      
     </View>

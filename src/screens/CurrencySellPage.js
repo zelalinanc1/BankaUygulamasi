@@ -27,7 +27,7 @@ const CurrencySellPage = props => {
     getUserAccountsCurrencyType,
     getToCurrencyTransaction,
     getFromCurrencyTransaction,
-    addAccountTransactions,
+    addAccountSellTransactions,
     getUserDetail,
   } = useContext(AuthContext);
 
@@ -69,18 +69,11 @@ const CurrencySellPage = props => {
   };
 
   const işlemYap = () => {
-    console.log('işlem yapılabilir');
-    console.log('accountCurrencyToChoise  ' + accountCurrencyToChoise); //iban
-    console.log('accountCurrencyFromChoise  ' + accountCurrencyFromChoise); //iban
-    console.log('currencyToAmount  ' + currencyToAmount);
-    console.log('currencyFromAmount  ' + currencyFromAmount);
-    console.log('***************************');
-
-   
+    
     getToCurrencyTransaction(accountCurrencyToChoise, currencyFromAmount);
     getFromCurrencyTransaction(accountCurrencyFromChoise, currencyToAmount);
 
-    addAccountTransactions(
+    addAccountSellTransactions(
       accountCurrencyToChoise,
       currencyToAmount,
       accountCurrencyFromChoise,
