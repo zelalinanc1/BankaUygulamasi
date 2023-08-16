@@ -1,10 +1,8 @@
-import React, {useState,useContext} from 'react';
+import React, {useContext} from 'react';
 import { 
     View, 
-    Text, 
-    Button, 
+    Text,  
     TouchableOpacity, 
-    Dimensions,
     TextInput,
     Platform,
     StyleSheet,
@@ -18,7 +16,6 @@ import Feather from 'react-native-vector-icons/Feather';
 import {AuthContext} from '../navigation/AuthProvider';
 
 
-import {useTheme, useNavigation} from '@react-navigation/native';
 
 const SignUpPage = ({navigation}) => {
 

@@ -25,7 +25,7 @@ const ProfileScreen = ({ navigation}) => {
 
   const updateResim = () => {
      
-    navigation.navigate('SignUpWithImageScreen');
+    navigation.navigate('UpdatedProfileImage');
   }
 
  

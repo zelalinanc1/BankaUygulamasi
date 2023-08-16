@@ -16,7 +16,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {AuthContext} from '../navigation/AuthProvider';
 import {LIGHTGREY, LIGHTBLACK} from '../constants/Colors';
 import imgPlaceHolder from '../images/avatar.jpg';
-import WalletCoinCard from '../components/WalletCoinCard';
+import WalletCard from '../components/WalletCard';
 import CustomCard from '../components/CustomCard';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 const windowHeight = Dimensions.get('window').height;
@@ -37,6 +37,7 @@ const MyAccountsPage = ({route, navigation}) => {
 
   
 
+  
   
   
 
@@ -71,7 +72,7 @@ const MyAccountsPage = ({route, navigation}) => {
       <View style={{marginHorizontal: 20, marginTop: -55}}>
         <View>
           {userAccounts != null ? (
-            <WalletCoinCard
+            <WalletCard
               item={{
                 name:
                   userAccounts[0].accountNumber +

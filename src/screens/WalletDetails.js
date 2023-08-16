@@ -9,7 +9,7 @@ import {
   Dimensions,
 } from 'react-native';
 import React from 'react';
-import WalletCoinCard from '../components/WalletCoinCard';
+import WalletCard from '../components/WalletCard';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useRoute, useNavigation} from '@react-navigation/native';
 import CTACard from '../components/CTACard';
@@ -44,7 +44,7 @@ const WalletDetails = props => {
       </View>
       <View style={{height: Dimensions.get('window').height - 200}}>
         <ScrollView style={{marginHorizontal: 20}}>
-          <WalletCoinCard />
+          <WalletCard />
           <View
             style={{
               flexDirection: 'row',

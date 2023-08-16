@@ -26,11 +26,11 @@ const AllAccountTransactions = props => {
 
   const params = route.params;
 
-  let {currName} = typeof props.item == 'undefined' ? params : props.item;
+  let {currName,ibanNo} = typeof props.item == 'undefined' ? params : props.item;
 
-  let fromTransaction = getTransactionsByFromName(currName);
+  let fromTransaction = getTransactionsByFromName(currName,ibanNo);
 
-  let toTransaction = getTransactionsByToName(currName);
+  let toTransaction = getTransactionsByToName(currName,ibanNo);
 
   return (
     <View style={StyleSheet.root}>

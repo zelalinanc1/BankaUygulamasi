@@ -1,12 +1,10 @@
 import {
   View,
   StyleSheet,
-  Image,
   Text,
-  TouchableOpacity,
   Modal,
 } from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext,  useState} from 'react';
 import CustomCard from './CustomCard';
 import {GREEN, LIGHTGREY, LIGHTBLACK} from '../constants/Colors';
 import {useRoute, useNavigation} from '@react-navigation/native';
@@ -16,7 +14,7 @@ import {AuthContext} from '../navigation/AuthProvider';
 import Transactions from './Transactions';
 import TopCard from './TopCard';
 
-const WalletCoinCard = props => {
+const WalletCard = props => {
   const nav = useNavigation();
 
   const {
@@ -115,7 +113,7 @@ const WalletCoinCard = props => {
              //+' ' +accountCount.currencyType.split('-')[1]
               : chooseData.currencyCount.toFixed(2) +
                 ' ' +
-                chooseData.currencyType.split('-')[1]}
+                chooseData.currencyType?.split('-')[1]}
           </Text>
         </View>
 
@@ -123,7 +121,7 @@ const WalletCoinCard = props => {
       </CustomCard>
       <View>
         {accountTransactions != null ? (
-          <Transactions item={{ibanNo: chooseData.accountIban,currName: chooseData.currencyType.split('-')[0]}} />
+          <Transactions item={{ibanNo: chooseData.accountIban,currName: chooseData.currencyType?.split('-')[0]}} />
         ) : (
           <View style={{marginTop: 30}}>
             <View style={{flexDirection: 'row'}}>
@@ -154,7 +152,7 @@ const WalletCoinCard = props => {
   );
 };
 
-export default WalletCoinCard;
+export default WalletCard;
 
 const styles = StyleSheet.create({
   container: {

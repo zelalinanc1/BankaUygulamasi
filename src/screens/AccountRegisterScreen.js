@@ -2,12 +2,10 @@ import {StyleSheet, Text, View, TouchableOpacity, Alert} from 'react-native';
 import React, {useContext, useState, Context, useEffect} from 'react';
 import {Dropdown} from 'react-native-element-dropdown';
 import {AuthContext} from '../navigation/AuthProvider';
-import firestore from '@react-native-firebase/firestore';
+
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 
-import Icon from 'react-native-vector-icons/Fontisto';
-import turkishlira from '../images/turkishlira.jpg';
 
 const accountTypeData = [
   {label: 'vadeli', value: 'vadeli'},
@@ -78,7 +76,8 @@ const AccountRegisterScreen = ({navigation, route}) => {
         
       );
     }
-    navigation.navigate("AllUserAccounts")
+    //navigation.navigate("AllUserAccounts")
+    navigation.goBack();
   };
 
   useEffect(() => {

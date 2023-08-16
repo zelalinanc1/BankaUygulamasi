@@ -32,7 +32,7 @@ const TopCard = () => {
                       </TouchableOpacity>
 
                       <TouchableOpacity style={styles.topCardRow__item}
-                      onPress={() => navigation.navigate('DenemePage')}>
+                      onPress={() => navigation.navigate('CurrencyPage')}>
                         <FontAwesome
                           name="exchange"
                           size={20}

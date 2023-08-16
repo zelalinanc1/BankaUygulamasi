@@ -2,7 +2,7 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import LoginScreen from '../screens/LoginScreen';
 import SplashScreen from '../screens/SplashScreen';
-import SignUpWithImageScreen from '../screens/SignUpWithImageScreen';
+import UpdatedProfileImage from '../screens/UpdatedProfileImage';
 import SignUpPage from '../screens/SignUpPage';
 
 const Stack = createNativeStackNavigator();
@@ -22,8 +22,8 @@ const AuthStack = () => {
       />
 
       <Stack.Screen
-        name="SignUpWithImageScreen"
-        component={SignUpWithImageScreen}
+        name="UpdatedProfileImage"
+        component={UpdatedProfileImage}
       />
       <Stack.Screen name="SignUpPage" component={SignUpPage} options={{header: () => null}}/>
     </Stack.Navigator>

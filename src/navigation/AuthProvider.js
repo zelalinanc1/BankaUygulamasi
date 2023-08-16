@@ -70,7 +70,7 @@ export const AuthProvider = ({children}) => {
               name: username,
               lastName: userLastName,
               userMail: userMail,
-              userImg: '',
+             // userImg: '',
 
               //userImg: url,
               //userAccounts: [],
@@ -169,41 +169,38 @@ export const AuthProvider = ({children}) => {
 
           return data;
         },
-        getTransactionsByFromName: currName => {
+        getTransactionsByFromName: (currName,ibanNo) => {
           {
-            function getIndex(currName) {
+            function getIndex(currName,ibanNo) {
               return accountTransactions.filter(
                 obj =>
-                  //obj.accountCurrencyToChoise === accountIban
-                  //obj.accountCurrencyFromChoise === accountIban,
-                  obj.fromCurrency === currName //||
-                  //obj.toCurrency === currName,
+                  obj.fromCurrency === currName &&  obj.accountCurrencyFromChoise === ibanNo
+                  
+                 
+
               );
             }
           }
 
           let data = [];
 
-          data = getIndex(currName);
+          data = getIndex(currName,ibanNo);
 
           return data;
         },
-        getTransactionsByToName: currName => {
+        getTransactionsByToName: (currName,ibanNo) => {
           {
-            function getIndex(currName) {
+            function getIndex(currName,ibanNo) {
               return accountTransactions.filter(
                 obj =>
-                  //obj.accountCurrencyToChoise === accountIban
-                  //obj.accountCurrencyFromChoise === accountIban,
-                  //obj.fromCurrency === currName //||
-                  obj.toCurrency === currName,
+                  obj.toCurrency === currName &&  obj.accountCurrencyToChoise === ibanNo
               );
             }
           }
 
           let data = [];
 
-          data = getIndex(currName);
+          data = getIndex(currName,ibanNo);
 
           return data;
         },

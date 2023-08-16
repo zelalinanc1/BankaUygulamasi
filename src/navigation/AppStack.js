@@ -6,10 +6,10 @@ import ProfileScreen from '../screens/ProfileScreen';
 import AccountRegisterScreen from '../screens/AccountRegisterScreen';
 import CurrencyBuyPage from '../screens/CurrencyBuyPage';
 import CurrencySellPage from '../screens/CurrencySellPage';
-import SignUpWithImageScreen from '../screens/SignUpWithImageScreen';
+import UpdatedProfileImage from '../screens/UpdatedProfileImage';
 import AllUserAccounts from '../screens/AllUserAccounts';
 import EmailPage from '../screens/EmailPage';
-import DenemePage from '../screens/DenemePage';
+import CurrencyPage from '../screens/CurrencyPage';
 import AllAccountTransactions from '../screens/AllAccountTransactions';
 import OpenAccountScreen from '../screens/OpenAccountScreen';
 import MyAccountsPage from '../screens/MyAccountsPage';
@@ -63,8 +63,8 @@ const MyAccounts = ({navigation}) => (
       }}
     />
     <Stack.Screen
-      name="DenemePage"
-      component={DenemePage}
+      name="CurrencyPage"
+      component={CurrencyPage}
       options={{
         title: 'Döviz Kurları',
         headerShown: true,
@@ -108,8 +108,8 @@ const MyAccounts = ({navigation}) => (
 const Kurlar = ({navigation}) => (
   <Stack.Navigator>
     <Stack.Screen
-      name="DenemePage"
-      component={DenemePage}
+      name="CurrencyPage"
+      component={CurrencyPage}
       options={{
         title: 'Döviz Kurları',
         headerShown: true,
@@ -173,8 +173,8 @@ const Profil = ({navigation}) => (
       }}
     />
     <Stack.Screen
-      name="SignUpWithImageScreen"
-      component={SignUpWithImageScreen}
+      name="UpdatedProfileImage"
+      component={UpdatedProfileImage}
       options={{
         title: 'Profil Resmini Değiştir',
         headerShown: true,

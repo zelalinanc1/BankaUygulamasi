@@ -16,6 +16,7 @@ const AllUserAccounts = route => {
 
   useEffect(() => {
     getUserDetail();
+    userAccounts
   }, []);
 
  
@@ -41,7 +42,7 @@ const AllUserAccounts = route => {
             renderItem={({item}) => (
               <View style={{marginTop: 30}}>
                 <Text>
-                  {item.accountType} {item.currencyType.split('-')[1]}{' '}
+                  {item.accountType} {item.currencyType?.split('-')[1]}{' '}
                 </Text>
                 
                 <View style={styles.container}>
@@ -64,7 +65,7 @@ const AllUserAccounts = route => {
                       <Text style={styles.operationTitle}>
                         {item.branchName}
                       </Text>
-                      {accountTransactions != null ? ( <TouchableOpacity onPress={() => nav.navigate('AllAccountTransactions',{currName:item.currencyType.split('-')[0]})}>
+                      {accountTransactions != null ? ( <TouchableOpacity onPress={() => nav.navigate('AllAccountTransactions',{ibanNo :item.accountIban,currName:item.currencyType?.split('-')[0]})}>
                       <AntDesign name="right" size={20} color="#009387" />
                       </TouchableOpacity>)  : (<View></View>)}
                      
@@ -86,7 +87,7 @@ const AllUserAccounts = route => {
                         fontSize: 16,
                       }}>
                       {item.currencyCount.toFixed(2)}{' '}
-                      {item.currencyType.split('-')[0]}
+                      {item.currencyType?.split('-')[0]}
                     </Text>
                   </View>
                 </View>

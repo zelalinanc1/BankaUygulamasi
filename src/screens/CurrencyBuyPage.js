@@ -279,7 +279,7 @@ textSign: {
   },
   dropdown: {
     margin: 10,
-    height: 80,
+    height: 85,
     backgroundColor: 'white',
     borderColor: 'white',
     //borderBottomColor:'gray',

@@ -1,7 +1,6 @@
 import  {View,StyleSheet,Image,Text,TouchableOpacity} from 'react-native'
 import React from 'react'
 import  CustomCard  from "./CustomCard";
-import  bitcoin  from "../images/bitcoin.png";
 import  sell  from "../images/sell.png";
 import  buy  from "../images/buy.png";
 import {LIGHTBLACK}  from '../constants/Colors';

@@ -18,7 +18,7 @@ import Close from '../images/close.png';
 
 import {LIGHTGREY, LIGHTBLACK} from '../constants/Colors';
 
-const DenemePage = route => {
+const CurrencyPage = route => {
   const nav = useNavigation();
 
   const {getUserAccountsCurrencyType, userAccounts} = useContext(AuthContext);
@@ -143,13 +143,27 @@ const DenemePage = route => {
       getDataFromApiAsync();
       let interval = setInterval(() => {
         getDataFromApiAsync();
-      }, 5000);
+      },5000);
 
       return () => {
         clearInterval(interval);
       };
     }, []),
   );
+
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     getDataFromApiAsync();
+  //     let interval = setInterval(() => {
+  //       getDataFromApiAsync();
+  //     }, 5000);
+
+  //     return () => {
+  //       clearInterval(interval);
+  //     };
+  //   }, []),
+  // );
+
 
   return (
     <View style={{height: '100%', backgroundColor: '#F5F8FF'}}>
@@ -289,7 +303,7 @@ const DenemePage = route => {
   );
 };
 
-export default DenemePage;
+export default CurrencyPage;
 const styles = StyleSheet.create({
   headerbar: {
     paddingTop: 10,

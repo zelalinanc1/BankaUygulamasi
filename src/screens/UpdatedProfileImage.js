@@ -3,17 +3,16 @@ import React, {useContext, useState} from 'react';
 import ImagePicker, {openPicker} from 'react-native-image-crop-picker';
 import imgPlaceHolder from '../images/avatar.jpg';
 import storage from '@react-native-firebase/storage';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import FormButton from '../components/FormButton';
 import {AuthContext} from '../navigation/AuthProvider';
 import LinearGradient from 'react-native-linear-gradient';
 
-const SignUpWithImageScreen = ({ navigation}) => {
-  const [profile, setProfile] = useState(null);
+const UpdatedProfileImage = ({ navigation}) => {
+  const [profile, setProfile] = useState('null');
 
   const [transferred, setTransferred] = useState(0);
 
   const {updateImage,userImage} = useContext(AuthContext);
+
 
   
 
@@ -50,7 +49,7 @@ const SignUpWithImageScreen = ({ navigation}) => {
   const uploadImage = async () => {
     const uploadUri = profile;
 
-    let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
+    let filename =uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
 
     console.log(filename);
 
@@ -144,7 +143,7 @@ const SignUpWithImageScreen = ({ navigation}) => {
   );
 };
 
-export default SignUpWithImageScreen;
+export default UpdatedProfileImage;
 
 const styles = StyleSheet.create({
   container: {
