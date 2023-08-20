@@ -24,7 +24,7 @@ const TopCard = () => {
                         <AntDesign
                           name="pluscircleo"
                           size={20}
-                          color="#0e39c8"
+                          color="#009387"
                         />
                         <Text style={styles.topCardRow__item_text}>
                           Hesap Oluştur
@@ -36,7 +36,7 @@ const TopCard = () => {
                         <FontAwesome
                           name="exchange"
                           size={20}
-                          color="#0e39c8"
+                          color="#009387"
                         />
                         <Text style={styles.topCardRow__item_text}>
                           Kurları Gör

@@ -182,6 +182,11 @@ const Profil = ({navigation}) => (
         headerStyle: {backgroundColor: '#009142'},
       }}
     />
+      <Stack.Screen
+      name="MyAccountsPage"
+      component={MyAccountsPage}
+      options={{headerShown: false}}
+    />
     <Stack.Screen
       name="OpenAccountScreen"
       component={OpenAccountScreen}

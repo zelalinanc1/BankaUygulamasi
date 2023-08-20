@@ -28,18 +28,10 @@ const MyAccountsPage = ({route, navigation}) => {
   
   const {getUserDetail,userName,userLastName,userImage,userAccounts} = useContext(AuthContext);
 
-
-  
-
   useEffect(() => {
    getUserDetail()
   }, []);
 
-  
-
-  
-  
-  
 
   return (
     <View
@@ -65,7 +57,8 @@ const MyAccountsPage = ({route, navigation}) => {
               source={userImage ? {uri: userImage} : imgPlaceHolder}
               style={{height: 40, width: 40, borderRadius: 40}}
             />
-            <Text style={{paddingLeft:50,color: 'white'}}>{userName} {userLastName}</Text>
+             <Text style={[styles.textSign,{paddingLeft:60,color: 'white',},]}>{userName} {userLastName}</Text>
+          
           </View>
         </View>
       </View>
@@ -133,5 +126,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 15,
     height: 170,
+  },
+  textSign: {
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 });

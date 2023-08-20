@@ -70,7 +70,7 @@ export const AuthProvider = ({children}) => {
               name: username,
               lastName: userLastName,
               userMail: userMail,
-             // userImg: '',
+              //userImg: '',
 
               //userImg: url,
               //userAccounts: [],

@@ -84,7 +84,7 @@ const Transactions =props  => {
               <View style={{height: 10}} />
               <View style={{flexDirection: 'row'}}></View>
             </View>
-            <AntDesign name="arrowright" size={20} color="#153ee7" />
+            <AntDesign name="arrowright" size={20} color="#009387" />
           </TouchableOpacity>
         </View>
       ) : (
@@ -132,6 +132,6 @@ const styles = StyleSheet.create({
   account_libelle: {
     fontWeight: 'bold',
     fontFamily: 'OpenSans-Regular',
-    color: '#153ee7',
+    color: '#009387',
   },
 });
