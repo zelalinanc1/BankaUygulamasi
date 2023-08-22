@@ -66,13 +66,13 @@ const Transactions =props  => {
               flexDirection: 'row',
               alignItems: 'center',
             }}>
-            <Text style={{paddingLeft: 40}}>
+            <Text style={{paddingLeft: 40,color: 'black'}}>
               {val.accountCurrencyFromChoise}
             </Text>
-            <Text style={{paddingLeft: 60}}>
+            <Text style={{paddingLeft: 60,color: 'black'}}>
               {val.currencyFromAmount} {val.fromCurrency}
             </Text>
-            <Text style={{paddingLeft: 100}}>
+            <Text style={{paddingLeft: 100,color: 'black'}}>
               {val.currencyToAmount} {val.toCurrency}
             </Text>
           </View>

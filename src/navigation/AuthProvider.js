@@ -21,8 +21,7 @@ export const AuthProvider = ({children}) => {
   const [accountCurrencyType, setAccountCurrencyType] = useState('');
   const [userData, setUserData] = useState(null);
 
-  //let accounts = [];
-
+  
   return (
     <AuthContext.Provider
       value={{
@@ -70,11 +69,7 @@ export const AuthProvider = ({children}) => {
               name: username,
               lastName: userLastName,
               userMail: userMail,
-              //userImg: '',
-
-              //userImg: url,
-              //userAccounts: [],
-              // accounts: [],
+              
             };
 
             await firestore()
@@ -242,7 +237,7 @@ export const AuthProvider = ({children}) => {
 
           const data1 = Object.assign({}, ...data);
 
-          console.log('data1' + JSON.stringify(data1));
+          
 
           let deneme = Object.keys(data1)
             .filter(key => !key.includes('_index'))
@@ -267,8 +262,7 @@ export const AuthProvider = ({children}) => {
             }
           });
 
-          //console.log("DENEME"+ JSON.stringify(deneme));
-
+       
           await firestore()
             .collection('users')
             .doc(user.uid)

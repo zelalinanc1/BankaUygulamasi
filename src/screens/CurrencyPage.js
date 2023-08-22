@@ -16,7 +16,7 @@ import {AuthContext} from '../navigation/AuthProvider';
 import Search from '../images/search.png';
 import Close from '../images/close.png';
 
-import {LIGHTGREY, LIGHTBLACK} from '../constants/Colors';
+
 
 const CurrencyPage = route => {
   const nav = useNavigation();
@@ -31,7 +31,7 @@ const CurrencyPage = route => {
   const [search, setSearch] = useState('');
 
   let fromCurr = ['USD', 'EUR', 'GBP', 'CHF'];
-  let toCurrs = ['TRY', 'JPY', 'CAD'];
+  let toCurrs = ['TRY', 'JPY'];
 
 
 
@@ -39,8 +39,7 @@ const CurrencyPage = route => {
     let findIsFromAccount = getUserAccountsCurrencyType(fromCurrency);
     let findIsToAccount = getUserAccountsCurrencyType(toCurrency);
 
-    console.log("From Curr"+fromCurrency)
-    console.log("To Curr"+toCurrency)
+
 
    if(findIsFromAccount.length != 0 && findIsToAccount.length != 0){
     nav.navigate('CurrencyBuyPage', {
@@ -58,7 +57,7 @@ const CurrencyPage = route => {
     nav.navigate('NewAccountsScreen',{accountName:toCurrency})
    }
 
-   console.log(toCurrency)
+   
   };
   const findIsSellAccounts = (fromCurrency, toCurrency, price) => {
     let findIsFromAccount = getUserAccountsCurrencyType(fromCurrency);
@@ -82,10 +81,6 @@ const CurrencyPage = route => {
    else {
     nav.navigate('NewAccountsScreen',{accountName:toCurrency})
    }
-
-   
-
- 
   };
   
   
@@ -112,7 +107,7 @@ const CurrencyPage = route => {
 
       setCurrencyList(Output);
       setOldData(Output);
-      console.log(Output);
+     
       return json;
     } catch (error) {
       console.error(error);
@@ -134,9 +129,7 @@ const CurrencyPage = route => {
     }
   };
 
-  var hours = new Date().getHours();
-  var min = new Date().getMinutes();
-  //console.log(hours + ':' + min);
+ 
 
   useFocusEffect(
     React.useCallback(() => {
@@ -151,18 +144,6 @@ const CurrencyPage = route => {
     }, []),
   );
 
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     getDataFromApiAsync();
-  //     let interval = setInterval(() => {
-  //       getDataFromApiAsync();
-  //     }, 5000);
-
-  //     return () => {
-  //       clearInterval(interval);
-  //     };
-  //   }, []),
-  // );
 
 
   return (

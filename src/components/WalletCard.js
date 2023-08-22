@@ -56,7 +56,7 @@ const WalletCard = props => {
             <Text
               style={{
                 fontSize: 18,
-                color: LIGHTBLACK,
+                color: 'black',
                 fontWeight: 'bold',
                 marginLeft: 10,
                 fontFamily: 'ArchivoNarrow-Medium',
@@ -96,7 +96,7 @@ const WalletCard = props => {
               fontSize: 13,
               marginLeft: 10,
               color: LIGHTBLACK,
-              fontFamily: 'OpenSans_Condensed-Light',
+             
             }}>
             Kullanılabilir Bakiye
           </Text>
@@ -106,11 +106,10 @@ const WalletCard = props => {
               marginTop: 5,
               color: LIGHTGREY,
               fontSize: 12,
-              fontFamily: 'RopaSans-Regular',
+              
             }}>
             {chooseData.length == 0
               ? accountCount 
-             //+' ' +accountCount.currencyType.split('-')[1]
               : chooseData.currencyCount.toFixed(2) +
                 ' ' +
                 chooseData.currencyType?.split('-')[1]}

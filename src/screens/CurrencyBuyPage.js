@@ -10,12 +10,10 @@ import {
   Alert,
 } from 'react-native';
 import React, {useState, useContext, useEffect} from 'react';
-import CoinCard from '../components/CoinCard';
 import {Dropdown} from 'react-native-element-dropdown';
 import {CountdownCircleTimer} from 'react-native-countdown-circle-timer';
 import {useRoute, useNavigation} from '@react-navigation/native';
 import {AuthContext} from '../navigation/AuthProvider';
-import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 
 const CurrencyBuyPage = props => {
@@ -97,7 +95,7 @@ const CurrencyBuyPage = props => {
     };
     setCurrencyFromAmount(currencyAmount);
     let resulmultiplication = multiplication(price, currencyAmount);
-    setCurrencyToAmount(resulmultiplication);
+    setCurrencyToAmount(resulmultiplication.toFixed(2));
   };
 
   return (
@@ -111,7 +109,7 @@ const CurrencyBuyPage = props => {
         <View style={{height: 10}} />
         <CountdownCircleTimer
           isPlaying
-          duration={90}
+          duration={30}
           colors="#009387"
           onComplete={() => {
             nav.goBack();

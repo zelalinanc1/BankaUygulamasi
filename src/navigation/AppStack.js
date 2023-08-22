@@ -157,16 +157,17 @@ const Kurlar = ({navigation}) => (
         headerStyle: {backgroundColor: '#009142'},
       }}
     />
+  
+    
   </Stack.Navigator>
 );
 const Profil = ({navigation}) => (
   <Stack.Navigator>
-    {/* <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown: false}} /> */}
     <Stack.Screen
       name="ProfileScreen"
       component={ProfileScreen}
       options={{
-        title: 'Hesap Bilgileri',
+        title: 'Profil ve Ayarlar',
         headerShown: true,
         headerTintColor: 'white',
         headerStyle: {backgroundColor: '#009142'},
@@ -198,16 +199,7 @@ const Profil = ({navigation}) => (
         headerTintColor: 'white',
         headerStyle: {backgroundColor: '#009142'},
       }} />
-    {/* <Stack.Screen
-      name="UpdatePhone"
-      component={UpdatePhone}
-      options={{
-        title: 'Telefon Numaraları',
-        headerShown: true,
-        headerTintColor: 'white',
-        headerStyle: {backgroundColor: '#009142'},
-      }}
-    /> */}
+   
   </Stack.Navigator>
 );
 const UserAccounts = ({navigation}) => (

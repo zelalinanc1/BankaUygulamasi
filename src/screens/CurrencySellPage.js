@@ -94,7 +94,7 @@ const CurrencySellPage = props => {
     };
     setCurrencyFromAmount(currencyAmount);
     let resulmultiplication = multiplication(price, currencyAmount);
-    setCurrencyToAmount(resulmultiplication);
+    setCurrencyToAmount(resulmultiplication.toFixed(2));
   };
   let yazıl =toCurrency + ' Tutar';
   return (
@@ -109,7 +109,7 @@ const CurrencySellPage = props => {
         <View style={{height: 10}} />
         <CountdownCircleTimer
           isPlaying
-          duration={90}
+          duration={30}
           colors="#009387"
           onComplete={() => {
             nav.goBack();

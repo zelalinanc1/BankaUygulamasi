@@ -9,7 +9,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const AllUserAccounts = route => {
-  const {user, logout, getUserDetail, userAccounts, userId,accountTransactions} =
+  const {getUserDetail, userAccounts,accountTransactions} =
     useContext(AuthContext);
 
   const nav = useNavigation();

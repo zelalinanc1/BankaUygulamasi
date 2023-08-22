@@ -71,7 +71,9 @@ const MyAccountsPage = ({route, navigation}) => {
                   userAccounts[0].accountNumber +
                   ' - ' +
                   userAccounts[0].branchName,
-                accountCount: userAccounts[0].currencyCount,
+                accountCount: userAccounts[0].currencyCount.toFixed(2)+
+                ' ' +
+                userAccounts[0].currencyType?.split('-')[1],
               }}
             />
           ) : (
